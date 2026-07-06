@@ -1,0 +1,1510 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-07-06",
+  "imageBasePath": "assets/images/",
+  "categories": [
+    {
+      "id": "Connectivity & Sync",
+      "icon": "sync",
+      "order": 1
+    },
+    {
+      "id": "Send & Receive",
+      "icon": "mail",
+      "order": 2
+    },
+    {
+      "id": "Performance & Stability",
+      "icon": "performance",
+      "order": 3
+    },
+    {
+      "id": "Authentication",
+      "icon": "auth",
+      "order": 4
+    },
+    {
+      "id": "New Outlook",
+      "icon": "new-outlook",
+      "order": 5
+    },
+    {
+      "id": "Calendar",
+      "icon": "calendar",
+      "order": 6
+    },
+    {
+      "id": "Mobile & OWA",
+      "icon": "mobile",
+      "order": 7
+    },
+    {
+      "id": "Search",
+      "icon": "search",
+      "order": 8
+    },
+    {
+      "id": "Shared Mailboxes",
+      "icon": "shared",
+      "order": 9
+    },
+    {
+      "id": "Email Security",
+      "icon": "security",
+      "order": 10
+    },
+    {
+      "id": "Email",
+      "icon": "email",
+      "order": 11
+    },
+    {
+      "id": "Archive & Storage",
+      "icon": "archive",
+      "order": 12
+    },
+    {
+      "id": "Copilot",
+      "icon": "copilot",
+      "order": 13
+    }
+  ],
+  "guides": [
+    {
+      "id": "GEVKB0020001",
+      "title": "Outlook not responding, freezes, or stops working",
+      "category": "Performance & Stability",
+      "client": "both",
+      "keywords": [
+        "freeze",
+        "hang",
+        "not responding",
+        "crash",
+        "stuck"
+      ],
+      "symptoms": [
+        "Outlook freezes",
+        "Outlook not responding dialog",
+        "Outlook hangs on startup"
+      ],
+      "priority": 1,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/outlook/performance/outlook-not-responding-error-or-outlook-freezes",
+      "steps": [
+        {
+          "text": "Install latest Windows and Microsoft 365 updates.",
+          "tip": "Outdated builds are a common cause of hangs."
+        },
+        {
+          "text": "Close Outlook completely in Task Manager if stuck.",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        {
+          "text": "Start Outlook in safe mode: Win+R, type outlook.exe /safe, press Enter.",
+          "image": "assets/images/safe-mode-run.svg",
+          "alt": "Run dialog for safe mode",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        {
+          "text": "If safe mode works, disable COM add-ins: File > Options > Add-ins.",
+          "image": "assets/images/add-ins-manager.svg",
+          "alt": "COM Add-ins manager",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        {
+          "text": "Run Office Quick Repair from Settings > Apps > Microsoft 365 > Modify.",
+          "image": "assets/images/office-repair.svg",
+          "alt": "Office repair",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "If issue persists, create a new Outlook profile or escalate with exact error text."
+      ]
+    },
+    {
+      "id": "GEVKB0020002",
+      "title": "Start Outlook in Safe Mode and disable add-ins",
+      "category": "Performance & Stability",
+      "client": "classic",
+      "keywords": [
+        "safe mode",
+        "add-in",
+        "com add-in",
+        "startup"
+      ],
+      "symptoms": [
+        "Outlook crashes on startup",
+        "Add-in caused crash"
+      ],
+      "priority": 1,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/outlook/performance/outlook-not-responding-error-or-outlook-freezes",
+      "steps": [
+        {
+          "text": "Press Win+R, type outlook.exe /safe, click OK.",
+          "image": "assets/images/safe-mode-run.svg",
+          "alt": "Outlook safe mode command",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "If Outlook opens in safe mode, an add-in or extension is likely the cause.",
+        {
+          "text": "File > Options > Add-ins > Manage COM Add-ins > Go. Uncheck add-ins one at a time.",
+          "image": "assets/images/add-ins-manager.svg",
+          "alt": "Disable COM add-ins",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Restart Outlook normally after each change to identify the problematic add-in.",
+        "Contact add-in vendor or IT if a required add-in causes crashes."
+      ]
+    },
+    {
+      "id": "GEVKB0020003",
+      "title": "Repair Microsoft 365 Office programs (Quick Repair)",
+      "category": "Performance & Stability",
+      "keywords": [
+        "repair",
+        "office repair",
+        "quick repair",
+        "online repair"
+      ],
+      "symptoms": [
+        "Outlook broken after update",
+        "Office corruption"
+      ],
+      "priority": 2,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/office/troubleshoot-office-suite-issues",
+      "steps": [
+        {
+          "text": "Open Windows Settings > Apps > Installed apps.",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        {
+          "text": "Select Microsoft 365 > Modify > Quick Repair.",
+          "image": "assets/images/office-repair.svg",
+          "alt": "Office Quick Repair option",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Complete repair and restart the computer.",
+        "If Quick Repair fails, run Online Repair (requires re-download).",
+        "Test Outlook after repair before escalating."
+      ]
+    },
+    {
+      "id": "GEVKB0020004",
+      "title": "Rebuild or reset the Outlook OST file",
+      "category": "Connectivity & Sync",
+      "client": "classic",
+      "keywords": [
+        "ost",
+        "offline",
+        "rebuild",
+        "sync",
+        "cache"
+      ],
+      "symptoms": [
+        "OST corrupt",
+        "Mail mismatch OWA",
+        "Sync errors"
+      ],
+      "priority": 1,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/client-connectivity/ost-sync-issues",
+      "steps": [
+        "Close Outlook completely.",
+        {
+          "text": "Locate OST: File > Account Settings > Data Files tab.",
+          "image": "assets/images/ost-location.svg",
+          "alt": "OST file location",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Rename the .ost file (e.g. add .old) — do not delete if you have unsynced local-only data.",
+        "Restart Outlook — a new OST will download from Exchange Online.",
+        {
+          "text": "Wait for initial sync to complete (time varies by mailbox size).",
+          "tip": "Large mailboxes may take hours on first sync."
+        }
+      ]
+    },
+    {
+      "id": "GEVKB0020005",
+      "title": "Resync individual Outlook folders (Clear Offline Items)",
+      "category": "Connectivity & Sync",
+      "client": "classic",
+      "keywords": [
+        "resync",
+        "folder",
+        "offline",
+        "clear offline items"
+      ],
+      "symptoms": [
+        "One folder out of date",
+        "Inbox wrong count"
+      ],
+      "priority": 2,
+      "url": "https://learn.microsoft.com/en-us/outlook/troubleshoot/synchronization/synchronization-issue-between-outlook-owa",
+      "steps": [
+        "Right-click the affected folder > Properties > Clear Offline Items > OK.",
+        {
+          "text": "On Send/Receive tab, click Update Folder.",
+          "image": "assets/images/send-receive-update.svg",
+          "alt": "Update Folder",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Wait for sync to complete and compare with OWA.",
+        "If mismatch persists for all folders, rebuild OST (GEVKB0020004)."
+      ]
+    },
+    {
+      "id": "GEVKB0020006",
+      "title": "Outlook shows Disconnected or Cannot connect to server",
+      "category": "Connectivity & Sync",
+      "keywords": [
+        "disconnected",
+        "offline",
+        "cannot connect",
+        "exchange"
+      ],
+      "symptoms": [
+        "Disconnected status bar",
+        "Working offline"
+      ],
+      "priority": 1,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/outlook-connection-issues",
+      "steps": [
+        "Verify internet and VPN connectivity.",
+        {
+          "text": "Check Microsoft 365 service health for Exchange Online outages.",
+          "image": "assets/images/service-health.svg",
+          "alt": "Service health dashboard"
+        },
+        "Send/Receive > Work Offline — ensure Work Offline is not toggled on.",
+        "Repair Outlook profile: File > Account Settings > Repair.",
+        {
+          "text": "If still disconnected, sign out of Office and clear cached credentials.",
+          "image": "assets/images/credential-manager.svg",
+          "alt": "Credential Manager",
+          "platforms": [
+            "Windows"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "GEVKB0020007",
+      "title": "Clear Windows Credential Manager entries for Office",
+      "category": "Authentication",
+      "keywords": [
+        "credentials",
+        "password",
+        "credential manager",
+        "stale token"
+      ],
+      "symptoms": [
+        "Repeated password prompt",
+        "Auth loop after password change"
+      ],
+      "priority": 1,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/password-prompt-at-every-startup-or-cannot-create-profile",
+      "steps": [
+        {
+          "text": "Open Control Panel > Credential Manager > Windows Credentials.",
+          "image": "assets/images/credential-manager.svg",
+          "alt": "Windows Credential Manager",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Remove entries for Office, Outlook, and MicrosoftOffice16_Data (or similar).",
+        "Close and restart Outlook — sign in fresh with MFA.",
+        "If prompts continue, repair profile or recreate Outlook profile."
+      ]
+    },
+    {
+      "id": "GEVKB0020008",
+      "title": "Repeated password prompts in Outlook",
+      "category": "Authentication",
+      "keywords": [
+        "password prompt",
+        "credentials",
+        "login loop",
+        "authentication"
+      ],
+      "symptoms": [
+        "Password dialog keeps appearing",
+        "Cannot save password"
+      ],
+      "priority": 1,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/password-prompt-at-every-startup-or-cannot-create-profile",
+      "steps": [
+        "Did password change recently? If yes, clear Credential Manager entries first.",
+        {
+          "text": "Clear Windows Credential Manager Office entries.",
+          "image": "assets/images/credential-manager.svg",
+          "alt": "Remove Office credentials",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Ensure MFA completes successfully in browser when prompted.",
+        "Disable Remember password in Outlook if policy requires modern auth only.",
+        "Escalate if Modern Auth is blocked by legacy registry or GPO settings."
+      ]
+    },
+    {
+      "id": "GEVKB0020009",
+      "title": "MFA loops or fails when signing into Outlook",
+      "category": "Authentication",
+      "keywords": [
+        "mfa",
+        "multi-factor",
+        "authenticator",
+        "conditional access"
+      ],
+      "symptoms": [
+        "MFA keeps asking",
+        "Approval never arrives"
+      ],
+      "priority": 1,
+      "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/howto-mfa-userdevices",
+      "steps": [
+        "Verify phone/app notifications are enabled and not in Do Not Disturb.",
+        "Try MFA via alternate method (phone call, SMS) if Authenticator fails.",
+        "Sign in to https://outlook.office.com to complete MFA separately.",
+        {
+          "text": "Clear Credential Manager and re-authenticate Outlook.",
+          "image": "assets/images/credential-manager.svg",
+          "alt": "Clear credentials after MFA fix",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Escalate to identity team if Conditional Access blocks legacy clients."
+      ]
+    },
+    {
+      "id": "GEVKB0020010",
+      "title": "Messages stuck in Outbox",
+      "category": "Send & Receive",
+      "keywords": [
+        "outbox",
+        "stuck",
+        "sending",
+        "pending"
+      ],
+      "symptoms": [
+        "Mail stuck sending",
+        "Outbox not clearing"
+      ],
+      "priority": 1,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/outlook/sending-messages/outlook-error-when-you-try-to-send-email",
+      "steps": [
+        "Open Outbox — check for large attachments over org limit (typically 25–35 MB).",
+        "Move message to Drafts, remove attachments, reattach via OneDrive link if needed.",
+        "Work Offline then Online: Send/Receive > Work Offline twice to reset send queue.",
+        {
+          "text": "Run Send/Receive All.",
+          "image": "assets/images/send-receive-update.svg",
+          "alt": "Send/Receive all folders",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "If stuck with no error, create new profile or escalate with message headers."
+      ]
+    },
+    {
+      "id": "GEVKB0020011",
+      "title": "Understand and troubleshoot NDR bounce messages",
+      "category": "Send & Receive",
+      "keywords": [
+        "ndr",
+        "bounce",
+        "undeliverable",
+        "delivery failure"
+      ],
+      "symptoms": [
+        "Mail returned",
+        "Delivery failure notification"
+      ],
+      "priority": 2,
+      "url": "https://learn.microsoft.com/en-us/exchange/mail-flow-best-practices/non-delivery-reports-in-exchange-online/non-delivery-reports-in-exchange-online",
+      "steps": [
+        {
+          "text": "Open the NDR (non-delivery report) and read the status code and reason.",
+          "image": "assets/images/ndr-message.svg",
+          "alt": "NDR message details"
+        },
+        "Verify recipient address, domain, and spelling.",
+        "Check attachment size and blocked file types.",
+        "For external recipients, verify org allows outbound mail to that domain.",
+        "Escalate to messaging team with full NDR text if cause unclear."
+      ]
+    },
+    {
+      "id": "GEVKB0020012",
+      "title": "Attachment size and type restrictions",
+      "category": "Send & Receive",
+      "keywords": [
+        "attachment",
+        "size limit",
+        "blocked file",
+        "send failed"
+      ],
+      "symptoms": [
+        "Cannot attach file",
+        "Message too large"
+      ],
+      "priority": 2,
+      "steps": [
+        "Check org limit — Exchange Online default send limit is often 25 MB.",
+        "Compress files or upload to SharePoint/OneDrive and send link instead.",
+        "Blocked extensions (.exe, .bat, etc.) cannot be sent — use approved file share.",
+        "OWA may show clearer error than desktop Outlook for size violations."
+      ]
+    },
+    {
+      "id": "GEVKB0020013",
+      "title": "New Outlook missing features or workflows broken",
+      "category": "New Outlook",
+      "client": "new",
+      "keywords": [
+        "new outlook",
+        "missing feature",
+        "migration",
+        "toggle"
+      ],
+      "symptoms": [
+        "Feature not in New Outlook",
+        "Rules missing",
+        "PST not supported"
+      ],
+      "priority": 1,
+      "url": "https://learn.microsoft.com/en-us/microsoft-365-apps/outlook/manage/admin-controlled-migration-policy",
+      "steps": [
+        {
+          "text": "Switch to Classic Outlook using the toggle.",
+          "image": "assets/images/new-outlook-toggle.svg",
+          "alt": "Classic Outlook toggle",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Document the missing feature and business impact for IT.",
+        "New Outlook does not support COM add-ins, full PST support, or some advanced rules.",
+        "Use OWA or Classic for workflows blocked in New Outlook until supported."
+      ]
+    },
+    {
+      "id": "GEVKB0020014",
+      "title": "COM add-ins not working in New Outlook",
+      "category": "New Outlook",
+      "client": "new",
+      "keywords": [
+        "com add-in",
+        "vsto",
+        "plugin",
+        "new outlook add-in"
+      ],
+      "symptoms": [
+        "Add-in missing",
+        "CRM plugin gone",
+        "Archive add-in broken"
+      ],
+      "priority": 1,
+      "steps": [
+        "Confirm add-in type — COM/VSTO add-ins are not supported in New Outlook.",
+        {
+          "text": "Switch to Classic Outlook for COM add-in dependent workflows.",
+          "image": "assets/images/new-outlook-toggle.svg",
+          "alt": "Use Classic Outlook",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Check if vendor offers Office.js web add-in alternative.",
+        "Work with IT on add-in migration roadmap before forced New Outlook rollout."
+      ]
+    },
+    {
+      "id": "GEVKB0020015",
+      "title": "Outlook search not finding messages",
+      "category": "Search",
+      "client": "both",
+      "keywords": [
+        "search",
+        "find email",
+        "index",
+        "missing results"
+      ],
+      "symptoms": [
+        "Search returns nothing",
+        "Old mail not found"
+      ],
+      "priority": 2,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/outlook/search/outlook-search-issues",
+      "steps": [
+        "Verify search scope (Current Mailbox vs All Mailboxes).",
+        {
+          "text": "Classic Outlook: rebuild Windows Search index via Indexing Options.",
+          "image": "assets/images/search-index.svg",
+          "alt": "Indexing Options",
+          "platforms": [
+            "Windows"
+          ],
+          "client": "classic"
+        },
+        "New Outlook uses server-side search — wait a few minutes after new mail arrives.",
+        "Repair Office if Classic search index repeatedly corrupts.",
+        "Escalate if server-side search fails in OWA as well."
+      ]
+    },
+    {
+      "id": "GEVKB0020016",
+      "title": "Free/busy information not visible in calendar",
+      "category": "Calendar",
+      "keywords": [
+        "free busy",
+        "scheduling",
+        "availability",
+        "calendar delegate"
+      ],
+      "symptoms": [
+        "Cannot see when colleague is free",
+        "Busy unknown"
+      ],
+      "priority": 2,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/office-365-troubleshooting-resources",
+      "steps": [
+        {
+          "text": "Verify you have permission to view recipient calendar free/busy.",
+          "image": "assets/images/free-busy-calendar.svg",
+          "alt": "Scheduling assistant free/busy"
+        },
+        "Check if recipient published calendar permissions in Outlook.",
+        "In hybrid environments, free/busy may require federation — escalate to messaging.",
+        "Test scheduling assistant with another colleague to isolate user vs system issue."
+      ]
+    },
+    {
+      "id": "GEVKB0020017",
+      "title": "Mobile device won't sync email (Exchange ActiveSync)",
+      "category": "Mobile & OWA",
+      "keywords": [
+        "mobile",
+        "activesync",
+        "phone",
+        "sync",
+        "device"
+      ],
+      "symptoms": [
+        "Phone not receiving mail",
+        "Mobile sync error"
+      ],
+      "priority": 1,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/office-365-troubleshooting-resources",
+      "steps": [
+        {
+          "text": "Remove and re-add account in Outlook mobile app.",
+          "image": "assets/images/mobile-outlook-app.svg",
+          "alt": "Outlook mobile app"
+        },
+        "Verify device is not blocked in Exchange admin mobile device quarantine.",
+        "Complete MFA and approve device compliance if Intune prompts.",
+        "Check org policy allows mobile access for your account.",
+        "Use OWA in mobile browser as interim workaround."
+      ]
+    },
+    {
+      "id": "GEVKB0020018",
+      "title": "Set up Outlook on iOS (iPhone/iPad)",
+      "category": "Mobile & OWA",
+      "keywords": [
+        "ios",
+        "iphone",
+        "ipad",
+        "apple"
+      ],
+      "symptoms": [
+        "Setup iPhone mail",
+        "iOS Outlook config"
+      ],
+      "priority": 3,
+      "steps": [
+        {
+          "text": "Install Microsoft Outlook from App Store.",
+          "image": "assets/images/mobile-outlook-app.svg",
+          "alt": "iOS Outlook app"
+        },
+        "Add account > Enter work email > Sign in with org credentials.",
+        "Complete MFA via Authenticator or SMS.",
+        "Allow notifications and background app refresh for timely mail delivery."
+      ]
+    },
+    {
+      "id": "GEVKB0020019",
+      "title": "Set up Outlook on Android",
+      "category": "Mobile & OWA",
+      "keywords": [
+        "android",
+        "google play",
+        "samsung"
+      ],
+      "symptoms": [
+        "Setup Android mail",
+        "Android Outlook config"
+      ],
+      "priority": 3,
+      "steps": [
+        {
+          "text": "Install Microsoft Outlook from Google Play.",
+          "image": "assets/images/mobile-outlook-app.svg",
+          "alt": "Android Outlook app"
+        },
+        "Add account > Enter work email > Sign in.",
+        "Complete MFA and any Intune Company Portal enrollment.",
+        "Disable battery optimization for Outlook if mail is delayed."
+      ]
+    },
+    {
+      "id": "GEVKB0020020",
+      "title": "Shared mailbox automapping issues",
+      "category": "Shared Mailboxes",
+      "keywords": [
+        "automapping",
+        "shared mailbox",
+        "auto map",
+        "full access"
+      ],
+      "symptoms": [
+        "Shared mailbox not auto-appearing",
+        "Duplicate mailbox"
+      ],
+      "priority": 2,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/office-365-troubleshooting-resources",
+      "steps": [
+        "Confirm Full Access permission granted (can take up to 24 hours).",
+        "If automapping disabled by IT, manually add mailbox in Account Settings.",
+        "Remove and re-add mailbox if duplicate or ghost folders appear.",
+        "Restart Outlook after permission changes."
+      ]
+    },
+    {
+      "id": "GEVKB0020021",
+      "title": "Send As permission not working for shared mailbox",
+      "category": "Shared Mailboxes",
+      "keywords": [
+        "send as",
+        "shared mailbox",
+        "from field",
+        "delegate"
+      ],
+      "symptoms": [
+        "Cannot send as shared mailbox",
+        "From field missing"
+      ],
+      "priority": 2,
+      "steps": [
+        "Verify Send As (not just Send on Behalf) permission is granted.",
+        "Restart Outlook after permission grant.",
+        "New message > Options > From > select shared mailbox address.",
+        "If From field missing, enable From button via Options tab when composing."
+      ]
+    },
+    {
+      "id": "GEVKB0020022",
+      "title": "Review quarantined email (Defender)",
+      "category": "Email Security",
+      "keywords": [
+        "quarantine",
+        "defender",
+        "blocked email",
+        "security"
+      ],
+      "symptoms": [
+        "Email quarantined",
+        "Missing expected mail"
+      ],
+      "priority": 1,
+      "steps": [
+        {
+          "text": "Open quarantine notification email or Microsoft 365 Defender portal.",
+          "image": "assets/images/junk-quarantine.svg",
+          "alt": "Quarantine review"
+        },
+        "Review sender, subject, and verdict before releasing.",
+        "Release if legitimate; report false positive to security team.",
+        "Do not release suspicious phishing without security review."
+      ]
+    },
+    {
+      "id": "GEVKB0020023",
+      "title": "Enable and use Online Archive mailbox",
+      "category": "Archive & Storage",
+      "keywords": [
+        "archive",
+        "online archive",
+        "retention",
+        "storage"
+      ],
+      "symptoms": [
+        "Need more storage",
+        "Archive old mail"
+      ],
+      "priority": 2,
+      "steps": [
+        {
+          "text": "Check if Online Archive appears in Outlook folder list.",
+          "image": "assets/images/archive-online.svg",
+          "alt": "Online Archive folder"
+        },
+        "Move or drag old mail to Online Archive folder.",
+        "Archive policies may auto-move mail per retention policy.",
+        "Request archive provisioning from IT if folder not visible."
+      ]
+    },
+    {
+      "id": "GEVKB0020024",
+      "title": "PST file limitations in New Outlook",
+      "category": "New Outlook",
+      "client": "new",
+      "keywords": [
+        "pst",
+        "personal folder",
+        "import",
+        "new outlook"
+      ],
+      "symptoms": [
+        "Cannot open PST",
+        "Import PST missing"
+      ],
+      "priority": 2,
+      "steps": [
+        "New Outlook has limited PST support compared to Classic.",
+        {
+          "text": "Use Classic Outlook for full PST import/export workflows.",
+          "image": "assets/images/new-outlook-toggle.svg",
+          "alt": "Switch to Classic",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Migrate PST data to Exchange Online mailbox or OneDrive per retention policy.",
+        "Contact IT before storing business data in local PST files."
+      ]
+    },
+    {
+      "id": "GEVKB0020025",
+      "title": "Outlook slow performance in Microsoft 365",
+      "category": "Performance & Stability",
+      "keywords": [
+        "slow",
+        "performance",
+        "lag",
+        "delay"
+      ],
+      "symptoms": [
+        "Outlook slow to open",
+        "Typing lag in email"
+      ],
+      "priority": 2,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/outlook/performance/outlook-not-responding-error-or-outlook-freezes",
+      "steps": [
+        "Check mailbox size — archive or delete old items.",
+        "Disable unused COM add-ins.",
+        "Disable hardware graphics acceleration: File > Options > Advanced.",
+        "Ensure SSD and adequate RAM; close unnecessary add-in heavy integrations.",
+        "Run Office repair if slowness started after update."
+      ]
+    },
+    {
+      "id": "GEVKB0020026",
+      "title": "Outlook Copilot not visible (general tenants)",
+      "category": "Copilot",
+      "keywords": [
+        "copilot",
+        "ai",
+        "missing copilot",
+        "license"
+      ],
+      "symptoms": [
+        "No Copilot button",
+        "AI features greyed out"
+      ],
+      "priority": 2,
+      "steps": [
+        {
+          "text": "Verify Copilot license assigned in Microsoft 365 admin center.",
+          "image": "assets/images/copilot-ribbon.svg",
+          "alt": "Copilot in Outlook ribbon"
+        },
+        "Update Outlook to latest Current Channel build.",
+        "Sign out and back into Office apps.",
+        "GCCH tenants: see GEVKB0012506 for separate requirements."
+      ]
+    },
+    {
+      "id": "GEVKB0020027",
+      "title": "Repair Outlook profile",
+      "category": "Connectivity & Sync",
+      "client": "classic",
+      "keywords": [
+        "profile",
+        "repair",
+        "account settings"
+      ],
+      "symptoms": [
+        "Profile corrupt",
+        "Multiple account errors"
+      ],
+      "priority": 2,
+      "steps": [
+        {
+          "text": "File > Account Settings > Account Settings > select account > Repair.",
+          "image": "assets/images/profile-repair.svg",
+          "alt": "Repair profile option",
+          "platforms": [
+            "Windows"
+          ]
+        },
+        "Follow wizard and restart Outlook.",
+        "If repair fails, create new profile: Control Panel > Mail > Show Profiles > Add.",
+        "Set new profile as default and test before removing old profile."
+      ]
+    },
+    {
+      "id": "GEVKB0020028",
+      "title": "Check Microsoft 365 service health for Exchange",
+      "category": "Connectivity & Sync",
+      "keywords": [
+        "service health",
+        "outage",
+        "exchange online down"
+      ],
+      "symptoms": [
+        "Everyone affected",
+        "Org-wide mail issue"
+      ],
+      "priority": 1,
+      "steps": [
+        {
+          "text": "Admin: check Microsoft 365 Service health for Exchange Online.",
+          "image": "assets/images/service-health.svg",
+          "alt": "M365 service health"
+        },
+        "Visit https://admin.microsoft.com/adminportal/home#/servicehealth if you have access.",
+        "Users: check https://status.office.com for public status.",
+        "If widespread outage confirmed, document and wait — do not rebuild profiles during outage."
+      ]
+    },
+    {
+      "id": "GEVKB0020029",
+      "title": "Meeting invites not syncing between Outlook and OWA",
+      "category": "Calendar",
+      "keywords": [
+        "meeting",
+        "calendar sync",
+        "invite missing"
+      ],
+      "symptoms": [
+        "Meeting on OWA not in Outlook",
+        "Calendar mismatch"
+      ],
+      "priority": 2,
+      "url": "https://learn.microsoft.com/en-us/outlook/troubleshoot/synchronization/synchronization-issue-between-outlook-owa",
+      "steps": [
+        "Compare same calendar in OWA and desktop — note which is authoritative.",
+        "Run folder resync for Calendar (Clear Offline Items > Update Folder).",
+        "Rebuild OST if calendar and mail both mismatch.",
+        "Check delegate/shared calendar confusion — ensure viewing correct calendar."
+      ]
+    },
+    {
+      "id": "GEVKB0020030",
+      "title": "Autodiscover and profile setup failures",
+      "category": "Connectivity & Sync",
+      "keywords": [
+        "autodiscover",
+        "profile",
+        "setup failed",
+        "cannot configure"
+      ],
+      "symptoms": [
+        "Account cannot be added",
+        "Autodiscover fails"
+      ],
+      "priority": 2,
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/office-365-troubleshooting-resources",
+      "steps": [
+        "Verify UPN/email matches org primary SMTP address.",
+        "Ensure network allows autodiscover endpoints (not blocked by proxy).",
+        "Try manual setup only if IT provides Exchange server settings.",
+        "Escalate with exact Autodiscover error and Outlook version."
+      ]
+    },
+    {
+      "id": "GEVKB0020031",
+      "title": "Delegate access and Send on Behalf configuration",
+      "category": "Shared Mailboxes",
+      "keywords": [
+        "delegate",
+        "send on behalf",
+        "assistant",
+        "boss calendar"
+      ],
+      "symptoms": [
+        "Cannot manage manager calendar",
+        "Send on behalf missing"
+      ],
+      "priority": 3,
+      "steps": [
+        "Manager grants Delegate access in Outlook calendar permissions.",
+        "For mail: delegate needs Send on Behalf or Send As per workflow.",
+        "Restart Outlook after delegate permissions granted.",
+        "Delegate opens shared calendar via Open Calendar in Calendar view."
+      ]
+    },
+    {
+      "id": "GEVKB0020032",
+      "title": "Mailbox full — cannot send or receive",
+      "category": "Archive & Storage",
+      "keywords": [
+        "mailbox full",
+        "quota exceeded",
+        "prohibit send"
+      ],
+      "symptoms": [
+        "Cannot send mail",
+        "Quota exceeded message"
+      ],
+      "priority": 1,
+      "steps": [
+        {
+          "text": "Check mailbox size in OWA Settings > General > Storage.",
+          "image": "assets/images/storage-quota-owa.svg",
+          "alt": "Mailbox storage usage"
+        },
+        "Empty Deleted Items and Junk Email.",
+        "Archive or delete largest items shown in storage report.",
+        {
+          "text": "Move mail to Online Archive if available.",
+          "image": "assets/images/archive-online.svg",
+          "alt": "Online archive"
+        },
+        "Retry send after freeing at least 10% below quota."
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "outlook-wont-open",
+      "title": "Outlook won't open or crashes",
+      "steps": [
+        {
+          "question": "Does Outlook show an error when starting?",
+          "options": [
+            {
+              "label": "Yes - profile or startup error",
+              "next": "profile"
+            },
+            {
+              "label": "No - it hangs or closes silently",
+              "next": "repair"
+            },
+            {
+              "label": "Not sure",
+              "next": "repair"
+            }
+          ]
+        },
+        {
+          "id": "profile",
+          "question": "Have you tried starting Outlook in safe mode (outlook.exe /safe)?",
+          "options": [
+            {
+              "label": "Yes, still fails",
+              "action": "escalate",
+              "guideIds": [
+                "GEVKB0020001"
+              ]
+            },
+            {
+              "label": "No / Not yet",
+              "guideIds": [
+                "GEVKB0020002"
+              ]
+            },
+            {
+              "label": "Safe mode works",
+              "action": "disable-addins",
+              "guideIds": [
+                "GEVKB0020002"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "repair",
+          "question": "Try Quick Repair from Windows Settings > Apps > Microsoft 365.",
+          "options": [
+            {
+              "label": "Repair fixed it",
+              "action": "resolved"
+            },
+            {
+              "label": "Still broken",
+              "action": "escalate",
+              "guideIds": [
+                "GEVKB0020003",
+                "GEVKB0020027"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mail-not-syncing",
+      "title": "Mail not syncing",
+      "steps": [
+        {
+          "question": "Are you connected to VPN or corporate network?",
+          "options": [
+            {
+              "label": "Yes",
+              "next": "sync-check"
+            },
+            {
+              "label": "No",
+              "action": "connect-vpn",
+              "guideIds": [
+                "GEVKB0020006"
+              ]
+            },
+            {
+              "label": "Using mobile/OWA only",
+              "guideIds": [
+                "GEVKB0020017",
+                "GEVKB0020017"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sync-check",
+          "question": "Does Send/Receive show errors or is Outlook Disconnected?",
+          "options": [
+            {
+              "label": "Disconnected / errors",
+              "guideIds": [
+                "GEVKB0020006",
+                "GEVKB0020006"
+              ]
+            },
+            {
+              "label": "No errors but mail is old",
+              "guideIds": [
+                "GEVKB0020005",
+                "GEVKB0020004",
+                "GEVKB0020005"
+              ]
+            },
+            {
+              "label": "Works now",
+              "action": "resolved"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "password-prompt",
+      "title": "Repeated password prompts",
+      "steps": [
+        {
+          "question": "Did you recently change your password?",
+          "options": [
+            {
+              "label": "Yes",
+              "guideIds": [
+                "GEVKB0020007",
+                "GEVKB0020008"
+              ]
+            },
+            {
+              "label": "No",
+              "next": "mfa"
+            }
+          ]
+        },
+        {
+          "id": "mfa",
+          "question": "Are MFA prompts completing successfully?",
+          "options": [
+            {
+              "label": "MFA fails or loops",
+              "action": "escalate",
+              "guideIds": [
+                "GEVKB0020009"
+              ]
+            },
+            {
+              "label": "MFA works but Outlook still prompts",
+              "guideIds": [
+                "GEVKB0020007",
+                "GEVKB0020008"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cannot-send-receive",
+      "title": "Cannot send or receive email",
+      "steps": [
+        {
+          "question": "Is the issue sending, receiving, or both?",
+          "options": [
+            {
+              "label": "Sending only",
+              "guideIds": [
+                "GEVKB0020010",
+                "GEVKB0020011",
+                "GEVKB0020032"
+              ]
+            },
+            {
+              "label": "Receiving only",
+              "guideIds": [
+                "GEVKB0020022",
+                "GEVKB0020022",
+                "GEVKB0020006"
+              ]
+            },
+            {
+              "label": "Both",
+              "action": "escalate",
+              "guideIds": [
+                "GEVKB0020006",
+                "GEVKB0020028"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "new-outlook-issues",
+      "title": "New Outlook missing feature or broken workflow",
+      "steps": [
+        {
+          "question": "Are you currently using New Outlook (toggle in upper-right)?",
+          "options": [
+            {
+              "label": "Yes - feature missing or broken",
+              "guideIds": [
+                "GEVKB0020013",
+                "GEVKB0020013"
+              ]
+            },
+            {
+              "label": "Yes - add-in not working",
+              "guideIds": [
+                "GEVKB0020014"
+              ]
+            },
+            {
+              "label": "No - using Classic",
+              "next": "classic-check"
+            }
+          ]
+        },
+        {
+          "id": "classic-check",
+          "question": "Does the issue involve PST files or COM add-ins?",
+          "options": [
+            {
+              "label": "PST related",
+              "guideIds": [
+                "GEVKB0020024",
+                "GEVKB0020024"
+              ]
+            },
+            {
+              "label": "COM add-in related",
+              "guideIds": [
+                "GEVKB0020002",
+                "GEVKB0020014"
+              ]
+            },
+            {
+              "label": "Other",
+              "guideIds": [
+                "GEVKB0020013"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "add-in-not-loading",
+      "title": "Outlook add-in not loading",
+      "steps": [
+        {
+          "question": "Which Outlook client are you using?",
+          "options": [
+            {
+              "label": "New Outlook",
+              "guideIds": [
+                "GEVKB0020014"
+              ]
+            },
+            {
+              "label": "Classic Outlook",
+              "guideIds": [
+                "GEVKB0020002"
+              ]
+            },
+            {
+              "label": "Outlook on the web",
+              "guideIds": [
+                "GEVKB0020017"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "calendar-free-busy",
+      "title": "Calendar free/busy not working",
+      "steps": [
+        {
+          "question": "Can you open the other person's calendar at all?",
+          "options": [
+            {
+              "label": "Cannot open calendar",
+              "guideIds": [
+                "GEVKB0020016",
+                "GEVKB0020020"
+              ]
+            },
+            {
+              "label": "Calendar opens but free/busy wrong",
+              "guideIds": [
+                "GEVKB0020016"
+              ]
+            },
+            {
+              "label": "Meeting sync issue",
+              "guideIds": [
+                "GEVKB0020029"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mobile-wont-sync",
+      "title": "Mobile device won't sync",
+      "steps": [
+        {
+          "question": "What device type?",
+          "options": [
+            {
+              "label": "iPhone / iPad",
+              "guideIds": [
+                "GEVKB0020018",
+                "GEVKB0020017"
+              ]
+            },
+            {
+              "label": "Android",
+              "guideIds": [
+                "GEVKB0020019",
+                "GEVKB0020017"
+              ]
+            },
+            {
+              "label": "Other mobile",
+              "guideIds": [
+                "GEVKB0020017",
+                "GEVKB0020017"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "search-not-finding",
+      "title": "Search not finding email",
+      "steps": [
+        {
+          "question": "Which Outlook are you using?",
+          "options": [
+            {
+              "label": "Classic Outlook for Windows",
+              "guideIds": [
+                "GEVKB0020015"
+              ]
+            },
+            {
+              "label": "New Outlook",
+              "guideIds": [
+                "GEVKB0020015",
+                "GEVKB0020013"
+              ]
+            },
+            {
+              "label": "Outlook on the web",
+              "guideIds": [
+                "GEVKB0020017"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mailbox-full",
+      "title": "Mailbox full or cannot send (quota)",
+      "steps": [
+        {
+          "question": "Do you see a mailbox full or quota warning?",
+          "options": [
+            {
+              "label": "Yes - quota warning",
+              "guideIds": [
+                "GEVKB0020032",
+                "GEVKB0020032"
+              ]
+            },
+            {
+              "label": "Cannot send but no quota message",
+              "guideIds": [
+                "GEVKB0020010",
+                "GEVKB0020011"
+              ]
+            },
+            {
+              "label": "Resolved after cleanup",
+              "action": "resolved"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "synonyms": {
+    "mail stuck": [
+      "sync",
+      "outbox",
+      "sending",
+      "not syncing"
+    ],
+    "outbox": [
+      "send",
+      "sending",
+      "stuck",
+      "pending"
+    ],
+    "password": [
+      "credentials",
+      "login",
+      "sign in",
+      "authentication",
+      "prompt"
+    ],
+    "shared mailbox": [
+      "additional mailbox",
+      "delegate",
+      "full access",
+      "automapping"
+    ],
+    "calendar": [
+      "shared calendar",
+      "meeting",
+      "schedule",
+      "free busy"
+    ],
+    "external": [
+      "outside",
+      "vendor",
+      "customer",
+      "quarantine"
+    ],
+    "full": [
+      "quota",
+      "mailbox size",
+      "storage",
+      "mailbox full"
+    ],
+    "crash": [
+      "won't open",
+      "not starting",
+      "freeze",
+      "hang",
+      "not responding"
+    ],
+    "new outlook": [
+      "classic",
+      "toggle",
+      "migration",
+      "com add-in"
+    ],
+    "search": [
+      "find",
+      "index",
+      "missing email",
+      "look for"
+    ],
+    "mobile": [
+      "phone",
+      "iphone",
+      "android",
+      "activesync",
+      "ipad"
+    ],
+    "ost": [
+      "offline",
+      "cache",
+      "rebuild",
+      "sync error"
+    ],
+    "mfa": [
+      "multi-factor",
+      "authenticator",
+      "2fa",
+      "approval"
+    ],
+    "ndr": [
+      "bounce",
+      "undeliverable",
+      "delivery failure"
+    ],
+    "copilot": [
+      "ai",
+      "assistant",
+      "intelligence"
+    ]
+  }
+}

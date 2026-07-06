@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Troubleshooting Guide — Outlook Assistant</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>Troubleshooting Guide</h1>
+      <p id="guideSubtitle" class="subtitle">Step-by-step</p>
+    </div>
+    <div class="header-actions">
+      <a href="troubleshooting.html" class="admin-link">All Guides</a>
+      <a href="index.html" class="admin-link">Org KB</a>
+      <div id="themePickerMount"></div>
+      <button type="button" id="startOverBtn" class="btn-start-over">Start Over</button>
+    </div>
+  </header>
+
+  <main class="container guide-container">
+    <div id="guideLoading" class="status-bar">Loading guide...</div>
+    <div id="guideError" class="status-bar error" hidden></div>
+
+    <section id="guideContent" hidden>
+      <div id="stepPills" class="step-pills" aria-label="Troubleshooting progress"></div>
+
+      <div class="instruction-box">
+        <p id="instructionText"></p>
+        <p id="stepPlatformNote" class="step-platform-note" hidden></p>
+        <figure id="stepFigure" class="step-figure" hidden>
+          <img id="stepImage" class="step-image" alt="">
+          <figcaption id="stepImageCaption" class="step-image-caption"></figcaption>
+        </figure>
+        <div id="stepTip" class="step-tip" hidden role="note"></div>
+      </div>
+
+      <p class="guide-doc-link"><a id="kbDocLink" href="#" target="_blank" rel="noopener noreferrer" hidden>View official Microsoft documentation</a></p>
+
+      <div class="guide-actions">
+        <button type="button" id="backBtn" class="btn btn-secondary guide-nav-btn">&larr; Back</button>
+        <button type="button" id="continueBtn" class="btn btn-secondary guide-nav-btn">No, continue</button>
+        <button type="button" id="resolvedBtn" class="btn btn-primary guide-nav-btn">Yes, resolved</button>
+        <button type="button" id="escalateBtn" class="btn btn-danger guide-nav-btn">Escalate</button>
+      </div>
+
+      <section class="session-notes-panel">
+        <h2>Session Notes</h2>
+        <div class="session-notes-grid">
+          <div><strong>Date/Time:</strong> <span id="noteDateTime"></span></div>
+          <div><strong>Employee ID:</strong> <span id="noteEmployeeId"></span></div>
+          <div><strong>Chat IMS Number:</strong> <span id="noteChatIms"></span></div>
+          <div><strong>Platform:</strong> <span id="notePlatform"></span></div>
+          <div><strong>Environment:</strong> <span id="noteEnvironment"></span></div>
+          <div><strong>Guide:</strong> <span id="noteIssue"></span></div>
+          <div><strong>Current Step:</strong> <span id="noteCurrentStep"></span></div>
+          <div><strong>Resolution:</strong> <span id="noteResolution"></span></div>
+          <div><strong>Case Escalated:</strong> <span id="noteCaseEscalated">No</span></div>
+        </div>
+        <div class="steps-taken-section">
+          <strong>Steps Taken:</strong>
+          <ol id="noteStepsTaken"></ol>
+        </div>
+        <div class="agent-comments-section">
+          <label for="agentComments"><strong>Agent Comments</strong></label>
+          <p class="agent-comments-hint">Add any notes before copying to your ticket.</p>
+          <textarea id="agentComments" rows="4" placeholder="e.g. User confirmed issue started after password reset."></textarea>
+        </div>
+      </section>
+
+      <div class="copy-notes-row">
+        <button type="button" id="copyNotesBtn" class="btn btn-primary">Copy Notes</button>
+        <span id="loggingStatus" class="logging-status">Logging Status: Active</span>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/session.js"></script>
+  <script src="js/sharepoint.js"></script>
+  <script src="js/logging.js"></script>
+  <script src="js/troubleshooting-search.js"></script>
+  <script src="js/troubleshooting-loader.js"></script>
+  <script src="js/theme-picker.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/step-utils.js"></script>
+  <script src="js/troubleshooting-guide.js"></script>
+</body>
+</html>

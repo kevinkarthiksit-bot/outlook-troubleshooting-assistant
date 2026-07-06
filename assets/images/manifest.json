@@ -1,0 +1,156 @@
+{
+  "version": "1.0.0",
+  "description": "Step image placeholders for Outlook Assistant KB",
+  "images": [
+    {
+      "file": "send-receive-update.svg",
+      "title": "Send/Receive > Update Folder",
+      "note": "Replace with Outlook screenshot",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "account-settings-mailbox.svg",
+      "title": "Account Settings > Advanced",
+      "note": "Add mailbox dialog",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "file-options-mail.svg",
+      "title": "File > Options > Mail",
+      "note": "Outlook options path",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "signatures-dialog.svg",
+      "title": "Mail > Signatures",
+      "note": "Signature editor",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "new-outlook-toggle.svg",
+      "title": "New Outlook Toggle",
+      "note": "Upper-right corner switch",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "owa-sign-in.svg",
+      "title": "Outlook Web Sign-in",
+      "note": "outlook.office.com",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "safe-mode-run.svg",
+      "title": "Outlook Safe Mode",
+      "note": "Win+R outlook.exe /safe",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "credential-manager.svg",
+      "title": "Windows Credential Manager",
+      "note": "Remove stale Office credentials",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "junk-quarantine.svg",
+      "title": "Junk / Quarantine",
+      "note": "Security portal or Junk folder",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "rules-alerts.svg",
+      "title": "Rules & Alerts",
+      "note": "Home > Rules > Manage Rules",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "automatic-replies.svg",
+      "title": "Automatic Replies",
+      "note": "File > Automatic Replies",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "storage-quota-owa.svg",
+      "title": "Mailbox Storage",
+      "note": "OWA Settings > General > Storage",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "oab-download.svg",
+      "title": "Download Address Book",
+      "note": "Send/Receive tab",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "shared-calendar.svg",
+      "title": "Open Shared Calendar",
+      "note": "Calendar > Open Calendar",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "office-repair.svg",
+      "title": "Office Quick Repair",
+      "note": "Settings > Apps > Microsoft 365",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "add-ins-manager.svg",
+      "title": "COM Add-ins",
+      "note": "File > Options > Add-ins",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "search-index.svg",
+      "title": "Windows Search Index",
+      "note": "Indexing Options control panel",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "mobile-outlook-app.svg",
+      "title": "Outlook Mobile App",
+      "note": "iOS / Android sign-in",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "free-busy-calendar.svg",
+      "title": "Free/Busy Calendar",
+      "note": "Scheduling assistant view",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "ost-location.svg",
+      "title": "OST File Location",
+      "note": "Account Settings > Data Files",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "profile-repair.svg",
+      "title": "Repair Outlook Profile",
+      "note": "Account Settings > Repair",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "service-health.svg",
+      "title": "M365 Service Health",
+      "note": "Admin center service status",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "archive-online.svg",
+      "title": "Online Archive",
+      "note": "OWA archive folder",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "copilot-ribbon.svg",
+      "title": "Copilot in Outlook",
+      "note": "Ribbon or compose area",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    },
+    {
+      "file": "ndr-message.svg",
+      "title": "Non-Delivery Report",
+      "note": "NDR bounce message details",
+      "usage": "Referenced in kb-articles.sample.json step image fields"
+    }
+  ]
+}

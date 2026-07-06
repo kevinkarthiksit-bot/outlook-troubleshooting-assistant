@@ -1,0 +1,130 @@
+================================================================================
+  HOW TO SEND THIS FOLDER BY EMAIL
+  (For the person packaging the project — Kevin)
+================================================================================
+
+
+WHAT TO SEND
+------------
+Zip the entire "OutLook Assistant" folder and attach it to your email.
+
+Easiest: double-click  Create-Email-Zip.bat  — it builds  OutLook-Assistant.zip
+(about 0.2 MB, well under the 25 MB email limit).
+
+Tell the recipient to:
+  1. Unzip the folder
+  2. Double-click  Launch Outlook Assistant.bat  (one click — opens browser)
+  3. Or use  http://localhost:8080/login.html  if already running
+
+
+REMOVED FROM THIS PACKAGE (not needed to run the app)
+-----------------------------------------------------
+  - WhatsApp video and reference images (~18 MB)
+  - .git version history (~18 MB)
+  - scripts/ and test/ dev folders
+
+
+OPTIONAL — MANUAL ZIP
+---------------------
+Right-click the folder → Send to → Compressed (zipped) folder.
+Do not include OutLook-Assistant.zip inside itself.
+
+
+FILES THE RECIPIENT SHOULD SEE FIRST
+-------------------------------------
+  START_HERE.txt              Quick instructions (open in Notepad)
+  README.md                   Full project documentation
+  Launch Outlook Assistant.bat  ONE CLICK — start here
+  Health-Check.bat              Verify folder before sending
+  Start-Outlook-Assistant.bat   Same as Launch (alias)
+  OutLook-Assistant.zip       Ready-made zip (~0.08 MB) — attach this to email
+  Create-Email-Zip.bat        Re-build the zip if you change files
+
+
+BEFORE SENDING TO OTHERS — SECURITY CHECK
+------------------------------------------
+  - Admin password is in js\config.js (default: Hannah / Hannah@95)
+    Change or remove before sending outside your team if needed.
+  - Demo mode: useSharePoint is false (runs fully offline from local JSON).
+
+
+EMAIL SUBJECT / BODY SUGGESTION
+-------------------------------
+  Subject: Outlook Troubleshooting Assistant — local demo package
+
+  Body:
+    Hi,
+
+    Attached is the Outlook Troubleshooting Assistant (static HTML demo).
+
+    To run it:
+    1. Unzip the folder
+    2. Double-click Start-Outlook-Assistant.bat
+    3. Your browser should open to the login page; if not, go to:
+       http://localhost:8080/login.html
+
+    See START_HERE.txt inside the folder for step-by-step help.
+
+    Regards
+
+
+TYPICAL ZIP SIZE
+----------------
+About 0.2–0.3 MB after cleanup. Safe for any email attachment limit.
+
+
+GMAIL WON'T ATTACH .ZIP? — USE ONE OF THESE
+--------------------------------------------
+Gmail blocks .zip files that contain .bat scripts (even if the zip is tiny).
+
+
+SEND VIA GMAIL *WITH* THE .BAT FILE (RECOMMENDED)
+--------------------------------------------------
+Double-click:  Create-Gmail-Attachment.bat
+
+It creates:  OutLook-Assistant.zip.txt
+
+1. In Gmail, attach  OutLook-Assistant.zip.txt  (Gmail allows .txt)
+2. Paste this in the email body:
+
+   After download:
+   1. Rename  OutLook-Assistant.zip.txt  to  OutLook-Assistant.zip
+   2. Right-click the .zip → Extract All
+   3. Double-click  Start-Outlook-Assistant.bat
+   4. Open  http://localhost:8080/login.html
+
+The .bat files are inside the archive — only the outer filename is changed
+so Gmail accepts the attachment.
+
+
+OPTION 1 — GOOGLE DRIVE (NO RENAME NEEDED)
+  1. Go to https://drive.google.com
+  2. New → File upload → select OutLook-Assistant.zip (or the whole folder)
+  3. Right-click the file → Share → General access → "Anyone with the link"
+  4. Copy link and paste it in your email (no attachment needed)
+
+OPTION 2 — GMAIL-SAFE ZIP (NO .BAT FILES)
+  Run in PowerShell from this folder:
+    powershell -ExecutionPolicy Bypass -File create-gmail-safe-zip.ps1
+  Attach  OutLook-Assistant-GmailSafe.zip
+  Tell recipient to start the server manually (in START_HERE.txt, Step 2):
+    cd to the folder, then:  python -m http.server 8080
+  Then open: http://localhost:8080/login.html
+
+OPTION 3 — RENAME THE EXTENSION
+  Rename  OutLook-Assistant.zip  to  OutLook-Assistant.zip.txt
+  Attach the .txt file. Tell recipient to:
+    1. Download and rename back to  OutLook-Assistant.zip
+    2. Unzip as normal
+  (Some corporate Gmail still blocks this.)
+
+OPTION 4 — OTHER FILE HOSTS (FREE, NO ACCOUNT NEEDED)
+  - https://wetransfer.com  (up to 2 GB free)
+  - https://www.transfernow.net
+  Upload the zip, copy the download link, paste in email.
+
+OPTION 5 — ONEDRIVE / SHAREPOINT (IF YOU USE MICROSOFT)
+  Upload folder to OneDrive → Share → Copy link → paste in email.
+
+
+================================================================================

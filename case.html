@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Case Setup - Outlook Troubleshooting Assistant</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="login-page">
+  <header class="app-header login-header">
+    <div>
+      <h1>Outlook Troubleshooting Assistant</h1>
+      <p class="subtitle">Enter case details before troubleshooting</p>
+    </div>
+    <div class="header-actions">
+      <span id="userDisplay" class="user-display"></span>
+      <div id="themePickerMount"></div>
+    </div>
+  </header>
+
+  <main class="login-container">
+    <div class="login-card case-setup-card">
+      <h2>Case Details</h2>
+      <p class="login-hint">Provide the chat and environment information for this session.</p>
+
+      <form id="caseForm">
+        <label for="chatImsInput">Chat IMS Number</label>
+        <input
+          type="text"
+          id="chatImsInput"
+          placeholder="e.g. IMS-12345678"
+          autocomplete="off"
+          required
+          autofocus
+        >
+
+        <label for="platformSelect">OS / Platform</label>
+        <select id="platformSelect" required>
+          <option value="Windows">Windows</option>
+          <option value="Mac">Mac</option>
+          <option value="Mobile">Mobile</option>
+          <option value="Web">Web</option>
+        </select>
+
+        <label for="environmentSelect">Environment</label>
+        <select id="environmentSelect" required>
+          <option value="Exchange Online">Exchange Online</option>
+          <option value="Hybrid">Hybrid</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <p id="caseError" class="login-error" hidden></p>
+
+        <button type="submit" class="btn btn-primary btn-block">Continue to Troubleshooting</button>
+      </form>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/sharepoint.js"></script>
+  <script src="js/session.js"></script>
+  <script src="js/logging.js"></script>
+  <script src="js/theme-picker.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/case.js"></script>
+  <script>
+    ThemePicker.mount("#themePickerMount");
+    document.addEventListener("DOMContentLoaded", () => Themes.init());
+  </script>
+</body>
+</html>

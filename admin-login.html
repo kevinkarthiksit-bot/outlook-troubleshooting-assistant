@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Admin Login - Outlook Troubleshooting Assistant</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="login-page">
+  <header class="app-header login-header">
+    <div>
+      <h1>Admin Login</h1>
+      <p class="subtitle">Sign in to manage KB articles and view logs</p>
+    </div>
+    <div class="header-actions">
+      <div id="themePickerMount"></div>
+    </div>
+  </header>
+
+  <main class="login-container">
+    <div class="login-card">
+      <h2>Administrator Sign In</h2>
+      <p class="login-hint">Authorized admins only.</p>
+
+      <form id="adminLoginForm">
+        <label for="adminUsername">Username</label>
+        <input
+          type="text"
+          id="adminUsername"
+          name="adminUsername"
+          placeholder="Username"
+          autocomplete="username"
+          required
+          autofocus
+        >
+
+        <label for="adminPassword">Password</label>
+        <input
+          type="password"
+          id="adminPassword"
+          name="adminPassword"
+          placeholder="Password"
+          autocomplete="current-password"
+          required
+        >
+
+        <p id="adminLoginError" class="login-error" hidden></p>
+
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+      </form>
+
+      <p class="login-footer-link">
+        <a href="login.html">Back to user login</a>
+      </p>
+    </div>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/admin-auth.js"></script>
+  <script src="js/theme-picker.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/admin-login.js"></script>
+  <script>
+    ThemePicker.mount("#themePickerMount");
+    document.addEventListener("DOMContentLoaded", () => Themes.init());
+  </script>
+</body>
+</html>

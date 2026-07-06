@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Admin - Outlook Troubleshooting Assistant</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>Admin Dashboard</h1>
+      <p class="subtitle">Upload KB articles and review usage logs</p>
+    </div>
+    <div class="header-actions">
+      <div id="themePickerMount"></div>
+      <button type="button" id="adminLogoutBtn" class="btn btn-secondary btn-header">Logout</button>
+      <a href="login.html" class="admin-link">Back to Assistant</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="accessBanner" class="banner info"></div>
+
+    <section class="panel">
+      <h2>Upload Knowledge Base</h2>
+      <p>Upload JSON, CSV, or Excel (.xlsx) exported from your KB spreadsheet. Users will automatically receive updates without re-uploading.</p>
+      <div class="file-input-wrap">
+        <input type="file" id="kbFileInput" accept=".json,.csv,.xlsx,.xls">
+      </div>
+      <div id="uploadPreview" class="preview"></div>
+      <div class="admin-actions">
+        <button type="button" id="uploadKbBtn" class="btn btn-primary" disabled>Upload to SharePoint</button>
+        <button type="button" id="downloadSampleBtn" class="btn btn-secondary">Download Sample JSON</button>
+      </div>
+      <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted)">
+        CSV/Excel format: columns <strong>Number</strong> and <strong>Short description</strong> (creates text-only steps).
+        For rich guides with images and tips, upload <strong>JSON</strong> (KB v2.0.0 format).
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Usage Statistics</h2>
+      <div class="admin-grid">
+        <div class="stat-card">
+          <div class="value" id="statSearches">0</div>
+          <div class="label">Searches</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="statViews">0</div>
+          <div class="label">Articles Viewed</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="statEscalations">0</div>
+          <div class="label">Escalations</div>
+        </div>
+        <div class="stat-card">
+          <div class="value" id="statUsers">0</div>
+          <div class="label">Unique Users</div>
+        </div>
+      </div>
+      <h3>Top Searches</h3>
+      <ul id="topQueries" class="top-queries"></ul>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Activity Logs</h2>
+        <div class="admin-actions">
+          <button type="button" id="refreshLogsBtn" class="btn btn-secondary">Refresh</button>
+          <button type="button" id="exportLogsBtn" class="btn btn-primary">Export CSV</button>
+          <button type="button" id="clearLocalLogsBtn" class="btn btn-secondary">Clear Local Logs</button>
+        </div>
+      </div>
+      <div class="log-filters" id="logFilters">
+        <div class="log-filters-row">
+          <label class="filter-field">
+            <span class="filter-label">Action</span>
+            <select id="logFilterAction" aria-label="Filter by action">
+              <option value="">All actions</option>
+            </select>
+          </label>
+          <label class="filter-field">
+            <span class="filter-label">Employee ID</span>
+            <input type="text" id="logFilterEmployee" placeholder="e.g. E12345" autocomplete="off">
+          </label>
+          <label class="filter-field">
+            <span class="filter-label">From</span>
+            <input type="date" id="logFilterDateFrom" aria-label="Filter from date">
+          </label>
+          <label class="filter-field">
+            <span class="filter-label">To</span>
+            <input type="date" id="logFilterDateTo" aria-label="Filter to date">
+          </label>
+          <label class="filter-field filter-field-grow">
+            <span class="filter-label">Search</span>
+            <input type="search" id="logFilterText" placeholder="Query, KB ID, details…" autocomplete="off">
+          </label>
+          <button type="button" id="clearLogFiltersBtn" class="btn btn-secondary">Clear filters</button>
+        </div>
+        <p class="log-filter-summary" id="logFilterSummary" aria-live="polite"></p>
+      </div>
+      <div class="logs-table-wrap">
+        <table class="logs-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Employee ID</th>
+              <th>Action</th>
+              <th>Query</th>
+              <th>KB ID</th>
+              <th>Details</th>
+              <th>Feedback</th>
+            </tr>
+          </thead>
+          <tbody id="logsTableBody">
+            <tr><td colspan="7">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    Admin access should be restricted via SharePoint permissions on this page and the log list.
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/sharepoint.js"></script>
+  <script src="js/admin-auth.js"></script>
+  <script src="js/theme-picker.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/step-utils.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    ThemePicker.mount("#themePickerMount");
+    document.addEventListener("DOMContentLoaded", () => Themes.init());
+  </script>
+</body>
+</html>

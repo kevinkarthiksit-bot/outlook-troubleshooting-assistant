@@ -1,0 +1,590 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-07-06",
+  "articles": [
+    {
+      "id": "GEVKB0012506",
+      "title": "GCCH USERS ONLY - Microsoft 365 Outlook Copilot - FAQ",
+      "category": "Copilot",
+      "keywords": [
+        "copilot",
+        "gcch",
+        "ai",
+        "faq",
+        "outlook copilot"
+      ],
+      "symptoms": [
+        "Copilot not showing",
+        "Copilot greyed out",
+        "AI features missing"
+      ],
+      "priority": 2,
+      "steps": [
+        "Confirm you are on a GCCH tenant and licensed for Copilot.",
+        "Verify Outlook is updated to the latest supported build.",
+        "Sign out and sign back into Microsoft 365.",
+        "If Copilot still does not appear, contact IT with your Outlook version."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012122",
+      "title": "[Email Security] I do not receive emails from outside of GE Vernova",
+      "category": "Email Security",
+      "keywords": [
+        "external email",
+        "blocked",
+        "quarantine",
+        "outside",
+        "receive"
+      ],
+      "symptoms": [
+        "Missing external mail",
+        "Sender says email was sent but I never got it"
+      ],
+      "priority": 1,
+      "steps": [
+        "Check Junk Email folder and Quarantine notifications in Microsoft 365 security portal.",
+        "Ask the sender to verify the exact recipient address (no typos, correct domain).",
+        "Confirm the sender domain is not blocked by organizational security policy.",
+        "If mail is quarantined, release it or request an allow-list via IT security."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011941",
+      "title": "[Email] - Create a New Distribution List",
+      "category": "Email",
+      "keywords": [
+        "distribution list",
+        "dl",
+        "group",
+        "create",
+        "mailing list"
+      ],
+      "symptoms": [
+        "Need new DL",
+        "Create group mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Open the distribution list request portal or service catalog.",
+        "Provide list name, owners, and members.",
+        "Submit the request and wait for approval/provisioning.",
+        "Verify the new DL appears in Outlook address book after sync."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012124",
+      "title": "Manage an Existing Group and Distribution List in Outlook",
+      "category": "Email",
+      "keywords": [
+        "manage group",
+        "distribution list",
+        "members",
+        "owners"
+      ],
+      "symptoms": [
+        "Add member to DL",
+        "Remove member",
+        "Change owner"
+      ],
+      "priority": 3,
+      "steps": [
+        "Identify whether the group is M365 Group or classic DL.",
+        "Use Outlook or Admin portal to manage owners/members.",
+        "Allow up to 24 hours for directory sync.",
+        "Confirm changes in Global Address List."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011484",
+      "title": "[Email] Dynamic Distribution Group (DDG) management",
+      "category": "Email",
+      "keywords": [
+        "ddg",
+        "dynamic distribution",
+        "group",
+        "membership"
+      ],
+      "symptoms": [
+        "DDG not updating",
+        "Member missing from DDG"
+      ],
+      "priority": 3,
+      "steps": [
+        "Review DDG membership rules with the group owner.",
+        "Confirm user attributes match DDG filter criteria.",
+        "Allow directory sync cycle to complete.",
+        "Escalate to messaging team if membership remains incorrect."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012594",
+      "title": "[Email] How to download the Offline Address Book (OAB)",
+      "category": "Email",
+      "keywords": [
+        "oab",
+        "offline address book",
+        "gal",
+        "sync",
+        "address book"
+      ],
+      "symptoms": [
+        "Contacts missing offline",
+        "GAL not updating",
+        "OAB download failed"
+      ],
+      "priority": 2,
+      "steps": [
+        "In Outlook, go to Send/Receive > Download Address Book.",
+        "Choose the correct Offline Address Book for your organization and click OK.",
+        "Restart Outlook if the download does not complete within 30 minutes.",
+        "Check network/VPN if OAB download repeatedly fails."
+      ],
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/office-365-troubleshooting-resources"
+    },
+    {
+      "id": "GEVKB0011989",
+      "title": "[Email] Access Multiple Mailboxes",
+      "category": "Shared Mailboxes",
+      "keywords": [
+        "multiple mailbox",
+        "shared mailbox",
+        "open mailbox",
+        "delegate"
+      ],
+      "symptoms": [
+        "Cannot see second mailbox",
+        "Shared mailbox missing"
+      ],
+      "priority": 2,
+      "steps": [
+        "Confirm you have Full Access permission to the mailbox (request via service catalog if needed).",
+        "Outlook: File > Account Settings > Account Settings > select account > Change > More Settings > Advanced > Add.",
+        "Enter the mailbox SMTP address and click OK. Restart Outlook.",
+        "If mailbox still missing after 24h, verify permissions and check automapping (GEVKB0020025)."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011999",
+      "title": "[Email] Users outside of GE Vernova do not receive my emails",
+      "category": "Email",
+      "keywords": [
+        "external send",
+        "bounce",
+        "undelivered",
+        "outside",
+        "recipient"
+      ],
+      "symptoms": [
+        "External recipients not getting mail",
+        "NDR bounce back"
+      ],
+      "priority": 1,
+      "steps": [
+        "Check for non-delivery report (NDR) details.",
+        "Verify recipient address and attachment size limits.",
+        "Remove blocked content or large attachments if applicable.",
+        "Contact IT with NDR message if issue persists."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011997",
+      "title": "[Email] How to share a mailbox or access a shared mailbox",
+      "category": "Email",
+      "keywords": [
+        "shared mailbox",
+        "share mailbox",
+        "delegate access",
+        "permissions"
+      ],
+      "symptoms": [
+        "Need shared mailbox",
+        "Cannot open shared mailbox"
+      ],
+      "priority": 2,
+      "steps": [
+        "Request Full Access and Send As permissions via service catalog.",
+        "After approval, add mailbox in Outlook account settings.",
+        "Allow time for permissions to replicate.",
+        "Use Send As only if explicitly granted."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011991",
+      "title": "[Email] View the size of your Email and the Mailbox Quota",
+      "category": "Archive & Storage",
+      "keywords": [
+        "quota",
+        "mailbox size",
+        "storage",
+        "full mailbox"
+      ],
+      "symptoms": [
+        "Mailbox full",
+        "Cannot send",
+        "Quota warning"
+      ],
+      "priority": 2,
+      "steps": [
+        "In Outlook Web, open Settings > General > Storage.",
+        "Review largest folders and items; empty Deleted Items.",
+        "Move old mail to Online Archive if licensed.",
+        "Request quota increase only if business justified after cleanup."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011479",
+      "title": "[Email] Email Signature management, including images etc.",
+      "category": "Email",
+      "keywords": [
+        "signature",
+        "image",
+        "logo",
+        "disclaimer"
+      ],
+      "symptoms": [
+        "Signature missing",
+        "Image broken in signature"
+      ],
+      "priority": 3,
+      "steps": [
+        "Outlook > File > Options > Mail > Signatures.",
+        "Create or edit signature; use hosted image URLs where possible (avoid large embedded images).",
+        "Assign signature to new messages and replies/forwards.",
+        "Test by sending to yourself and verify images load for external recipients."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011437",
+      "title": "[Email] Configure Outlook and Sync your mailbox",
+      "category": "Email",
+      "keywords": [
+        "configure",
+        "setup",
+        "sync",
+        "profile",
+        "outlook setup"
+      ],
+      "symptoms": [
+        "Outlook not syncing",
+        "Setup Outlook",
+        "Mail stuck updating"
+      ],
+      "priority": 1,
+      "steps": [
+        "Ensure stable network or VPN connection. Disconnect and reconnect VPN if mail stopped after network change.",
+        "Verify account credentials and complete MFA when prompted.",
+        "Check the Outlook status bar (bottom) for Disconnected or Need Password errors.",
+        "Run Send/Receive > Send/Receive All Folders.",
+        "If folders are stale, right-click folder > Properties > Clear Offline Items, then Update Folder.",
+        "If sync still fails, run Office Quick Repair or recreate the Outlook profile."
+      ],
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/outlook-connection-issues"
+    },
+    {
+      "id": "GEVKB0011530",
+      "title": "[Email] Use the Outlook Web access (OWA) and Mobile clients",
+      "category": "Mobile & OWA",
+      "keywords": [
+        "owa",
+        "web",
+        "mobile",
+        "phone",
+        "outlook app"
+      ],
+      "symptoms": [
+        "Access mail on phone",
+        "OWA login issue"
+      ],
+      "priority": 3,
+      "steps": [
+        "Use https://outlook.office.com for web access.",
+        "Install Microsoft Outlook app from official App Store or Google Play.",
+        "Sign in with corporate credentials and complete MFA.",
+        "Allow mailbox sync on mobile device when prompted by MDM policy."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011677",
+      "title": "[Email] Use Microsoft Outlook Classic vs New Outlook",
+      "category": "New Outlook",
+      "keywords": [
+        "new outlook",
+        "classic outlook",
+        "toggle",
+        "switch"
+      ],
+      "symptoms": [
+        "Missing feature in New Outlook",
+        "Want classic Outlook back"
+      ],
+      "priority": 3,
+      "steps": [
+        "Use the New Outlook toggle in the upper-right corner to switch between Classic and New Outlook.",
+        "Compare feature availability — New Outlook does not support COM add-ins.",
+        "If a required feature is missing (rules, PST, advanced search), revert to Classic Outlook.",
+        "Report blocking gaps to IT with your Outlook version and build number."
+      ],
+      "url": "https://learn.microsoft.com/en-us/microsoft-365-apps/outlook/manage/admin-controlled-migration-policy"
+    },
+    {
+      "id": "GEVKB0011458",
+      "title": "[Email] How to open a Shared Calendar",
+      "category": "Calendar",
+      "keywords": [
+        "shared calendar",
+        "calendar",
+        "open calendar",
+        "delegate calendar"
+      ],
+      "symptoms": [
+        "Cannot see shared calendar",
+        "Calendar permission"
+      ],
+      "priority": 3,
+      "steps": [
+        "Confirm calendar sharing permission with owner (at least Reviewer or Editor).",
+        "Outlook Calendar > Open Calendar > From Address Book.",
+        "Select shared calendar and click OK.",
+        "Allow sync time; restart Outlook if calendar not visible after 15 minutes."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011430",
+      "title": "[Email] Create an Out-of-Office (OOF) Message",
+      "category": "Email",
+      "keywords": [
+        "oof",
+        "out of office",
+        "automatic reply",
+        "vacation"
+      ],
+      "symptoms": [
+        "Set auto reply",
+        "Out of office message"
+      ],
+      "priority": 3,
+      "steps": [
+        "Outlook > File > Automatic Replies.",
+        "Enable automatic replies and set start/end date range.",
+        "Compose separate internal and external messages if required by policy.",
+        "Save and test with a colleague outside your team."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011420",
+      "title": "[Email] How to use the Global Address List (GAL)",
+      "category": "Email",
+      "keywords": [
+        "gal",
+        "global address list",
+        "address book",
+        "find user"
+      ],
+      "symptoms": [
+        "Cannot find colleague",
+        "GAL search empty"
+      ],
+      "priority": 3,
+      "steps": [
+        "Open Address Book in Outlook.",
+        "Select Global Address List as source.",
+        "Search by name or email.",
+        "Download OAB if results seem outdated."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011712",
+      "title": "[Email] How to use Outlook Rules",
+      "category": "Email",
+      "keywords": [
+        "rules",
+        "inbox rule",
+        "move mail",
+        "auto sort"
+      ],
+      "symptoms": [
+        "Mail not sorting",
+        "Rule not working"
+      ],
+      "priority": 3,
+      "steps": [
+        "Home > Rules > Manage Rules & Alerts.",
+        "Create rule with clear conditions and actions.",
+        "Enable rule and choose Run on existing items if needed.",
+        "Check rule order — first matching rule wins when multiple rules apply."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011612",
+      "title": "[Email] How to recall a sent email",
+      "category": "Email",
+      "keywords": [
+        "recall",
+        "unsend",
+        "retract email"
+      ],
+      "symptoms": [
+        "Sent wrong email",
+        "Need to recall message"
+      ],
+      "priority": 3,
+      "steps": [
+        "Open Sent Items and double-click the message.",
+        "Message > Actions > Recall This Message.",
+        "Choose delete unread copies option.",
+        "Recall works only for internal unread mail; not guaranteed."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011986",
+      "title": "[Email] Export or backup your Mailbox",
+      "category": "Email",
+      "keywords": [
+        "export",
+        "backup",
+        "pst",
+        "archive"
+      ],
+      "symptoms": [
+        "Backup mail",
+        "Export mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "File > Open & Export > Import/Export.",
+        "Choose Export to a file > Outlook Data File (.pst).",
+        "Select folders to export.",
+        "Store PST per data retention policy."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011680",
+      "title": "[Email] Open shared Public folders in Microsoft Outlook",
+      "category": "Email",
+      "keywords": [
+        "public folder",
+        "shared folder",
+        "pf"
+      ],
+      "symptoms": [
+        "Public folder missing",
+        "Cannot access PF"
+      ],
+      "priority": 3,
+      "steps": [
+        "Confirm public folder permissions.",
+        "Outlook > Folder Pane > enable Public Folders if available.",
+        "Expand public folder hierarchy.",
+        "Contact IT if public folders are not visible in tenant."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011705",
+      "title": "[Email] Use Microsoft Outlook Contacts",
+      "category": "Email",
+      "keywords": [
+        "contacts",
+        "address book",
+        "people"
+      ],
+      "symptoms": [
+        "Contacts missing",
+        "Add contact"
+      ],
+      "priority": 3,
+      "steps": [
+        "Open People view in Outlook.",
+        "New Contact to add manually.",
+        "Import contacts via CSV if migrating.",
+        "Verify default contact folder location."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011601",
+      "title": "[Email] Use Microsoft Outlook Contact Groups",
+      "category": "Email",
+      "keywords": [
+        "contact group",
+        "distribution",
+        "personal group"
+      ],
+      "symptoms": [
+        "Create contact group",
+        "Email group of contacts"
+      ],
+      "priority": 3,
+      "steps": [
+        "People > New Contact Group.",
+        "Add members from address book or contacts.",
+        "Save group with descriptive name.",
+        "Use group name in To field when sending."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011620",
+      "title": "[Email] How to add or remove additional mailboxes",
+      "category": "Email",
+      "keywords": [
+        "add mailbox",
+        "remove mailbox",
+        "additional mailbox"
+      ],
+      "symptoms": [
+        "Add second mailbox",
+        "Remove shared mailbox"
+      ],
+      "priority": 2,
+      "steps": [
+        "File > Account Settings > select account > Change > More Settings > Advanced.",
+        "Add or remove additional mailboxes.",
+        "Restart Outlook.",
+        "Confirm permissions if mailbox does not appear."
+      ],
+      "url": ""
+    }
+  ],
+  "flows": [],
+  "synonyms": {
+    "shared mailbox": [
+      "additional mailbox",
+      "delegate",
+      "full access"
+    ],
+    "calendar": [
+      "shared calendar",
+      "meeting",
+      "schedule"
+    ],
+    "external": [
+      "outside",
+      "vendor",
+      "customer",
+      "quarantine"
+    ],
+    "copilot": [
+      "ai",
+      "assistant"
+    ]
+  }
+}

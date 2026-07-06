@@ -1,0 +1,18 @@
+# Email / packaging artifacts
+*.zip
+*.zip.txt
+*.7z
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs
+*.log

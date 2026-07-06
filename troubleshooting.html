@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Troubleshooting Guides — Outlook Assistant</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>Outlook Troubleshooting Guides</h1>
+      <p class="subtitle">Research-based guides — separate from org KB articles</p>
+    </div>
+    <div class="header-actions">
+      <span id="userDisplay" class="user-display"></span>
+      <div id="themePickerMount"></div>
+      <a href="index.html" class="admin-link">Org KB</a>
+      <button type="button" id="startOverBtn" class="btn-start-over">Start Over</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="statusBar" class="status-bar">Initializing...</div>
+    <p id="sessionSummary" class="session-summary"></p>
+
+    <section id="flowPanel" class="panel flow-panel-priority" hidden>
+      <div class="panel-header">
+        <h2 id="flowTitle">Troubleshooting</h2>
+        <button type="button" id="closeFlow" class="panel-close" aria-label="Close">&times;</button>
+      </div>
+      <p id="flowQuestion"></p>
+      <div id="flowOptions"></div>
+      <div id="flowGuideResults"></div>
+    </section>
+
+    <section class="chip-section">
+      <h3>Guided troubleshooting</h3>
+      <div id="quickFlows" class="chip-row"></div>
+    </section>
+
+    <section class="search-section">
+      <h2>Browse troubleshooting topics</h2>
+      <div class="search-box">
+        <input type="search" id="searchInput" placeholder="Search guides (sync, password, New Outlook...)" autocomplete="off">
+        <button type="button" id="clearSearch" class="btn btn-secondary">Clear</button>
+        <button type="button" id="refreshGuide" class="btn btn-secondary" title="Refresh guide data">Refresh</button>
+      </div>
+    </section>
+
+    <section class="chip-section">
+      <h3>Browse by category</h3>
+      <div id="categoryFilters" class="chip-row"></div>
+    </section>
+
+    <section class="results-section">
+      <div id="searchResults"></div>
+      <div id="noResults" class="no-results" hidden>
+        <p>No matching guides found.</p>
+        <button type="button" id="escalateBtn" class="btn btn-primary">Mark Case Escalated</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    Microsoft-aligned troubleshooting guides — not part of the org KB library.
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/session.js"></script>
+  <script src="js/sharepoint.js"></script>
+  <script src="js/logging.js"></script>
+  <script src="js/troubleshooting-search.js"></script>
+  <script src="js/troubleshooting-loader.js"></script>
+  <script src="js/theme-picker.js"></script>
+  <script src="js/themes.js"></script>
+  <script src="js/step-utils.js"></script>
+  <script src="js/troubleshooting.js"></script>
+</body>
+</html>

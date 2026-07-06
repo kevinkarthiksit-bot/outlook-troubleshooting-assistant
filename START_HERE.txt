@@ -6,7 +6,9 @@ Thank you for receiving this folder. Follow the steps below to run the app
 on your PC. You do NOT need to install Node.js. Python is usually enough.
 
 
-STEP 1 — UNZIP (if you received a zip / .zip.txt file)
+**Live app:** https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/login.html
+
+**GitHub repo:** https://github.com/kevinkarthiksit-bot/outlook-troubleshooting-assistant
 -------------------------------------------------------
 Rename  .zip.txt  to  .zip  if needed, then Extract All.
 Keep all subfolders together.

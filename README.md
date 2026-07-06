@@ -6,12 +6,12 @@ Static HTML/CSS/JS tool for SharePoint hosting. No custom backend required.
 
 ## Live demo (GitHub Pages)
 
-After the repo is published, open:
+**Repo:** https://github.com/kevinkarthiksit-bot/outlook-troubleshooting-assistant
 
 | App | URL |
 |-----|-----|
-| **Full app (start here)** | `https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/login.html` |
-| **Single-file version** | `https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/single-file/outlook-assistant.html` |
+| **Full app (start here)** | https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/login.html |
+| **Single-file version** | https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/single-file/outlook-assistant.html |
 
 No install required — works in any modern browser.
 

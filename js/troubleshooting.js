@@ -53,16 +53,21 @@ const TroubleshootingApp = {
       Session.logout();
       window.location.href = "case.html";
     });
+
+    document.querySelectorAll(".ts-flow-chip[data-flow]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const flowId = btn.getAttribute("data-flow");
+        const flow = TroubleshootingSearch.getFlows().find((f) => f.id === flowId);
+        if (flow) this.startFlow(flow);
+      });
+    });
   },
 
   renderSessionSummary() {
-    const details = Session.getCaseDetails();
-    const el = document.getElementById("sessionSummary");
-    if (!el) return;
-    el.textContent =
-      "IMS: " + (details.chatIms || "N/A") +
-      " | " + (details.platform || "N/A") +
-      " | " + (details.environment || "N/A");
+    HubUi.renderSessionBadges(
+      document.getElementById("sessionSummary"),
+      Session.getCaseDetails()
+    );
   },
 
   async loadData(forceRefresh = false) {
@@ -98,20 +103,32 @@ const TroubleshootingApp = {
     }
     const results = TroubleshootingSearch.search(q);
     Logger.logSearch(q, results.length);
-    this.renderGuideResults(results);
+    this.renderGuideResults(results, { query: q });
   },
 
   renderAllGuides() {
     const guides = this.data?.guides || [];
     this.renderGuideResults(
-      guides.map((g) => ({ ...g, matchLabel: "Available" }))
+      guides.map((g) => ({ ...g, matchLabel: "Available" })),
+      { query: "", total: guides.length }
     );
     document.getElementById("noResults").hidden = guides.length > 0;
   },
 
-  renderGuideResults(results) {
+  renderGuideResults(results, meta = {}) {
     const container = document.getElementById("searchResults");
     const noResults = document.getElementById("noResults");
+    const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
+    const total = meta.total ?? this.data?.guides?.length ?? results.length;
+
+    HubUi.updateResultCount(document.getElementById("resultCount"), {
+      count: results.length,
+      total,
+      query: (query || "").trim(),
+      noun: "guides",
+      singular: "guide"
+    });
+
     container.innerHTML = "";
 
     if (!results.length) {
@@ -125,6 +142,7 @@ const TroubleshootingApp = {
       const hasVisuals = StepUtils.articleHasImages(guide);
       const card = document.createElement("article");
       card.className = "result-card issue-card";
+      HubUi.applyCategory(card, guide.category);
       card.innerHTML =
         '<div class="result-meta">' +
         '<span class="kb-id">' + this.escape(guide.id) + "</span>" +
@@ -135,7 +153,10 @@ const TroubleshootingApp = {
         '<span class="step-count">' + stepCount + " step" + (stepCount !== 1 ? "s" : "") + "</span>" +
         "</div>" +
         "<h3>" + this.escape(guide.title) + "</h3>" +
-        (guide.category ? '<p class="symptoms">' + this.escape(guide.category) + "</p>" : "");
+        (guide.category
+          ? '<p class="category-line"><span class="category-tag">' + this.escape(guide.category) + "</span></p>"
+          : "") +
+        HubUi.buildSymptomTagsHtml(guide.symptoms, 3, (s) => this.escape(s));
       card.addEventListener("click", () => this.openGuide(guide));
       container.appendChild(card);
     });
@@ -164,7 +185,7 @@ const TroubleshootingApp = {
     container.innerHTML = "";
     TroubleshootingSearch.getFlows().forEach((flow) => {
       const btn = document.createElement("button");
-      btn.className = "flow-chip";
+      btn.className = "flow-chip flow-tile";
       btn.textContent = flow.title;
       btn.addEventListener("click", () => this.startFlow(flow));
       container.appendChild(btn);
@@ -179,6 +200,7 @@ const TroubleshootingApp = {
       const btn = document.createElement("button");
       btn.className = "category-chip";
       btn.textContent = cat;
+      HubUi.applyCategory(btn, cat);
       btn.addEventListener("click", () => {
         document.getElementById("searchInput").value = cat;
         this.handleSearch(cat);

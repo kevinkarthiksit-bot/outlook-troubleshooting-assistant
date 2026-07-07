@@ -55,13 +55,10 @@ const App = {
   },
 
   renderSessionSummary() {
-    const details = Session.getCaseDetails();
-    const el = document.getElementById("sessionSummary");
-    if (!el) return;
-    el.textContent =
-      "IMS: " + (details.chatIms || "N/A") +
-      " | " + (details.platform || "N/A") +
-      " | " + (details.environment || "N/A");
+    HubUi.renderSessionBadges(
+      document.getElementById("sessionSummary"),
+      Session.getCaseDetails()
+    );
   },
 
   async loadKb(forceRefresh = false) {
@@ -87,7 +84,7 @@ const App = {
     }
     const results = SearchEngine.search(q);
     Logger.logSearch(q, results.length);
-    this.renderSearchResults(results);
+    this.renderSearchResults(results, { query: q });
   },
 
   renderAllIssues() {
@@ -96,14 +93,26 @@ const App = {
       articles.map((article) => ({
         ...article,
         matchLabel: "Available"
-      }))
+      })),
+      { query: "", total: articles.length }
     );
     document.getElementById("noResults").hidden = articles.length > 0;
   },
 
-  renderSearchResults(results) {
+  renderSearchResults(results, meta = {}) {
     const container = document.getElementById("searchResults");
     const noResults = document.getElementById("noResults");
+    const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
+    const total = meta.total ?? this.kbData?.articles?.length ?? results.length;
+
+    HubUi.updateResultCount(document.getElementById("resultCount"), {
+      count: results.length,
+      total,
+      query: (query || "").trim(),
+      noun: "articles",
+      singular: "article"
+    });
+
     container.innerHTML = "";
 
     if (!results.length) {
@@ -116,6 +125,7 @@ const App = {
       const stepCount = (article.steps || []).length;
       const card = document.createElement("article");
       card.className = "result-card issue-card";
+      HubUi.applyCategory(card, article.category);
       card.innerHTML =
         '<div class="result-meta">' +
         '<span class="kb-id">' + this.escape(article.id) + "</span>" +
@@ -126,8 +136,9 @@ const App = {
         "</div>" +
         "<h3>" + this.escape(article.title) + "</h3>" +
         (article.category
-          ? '<p class="symptoms">' + this.escape(article.category) + "</p>"
-          : "");
+          ? '<p class="category-line"><span class="category-tag">' + this.escape(article.category) + "</span></p>"
+          : "") +
+        HubUi.buildSymptomTagsHtml(article.symptoms, 3, (s) => this.escape(s));
       card.addEventListener("click", () => this.openArticle(article));
       container.appendChild(card);
     });
@@ -158,6 +169,7 @@ const App = {
       const btn = document.createElement("button");
       btn.className = "category-chip";
       btn.textContent = cat;
+      HubUi.applyCategory(btn, cat);
       btn.addEventListener("click", () => {
         document.getElementById("searchInput").value = cat;
         this.handleSearch(cat);

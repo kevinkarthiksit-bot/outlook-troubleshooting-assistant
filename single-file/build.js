@@ -35,6 +35,7 @@ const JS_ORDER = [
   "js/troubleshooting-search.js",
   "js/troubleshooting-loader.js",
   "js/step-utils.js",
+  "js/hub-ui.js",
   "js/theme-picker.js",
   "js/themes.js",
   "js/admin-auth.js",

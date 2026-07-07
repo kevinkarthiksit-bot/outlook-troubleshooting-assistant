@@ -23,7 +23,32 @@
 
   <main class="container">
     <div id="statusBar" class="status-bar">Initializing...</div>
-    <p id="sessionSummary" class="session-summary"></p>
+    <div id="sessionSummary" class="session-summary session-badges-mount" aria-label="Case context"></div>
+
+    <section class="page-hero page-hero-ts" aria-label="Troubleshooting overview">
+      <div class="page-hero-text">
+        <h2 class="page-hero-title">Symptom-based troubleshooting</h2>
+        <p class="page-hero-desc">Microsoft-aligned guides and guided flows — separate from the org KB library.</p>
+      </div>
+    </section>
+
+    <section class="panel ts-promo-panel">
+      <div class="ts-promo-inner">
+        <div class="ts-promo-text">
+          <span class="ts-promo-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          </span>
+          <h2>Start with a guided flow</h2>
+        </div>
+        <a href="index.html" class="btn btn-secondary ts-promo-btn">Browse Org KB</a>
+      </div>
+      <div class="ts-promo-chips" aria-label="Quick guided flows">
+        <button type="button" class="symptom-chip ts-flow-chip" data-flow="mail-not-syncing">Mail not syncing</button>
+        <button type="button" class="symptom-chip ts-flow-chip" data-flow="outlook-wont-open">Outlook won't open</button>
+        <button type="button" class="symptom-chip ts-flow-chip" data-flow="password-prompt">Password prompts</button>
+        <button type="button" class="symptom-chip ts-flow-chip" data-flow="new-outlook-issues">New Outlook</button>
+      </div>
+    </section>
 
     <section id="flowPanel" class="panel flow-panel-priority" hidden>
       <div class="panel-header">
@@ -35,13 +60,16 @@
       <div id="flowGuideResults"></div>
     </section>
 
-    <section class="chip-section">
-      <h3>Guided troubleshooting</h3>
-      <div id="quickFlows" class="chip-row"></div>
+    <section class="chip-section ts-flow-section">
+      <h3>All guided flows</h3>
+      <div id="quickFlows" class="chip-row flow-tile-row"></div>
     </section>
 
     <section class="search-section">
-      <h2>Browse troubleshooting topics</h2>
+      <div class="search-section-header">
+        <h2>Browse troubleshooting topics</h2>
+        <p id="resultCount" class="result-count" aria-live="polite" hidden></p>
+      </div>
       <div class="search-box">
         <input type="search" id="searchInput" placeholder="Search guides (sync, password, New Outlook...)" autocomplete="off">
         <button type="button" id="clearSearch" class="btn btn-secondary">Clear</button>
@@ -55,7 +83,7 @@
     </section>
 
     <section class="results-section">
-      <div id="searchResults"></div>
+      <div id="searchResults" class="result-grid"></div>
       <div id="noResults" class="no-results" hidden>
         <p>No matching guides found.</p>
         <button type="button" id="escalateBtn" class="btn btn-primary">Mark Case Escalated</button>
@@ -79,6 +107,7 @@
   <script src="js/theme-picker.js"></script>
   <script src="js/themes.js"></script>
   <script src="js/step-utils.js"></script>
+  <script src="js/hub-ui.js"></script>
   <script src="js/troubleshooting.js"></script>
 </body>
 </html>

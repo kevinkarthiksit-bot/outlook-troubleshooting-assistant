@@ -226,6 +226,37 @@ a {
   border-radius: 4px;
 }
 
+.session-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.65rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.session-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+.session-badge-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
 .btn-header {
   padding: 0.35rem 0.65rem;
   font-size: 0.8rem;
@@ -319,6 +350,30 @@ a {
   font-size: 1.1rem;
 }
 
+.search-section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.search-section-header h2 {
+  margin: 0;
+}
+
+.result-count {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.result-count strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
 .search-box {
   display: flex;
   gap: 0.5rem;
@@ -410,8 +465,13 @@ a {
 
 .flow-chip:hover,
 .category-chip:hover {
-  border-color: var(--primary);
-  background: var(--surface-alt);
+  border-color: var(--cat-accent, var(--primary));
+  background: color-mix(in srgb, var(--cat-accent, var(--primary)) 10%, var(--surface));
+}
+
+.category-chip[data-cat],
+.flow-chip[data-cat] {
+  border-color: color-mix(in srgb, var(--cat-accent, var(--border)) 45%, var(--border));
 }
 
 /* Results */
@@ -419,20 +479,32 @@ a {
   margin-bottom: 1.25rem;
 }
 
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.85rem;
+}
+
 .result-card {
   background: var(--surface);
   border: 1px solid var(--border);
+  border-left: 4px solid var(--cat-accent, var(--border));
   border-radius: 8px;
   padding: 1rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0;
   cursor: pointer;
   box-shadow: var(--shadow);
-  transition: border-color 0.15s, transform 0.1s;
+  transition: border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
 }
 
 .result-card:hover {
-  border-color: var(--primary);
-  transform: translateY(-1px);
+  border-color: var(--cat-accent, var(--primary));
+  border-left-color: var(--cat-accent, var(--primary));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--cat-accent, var(--primary)) 18%, transparent);
 }
 
 .result-meta {
@@ -472,9 +544,40 @@ a {
   color: var(--text-muted);
 }
 
+.category-line {
+  margin: 0.35rem 0 0;
+}
+
+.category-line .category-tag {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cat-accent, var(--surface-alt)) 12%, var(--surface-alt));
+  border: 1px solid color-mix(in srgb, var(--cat-accent, var(--border)) 35%, var(--border));
+  color: var(--text);
+  font-weight: 500;
+}
+
+.symptom-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.65rem;
+}
+
+.symptom-tag {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
 .result-card h3 {
   margin: 0;
   font-size: 1rem;
+  line-height: 1.35;
 }
 
 .symptoms {
@@ -1348,6 +1451,152 @@ footer.app-footer {
   }
 }
 
+/* Page heroes */
+.page-hero {
+  margin-bottom: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.page-hero-kb {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--primary) 8%, var(--surface)) 0%, var(--surface) 100%);
+  border-left: 4px solid var(--primary);
+}
+
+.page-hero-ts {
+  background: linear-gradient(135deg, color-mix(in srgb, #8764b8 10%, var(--surface)) 0%, var(--surface) 100%);
+  border-left: 4px solid #8764b8;
+}
+
+.page-hero-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.page-hero-desc {
+  margin: 0.35rem 0 0;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  max-width: 42rem;
+}
+
+/* Troubleshooting promo panel */
+.ts-promo-panel {
+  margin-bottom: 1.25rem;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(135, 100, 184, 0.1) 0%, rgba(79, 107, 237, 0.05) 100%);
+  border: 1px solid color-mix(in srgb, #8764b8 28%, var(--border));
+  border-left: 4px solid #8764b8;
+  box-shadow: var(--shadow);
+}
+
+.ts-promo-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ts-promo-text {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.ts-promo-text h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.ts-promo-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 10px;
+  background: #8764b8;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.ts-promo-btn {
+  white-space: nowrap;
+}
+
+.ts-promo-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, #8764b8 15%, var(--border));
+}
+
+.ts-promo-chips .symptom-chip {
+  color: #8764b8;
+  border-color: color-mix(in srgb, #8764b8 35%, var(--border));
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.ts-promo-chips .symptom-chip:hover {
+  background: #8764b8;
+  color: #fff;
+}
+
+.ts-flow-section {
+  margin-bottom: 1.25rem;
+}
+
+.flow-tile-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.65rem;
+}
+
+.flow-tile {
+  min-height: 3.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: left;
+  line-height: 1.3;
+  border: 1px solid color-mix(in srgb, #8764b8 25%, var(--border));
+  background: var(--surface);
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+
+.flow-tile:hover {
+  border-color: #8764b8;
+  background: color-mix(in srgb, #8764b8 8%, var(--surface));
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .ts-promo-panel {
+  background: linear-gradient(135deg, rgba(180, 160, 255, 0.12) 0%, rgba(79, 107, 237, 0.08) 100%);
+}
+
+@media (max-width: 600px) {
+  .ts-promo-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ts-promo-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 
 #spa-mount { min-height: 60vh; }
@@ -1425,7 +1674,14 @@ footer.app-footer {
 
   <main class="container">
     <div id="statusBar" class="status-bar">Initializing...</div>
-    <p id="sessionSummary" class="session-summary"></p>
+    <div id="sessionSummary" class="session-summary session-badges-mount" aria-label="Case context"></div>
+
+    <section class="page-hero page-hero-kb" aria-label="Org KB overview">
+      <div class="page-hero-text">
+        <h2 class="page-hero-title">Org Knowledge Base</h2>
+        <p class="page-hero-desc">Search internal articles for policies, procedures, and known fixes.</p>
+      </div>
+    </section>
 
     <section class="panel kb-promo-panel">
       <div class="kb-promo-inner">
@@ -1446,7 +1702,10 @@ footer.app-footer {
     </section>
 
     <section class="search-section">
-      <h2>Org Knowledge Base</h2>
+      <div class="search-section-header">
+        <h2>Search articles</h2>
+        <p id="resultCount" class="result-count" aria-live="polite" hidden></p>
+      </div>
       <div class="search-box">
         <input type="search" id="searchInput" placeholder="Search KB articles..." autocomplete="off" aria-label="Search knowledge base">
         <button type="button" id="clearSearch" class="btn btn-secondary">Clear</button>
@@ -1460,7 +1719,7 @@ footer.app-footer {
     </section>
 
     <section class="results-section">
-      <div id="searchResults"></div>
+      <div id="searchResults" class="result-grid"></div>
       <div id="noResults" class="no-results" hidden>
         <p>No matching KB articles found.</p>
         <button type="button" id="escalateBtn" class="btn btn-primary">Mark Case Escalated</button>
@@ -1562,7 +1821,32 @@ footer.app-footer {
 
   <main class="container">
     <div id="statusBar" class="status-bar">Initializing...</div>
-    <p id="sessionSummary" class="session-summary"></p>
+    <div id="sessionSummary" class="session-summary session-badges-mount" aria-label="Case context"></div>
+
+    <section class="page-hero page-hero-ts" aria-label="Troubleshooting overview">
+      <div class="page-hero-text">
+        <h2 class="page-hero-title">Symptom-based troubleshooting</h2>
+        <p class="page-hero-desc">Microsoft-aligned guides and guided flows — separate from the org KB library.</p>
+      </div>
+    </section>
+
+    <section class="panel ts-promo-panel">
+      <div class="ts-promo-inner">
+        <div class="ts-promo-text">
+          <span class="ts-promo-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+          </span>
+          <h2>Start with a guided flow</h2>
+        </div>
+        <a href="index.html" class="btn btn-secondary ts-promo-btn">Browse Org KB</a>
+      </div>
+      <div class="ts-promo-chips" aria-label="Quick guided flows">
+        <button type="button" class="symptom-chip ts-flow-chip" data-flow="mail-not-syncing">Mail not syncing</button>
+        <button type="button" class="symptom-chip ts-flow-chip" data-flow="outlook-wont-open">Outlook won't open</button>
+        <button type="button" class="symptom-chip ts-flow-chip" data-flow="password-prompt">Password prompts</button>
+        <button type="button" class="symptom-chip ts-flow-chip" data-flow="new-outlook-issues">New Outlook</button>
+      </div>
+    </section>
 
     <section id="flowPanel" class="panel flow-panel-priority" hidden>
       <div class="panel-header">
@@ -1574,13 +1858,16 @@ footer.app-footer {
       <div id="flowGuideResults"></div>
     </section>
 
-    <section class="chip-section">
-      <h3>Guided troubleshooting</h3>
-      <div id="quickFlows" class="chip-row"></div>
+    <section class="chip-section ts-flow-section">
+      <h3>All guided flows</h3>
+      <div id="quickFlows" class="chip-row flow-tile-row"></div>
     </section>
 
     <section class="search-section">
-      <h2>Browse troubleshooting topics</h2>
+      <div class="search-section-header">
+        <h2>Browse troubleshooting topics</h2>
+        <p id="resultCount" class="result-count" aria-live="polite" hidden></p>
+      </div>
       <div class="search-box">
         <input type="search" id="searchInput" placeholder="Search guides (sync, password, New Outlook...)" autocomplete="off">
         <button type="button" id="clearSearch" class="btn btn-secondary">Clear</button>
@@ -1594,7 +1881,7 @@ footer.app-footer {
     </section>
 
     <section class="results-section">
-      <div id="searchResults"></div>
+      <div id="searchResults" class="result-grid"></div>
       <div id="noResults" class="no-results" hidden>
         <p>No matching guides found.</p>
         <button type="button" id="escalateBtn" class="btn btn-primary">Mark Case Escalated</button>
@@ -5196,6 +5483,119 @@ if (typeof window !== "undefined") {
 
 
 /**
+ * Shared UI helpers for org KB and troubleshooting hub pages.
+ */
+const HubUi = {
+  CATEGORY_ACCENTS: {
+    email: "#0078d4",
+    copilot: "#8764b8",
+    "email-security": "#c239b3",
+    "shared-mailboxes": "#008272",
+    "archive-storage": "#797775",
+    "mobile-owa": "#00b7c3",
+    "new-outlook": "#4f6bed",
+    calendar: "#107c10",
+    search: "#ca5010",
+    authentication: "#d13438",
+    "connectivity-sync": "#0078d4",
+    "send-receive": "#038387",
+    "performance-stability": "#5c2d91"
+  },
+
+  categorySlug(category) {
+    return (category || "other")
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "") || "other";
+  },
+
+  getCategoryAccent(category) {
+    const slug = this.categorySlug(category);
+    return this.CATEGORY_ACCENTS[slug] || "#607d8b";
+  },
+
+  applyCategory(el, category) {
+    if (!el || !category) return;
+    const slug = this.categorySlug(category);
+    el.dataset.cat = slug;
+    el.style.setProperty("--cat-accent", this.getCategoryAccent(category));
+  },
+
+  renderSessionBadges(container, details) {
+    if (!container) return;
+    const ims = (details?.chatIms || "").trim() || "N/A";
+    const platform = details?.platform || "N/A";
+    const environment = details?.environment || "N/A";
+    container.className = "session-summary session-badges";
+    container.innerHTML =
+      '<span class="session-badge"><span class="session-badge-label">IMS</span>' +
+      this.escape(ims) +
+      "</span>" +
+      '<span class="session-badge"><span class="session-badge-label">Platform</span>' +
+      this.escape(platform) +
+      "</span>" +
+      '<span class="session-badge"><span class="session-badge-label">Environment</span>' +
+      this.escape(environment) +
+      "</span>";
+  },
+
+  updateResultCount(container, options) {
+    if (!container) return;
+    const count = options.count ?? 0;
+    const total = options.total ?? count;
+    const query = (options.query || "").trim();
+    const noun = options.noun || "results";
+    const singular = options.singular || noun.replace(/s$/, "");
+
+    let text;
+    if (query) {
+      text =
+        count === 1
+          ? '1 ' + singular + ' for <strong>"' + this.escape(query) + '"</strong>'
+          : count + " " + noun + ' for <strong>"' + this.escape(query) + '"</strong>';
+    } else if (total && count === total) {
+      text = "Showing all <strong>" + count + "</strong> " + (count === 1 ? singular : noun);
+    } else {
+      text =
+        "Showing <strong>" +
+        count +
+        "</strong> of <strong>" +
+        total +
+        "</strong> " +
+        (total === 1 ? singular : noun);
+    }
+
+    container.innerHTML = text;
+    container.hidden = false;
+  },
+
+  buildSymptomTagsHtml(symptoms, max, escapeFn) {
+    const esc = escapeFn || ((s) => s);
+    const list = (symptoms || []).filter(Boolean).slice(0, max || 3);
+    if (!list.length) return "";
+    return (
+      '<div class="symptom-tags">' +
+      list
+        .map((s) => '<span class="symptom-tag">' + esc(s) + "</span>")
+        .join("") +
+      "</div>"
+    );
+  },
+
+  escape(str) {
+    const div = document.createElement("div");
+    div.textContent = str || "";
+    return div.innerHTML;
+  }
+};
+
+if (typeof window !== "undefined") {
+  window.HubUi = HubUi;
+}
+
+
+/**
  * Renders the subtle theme picker into a container element.
  */
 const ThemePicker = {
@@ -5536,13 +5936,10 @@ const App = {
   },
 
   renderSessionSummary() {
-    const details = Session.getCaseDetails();
-    const el = document.getElementById("sessionSummary");
-    if (!el) return;
-    el.textContent =
-      "IMS: " + (details.chatIms || "N/A") +
-      " | " + (details.platform || "N/A") +
-      " | " + (details.environment || "N/A");
+    HubUi.renderSessionBadges(
+      document.getElementById("sessionSummary"),
+      Session.getCaseDetails()
+    );
   },
 
   async loadKb(forceRefresh = false) {
@@ -5568,7 +5965,7 @@ const App = {
     }
     const results = SearchEngine.search(q);
     Logger.logSearch(q, results.length);
-    this.renderSearchResults(results);
+    this.renderSearchResults(results, { query: q });
   },
 
   renderAllIssues() {
@@ -5577,14 +5974,26 @@ const App = {
       articles.map((article) => ({
         ...article,
         matchLabel: "Available"
-      }))
+      })),
+      { query: "", total: articles.length }
     );
     document.getElementById("noResults").hidden = articles.length > 0;
   },
 
-  renderSearchResults(results) {
+  renderSearchResults(results, meta = {}) {
     const container = document.getElementById("searchResults");
     const noResults = document.getElementById("noResults");
+    const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
+    const total = meta.total ?? this.kbData?.articles?.length ?? results.length;
+
+    HubUi.updateResultCount(document.getElementById("resultCount"), {
+      count: results.length,
+      total,
+      query: (query || "").trim(),
+      noun: "articles",
+      singular: "article"
+    });
+
     container.innerHTML = "";
 
     if (!results.length) {
@@ -5597,6 +6006,7 @@ const App = {
       const stepCount = (article.steps || []).length;
       const card = document.createElement("article");
       card.className = "result-card issue-card";
+      HubUi.applyCategory(card, article.category);
       card.innerHTML =
         '<div class="result-meta">' +
         '<span class="kb-id">' + this.escape(article.id) + "</span>" +
@@ -5607,8 +6017,9 @@ const App = {
         "</div>" +
         "<h3>" + this.escape(article.title) + "</h3>" +
         (article.category
-          ? '<p class="symptoms">' + this.escape(article.category) + "</p>"
-          : "");
+          ? '<p class="category-line"><span class="category-tag">' + this.escape(article.category) + "</span></p>"
+          : "") +
+        HubUi.buildSymptomTagsHtml(article.symptoms, 3, (s) => this.escape(s));
       card.addEventListener("click", () => this.openArticle(article));
       container.appendChild(card);
     });
@@ -5639,6 +6050,7 @@ const App = {
       const btn = document.createElement("button");
       btn.className = "category-chip";
       btn.textContent = cat;
+      HubUi.applyCategory(btn, cat);
       btn.addEventListener("click", () => {
         document.getElementById("searchInput").value = cat;
         this.handleSearch(cat);
@@ -6382,16 +6794,21 @@ const TroubleshootingApp = {
       Session.logout();
       SPA.navigate("case");
     });
+
+    document.querySelectorAll(".ts-flow-chip[data-flow]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const flowId = btn.getAttribute("data-flow");
+        const flow = TroubleshootingSearch.getFlows().find((f) => f.id === flowId);
+        if (flow) this.startFlow(flow);
+      });
+    });
   },
 
   renderSessionSummary() {
-    const details = Session.getCaseDetails();
-    const el = document.getElementById("sessionSummary");
-    if (!el) return;
-    el.textContent =
-      "IMS: " + (details.chatIms || "N/A") +
-      " | " + (details.platform || "N/A") +
-      " | " + (details.environment || "N/A");
+    HubUi.renderSessionBadges(
+      document.getElementById("sessionSummary"),
+      Session.getCaseDetails()
+    );
   },
 
   async loadData(forceRefresh = false) {
@@ -6427,20 +6844,32 @@ const TroubleshootingApp = {
     }
     const results = TroubleshootingSearch.search(q);
     Logger.logSearch(q, results.length);
-    this.renderGuideResults(results);
+    this.renderGuideResults(results, { query: q });
   },
 
   renderAllGuides() {
     const guides = this.data?.guides || [];
     this.renderGuideResults(
-      guides.map((g) => ({ ...g, matchLabel: "Available" }))
+      guides.map((g) => ({ ...g, matchLabel: "Available" })),
+      { query: "", total: guides.length }
     );
     document.getElementById("noResults").hidden = guides.length > 0;
   },
 
-  renderGuideResults(results) {
+  renderGuideResults(results, meta = {}) {
     const container = document.getElementById("searchResults");
     const noResults = document.getElementById("noResults");
+    const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
+    const total = meta.total ?? this.data?.guides?.length ?? results.length;
+
+    HubUi.updateResultCount(document.getElementById("resultCount"), {
+      count: results.length,
+      total,
+      query: (query || "").trim(),
+      noun: "guides",
+      singular: "guide"
+    });
+
     container.innerHTML = "";
 
     if (!results.length) {
@@ -6454,6 +6883,7 @@ const TroubleshootingApp = {
       const hasVisuals = StepUtils.articleHasImages(guide);
       const card = document.createElement("article");
       card.className = "result-card issue-card";
+      HubUi.applyCategory(card, guide.category);
       card.innerHTML =
         '<div class="result-meta">' +
         '<span class="kb-id">' + this.escape(guide.id) + "</span>" +
@@ -6464,7 +6894,10 @@ const TroubleshootingApp = {
         '<span class="step-count">' + stepCount + " step" + (stepCount !== 1 ? "s" : "") + "</span>" +
         "</div>" +
         "<h3>" + this.escape(guide.title) + "</h3>" +
-        (guide.category ? '<p class="symptoms">' + this.escape(guide.category) + "</p>" : "");
+        (guide.category
+          ? '<p class="category-line"><span class="category-tag">' + this.escape(guide.category) + "</span></p>"
+          : "") +
+        HubUi.buildSymptomTagsHtml(guide.symptoms, 3, (s) => this.escape(s));
       card.addEventListener("click", () => this.openGuide(guide));
       container.appendChild(card);
     });
@@ -6493,7 +6926,7 @@ const TroubleshootingApp = {
     container.innerHTML = "";
     TroubleshootingSearch.getFlows().forEach((flow) => {
       const btn = document.createElement("button");
-      btn.className = "flow-chip";
+      btn.className = "flow-chip flow-tile";
       btn.textContent = flow.title;
       btn.addEventListener("click", () => this.startFlow(flow));
       container.appendChild(btn);
@@ -6508,6 +6941,7 @@ const TroubleshootingApp = {
       const btn = document.createElement("button");
       btn.className = "category-chip";
       btn.textContent = cat;
+      HubUi.applyCategory(btn, cat);
       btn.addEventListener("click", () => {
         document.getElementById("searchInput").value = cat;
         this.handleSearch(cat);

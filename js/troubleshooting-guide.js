@@ -78,7 +78,7 @@ const TroubleshootingGuide = {
     document.getElementById("agentComments")?.addEventListener("input", () => this.saveAgentComments());
     document.getElementById("startOverBtn")?.addEventListener("click", () => {
       Session.logout();
-      window.location.href = "login.html";
+      window.location.href = "case.html";
     });
     document.getElementById("stepImage")?.addEventListener("error", (e) => {
       const fig = document.getElementById("stepFigure");
@@ -177,7 +177,6 @@ const TroubleshootingGuide = {
     if (!session) return;
 
     document.getElementById("noteDateTime").textContent = new Date().toLocaleString();
-    document.getElementById("noteEmployeeId").textContent = session.employeeId || "N/A";
     document.getElementById("noteChatIms").textContent = session.chatIms || "N/A";
     document.getElementById("notePlatform").textContent = session.platform || "N/A";
     document.getElementById("noteEnvironment").textContent = session.environment || "N/A";

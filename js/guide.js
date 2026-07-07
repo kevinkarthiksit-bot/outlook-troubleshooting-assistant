@@ -176,7 +176,7 @@ const Guide = {
 
       Session.logout();
 
-      window.location.href = "login.html";
+      window.location.href = "case.html";
 
     });
 
@@ -379,8 +379,6 @@ const Guide = {
 
 
     document.getElementById("noteDateTime").textContent = new Date().toLocaleString();
-
-    document.getElementById("noteEmployeeId").textContent = session.employeeId || "N/A";
 
     document.getElementById("noteChatIms").textContent = session.chatIms || "N/A";
 

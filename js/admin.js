@@ -12,6 +12,7 @@ const Admin = {
     ThemePicker.mount("#themePickerMount");
     Themes.init();
     await this.checkAccess();
+    this.updateUploadButtonLabel();
     this.bindEvents();
     await this.loadLogStats();
   },
@@ -77,6 +78,14 @@ const Admin = {
     document.getElementById("clearLogFiltersBtn")?.addEventListener("click", () => this.clearLogFilters());
   },
 
+  updateUploadButtonLabel() {
+    const btn = document.getElementById("uploadKbBtn");
+    if (!btn) return;
+    btn.textContent = window.SP_CONFIG?.useSharePoint
+      ? "Upload to SharePoint"
+      : "Apply KB update";
+  },
+
   async handleFileSelect(file) {
     if (!file) return;
     const preview = document.getElementById("uploadPreview");
@@ -89,16 +98,14 @@ const Admin = {
         this.parsedKb = JSON.parse(text);
       } else if (ext === "csv") {
         this.parsedKb = this.parseCsv(await file.text());
-      } else if (ext === "xlsx" || ext === "xls") {
-        this.parsedKb = await this.parseExcel(file);
       } else {
-        throw new Error("Unsupported format. Use JSON, CSV, or Excel.");
+        throw new Error("Unsupported format. Use JSON or CSV (export Excel as CSV).");
       }
       this.validateKb(this.parsedKb);
       preview.textContent =
         "Valid KB: " +
         (this.parsedKb.articles?.length || 0) +
-        " articles ready to upload.";
+        " articles ready to apply.";
       preview.className = "preview success";
       document.getElementById("uploadKbBtn").disabled = false;
     } catch (err) {
@@ -169,53 +176,6 @@ const Admin = {
     return result.map((s) => s.replace(/^"|"$/g, "").trim());
   },
 
-  async parseExcel(file) {
-    if (typeof XLSX === "undefined") {
-      throw new Error("Excel support requires SheetJS (loaded via CDN on this page).");
-    }
-    const buffer = await file.arrayBuffer();
-    const workbook = XLSX.read(buffer, { type: "array" });
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
-
-    const articles = rows
-      .map((row) => {
-        const id =
-          row.Number || row.number || row.ID || row.Id || row["KB Number"] || "";
-        const title =
-          row["Short description"] ||
-          row.Description ||
-          row.Title ||
-          row.title ||
-          "";
-        if (!id || !title) return null;
-        const categoryMatch = String(title).match(/\[([^\]]+)\]/);
-        return {
-          id: String(id).trim(),
-          title: String(title).trim(),
-          category: categoryMatch ? categoryMatch[1] : "General",
-          keywords: String(title)
-            .toLowerCase()
-            .replace(/[^\w\s]/g, " ")
-            .split(/\s+/)
-            .filter((w) => w.length > 2),
-          symptoms: [],
-          priority: 3,
-          steps: ["Refer to the full KB article for detailed steps."],
-          url: ""
-        };
-      })
-      .filter(Boolean);
-
-    return {
-      version: "1.0.0",
-      lastUpdated: new Date().toISOString().slice(0, 10),
-      articles,
-      flows: [],
-      synonyms: {}
-    };
-  },
-
   validateKb(data) {
     if (!data || !Array.isArray(data.articles)) {
       throw new Error("KB must contain an articles array");
@@ -248,7 +208,8 @@ const Admin = {
     if (!this.parsedKb) return;
     const btn = document.getElementById("uploadKbBtn");
     btn.disabled = true;
-    btn.textContent = "Uploading...";
+    const savingLabel = window.SP_CONFIG?.useSharePoint ? "Uploading..." : "Saving...";
+    btn.textContent = savingLabel;
 
     try {
       this.parsedKb.lastUpdated = new Date().toISOString().slice(0, 10);
@@ -257,22 +218,25 @@ const Admin = {
 
       if (cfg.useSharePoint) {
         await SharePoint.uploadKbFile("kb-articles.json", json);
+        document.getElementById("uploadPreview").textContent =
+          "Upload successful! Users will get the updated KB on next refresh (cached up to " +
+          cfg.kbCacheHours +
+          "h).";
       } else {
         localStorage.setItem("outlookAssistant_adminKb", json);
         Storage.setKbCache(this.parsedKb);
+        document.getElementById("uploadPreview").textContent =
+          "KB saved. Users see updates after clicking Refresh KB (or within " +
+          cfg.kbCacheHours +
+          "h cache).";
       }
-
-      document.getElementById("uploadPreview").textContent =
-        "Upload successful! Users will get the updated KB on next refresh (cached up to " +
-        cfg.kbCacheHours +
-        "h).";
       document.getElementById("uploadPreview").className = "preview success";
     } catch (err) {
-      document.getElementById("uploadPreview").textContent = "Upload failed: " + err.message;
+      document.getElementById("uploadPreview").textContent = "Save failed: " + err.message;
       document.getElementById("uploadPreview").className = "preview error";
     } finally {
       btn.disabled = false;
-      btn.textContent = "Upload to SharePoint";
+      this.updateUploadButtonLabel();
     }
   },
 

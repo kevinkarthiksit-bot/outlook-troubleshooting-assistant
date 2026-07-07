@@ -6,7 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Admin - Outlook Troubleshooting Assistant</title>
   <link rel="stylesheet" href="css/styles.css">
-  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
   <header class="app-header">
@@ -17,7 +16,7 @@
     <div class="header-actions">
       <div id="themePickerMount"></div>
       <button type="button" id="adminLogoutBtn" class="btn btn-secondary btn-header">Logout</button>
-      <a href="login.html" class="admin-link">Back to Assistant</a>
+      <a href="case.html" class="admin-link">Back to Assistant</a>
     </div>
   </header>
 
@@ -26,17 +25,17 @@
 
     <section class="panel">
       <h2>Upload Knowledge Base</h2>
-      <p>Upload JSON, CSV, or Excel (.xlsx) exported from your KB spreadsheet. Users will automatically receive updates without re-uploading.</p>
+      <p>Upload JSON or CSV to update the knowledge base. In Excel, use <strong>Save As → CSV</strong> with columns <strong>Number</strong> and <strong>Short description</strong>.</p>
       <div class="file-input-wrap">
-        <input type="file" id="kbFileInput" accept=".json,.csv,.xlsx,.xls">
+        <input type="file" id="kbFileInput" accept=".json,.csv">
       </div>
       <div id="uploadPreview" class="preview"></div>
       <div class="admin-actions">
-        <button type="button" id="uploadKbBtn" class="btn btn-primary" disabled>Upload to SharePoint</button>
+        <button type="button" id="uploadKbBtn" class="btn btn-primary" disabled>Apply KB update</button>
         <button type="button" id="downloadSampleBtn" class="btn btn-secondary">Download Sample JSON</button>
       </div>
       <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted)">
-        CSV/Excel format: columns <strong>Number</strong> and <strong>Short description</strong> (creates text-only steps).
+        CSV format: columns <strong>Number</strong> and <strong>Short description</strong> (creates text-only steps).
         For rich guides with images and tips, upload <strong>JSON</strong> (KB v2.0.0 format).
       </p>
     </section>

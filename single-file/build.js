@@ -10,7 +10,6 @@ const OUT_DIR = __dirname;
 const OUT_FILE = path.join(OUT_DIR, "outlook-assistant.html");
 
 const PAGES = [
-  { route: "login", file: "login.html", tpl: "tpl-login", bodyClass: "login-page" },
   { route: "case", file: "case.html", tpl: "tpl-case", bodyClass: "login-page" },
   { route: "index", file: "index.html", tpl: "tpl-index", bodyClass: "" },
   { route: "guide", file: "guide.html", tpl: "tpl-guide", bodyClass: "" },

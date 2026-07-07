@@ -2,61 +2,52 @@
   OUTLOOK TROUBLESHOOTING ASSISTANT — START HERE
 ================================================================================
 
-Thank you for receiving this folder. Follow the steps below to run the app
-on your PC. You do NOT need to install Node.js. Python is usually enough.
-
-
-**Live app:** https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/login.html
+**Live app:** https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/case.html
 
 **GitHub repo:** https://github.com/kevinkarthiksit-bot/outlook-troubleshooting-assistant
+
+
+STEP 1 — UNZIP (if you received a zip / .zip.txt file)
 -------------------------------------------------------
 Rename  .zip.txt  to  .zip  if needed, then Extract All.
 Keep all subfolders together.
 
 
-STEP 2 — ONE CLICK TO START
-----------------------------
+STEP 2 — ONE CLICK TO START (local)
+------------------------------------
 Double-click:
 
     Launch Outlook Assistant.bat
 
-The server starts and your browser opens to the login page automatically.
+The server starts and your browser opens to Case Setup automatically.
 Leave the black window open while you use the app.
 
 
-IF SOMETHING FAILS
-------------------
-Double-click  Health-Check.bat  to see what is missing (usually Python).
-Install Python from https://www.python.org/downloads/ and tick "Add Python to PATH".
+STEP 3 — CASE SETUP
+-------------------
+1. Enter Chat IMS, Platform, and Environment.
+2. Continue to the Org KB or Troubleshooting Guides.
 
 
-STEP 3 — SIGN IN
-----------------
-1. Enter any Employee ID (e.g. DEMO001) and click Sign In.
-2. Fill in Case details (Chat IMS, Platform, Environment).
-3. Search the Org KB or open Troubleshooting Guides.
-
-Do not open login.html by double-clicking it in File Explorer — use the launcher.
+ADMIN — UPLOAD KB (JSON or CSV)
+--------------------------------
+1. Open Admin dashboard (link from app or admin-login.html).
+2. Sign in: Hannah / Hannah@95
+3. Choose a JSON or CSV file, then click **Apply KB update**.
+   (In Excel: Save As → CSV with Number + Short description columns.)
 
 
 OTHER PAGES (after server is running)
 --------------------------------------
-  User login ........... http://localhost:8080/login.html
+  Case setup ........... http://localhost:8080/case.html
   Org KB search ........ http://localhost:8080/index.html
   Troubleshooting ...... http://localhost:8080/troubleshooting.html
   Admin dashboard ...... http://localhost:8080/admin-login.html
-                        Username: Hannah   Password: Hannah@95
-                        (Change in js\config.js before wider distribution.)
 
 
 TO STOP THE APP
 ---------------
 Close the black command window, or press Ctrl+C in that window.
-
-
-NEED MORE DETAIL?
------------------
-Open README.md in this folder for full documentation.
 
 
 ================================================================================

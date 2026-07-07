@@ -7,7 +7,8 @@ const Logger = {
   sessionId: "",
 
   init(employeeId, userEmail) {
-    this.employeeId = employeeId || Storage.getEmployeeId() || "anonymous";
+    const caseIms = Session?.getCaseDetails?.()?.chatIms;
+    this.employeeId = caseIms || employeeId || Storage.getEmployeeId() || "agent";
     this.userEmail = userEmail || "";
     this.sessionId = Storage.getSessionId();
   },

@@ -28,7 +28,7 @@ const sizeKb = Math.round(fs.statSync(htmlPath).size / 1024);
 ok("outlook-assistant.html exists (" + sizeKb + " KB)");
 
 const templates = [
-  "tpl-login", "tpl-case", "tpl-index", "tpl-guide",
+  "tpl-case", "tpl-index", "tpl-guide",
   "tpl-troubleshooting", "tpl-troubleshooting-guide",
   "tpl-admin-login", "tpl-admin"
 ];
@@ -43,7 +43,7 @@ const markers = [
   "window.EMBEDDED_TS_GUIDE",
   "window.EMBEDDED_IMAGES",
   "const SPA",
-  "SPA.register(\"login\"",
+  "SPA.register(\"case\"",
   "SPA.register(\"index\"",
   "SPA.register(\"guide\"",
   "SPA.register(\"troubleshooting\"",
@@ -106,8 +106,14 @@ try {
 if (html.includes("} else if (window.EMBEDDED_KB)")) ok("KB loader prefers embedded data");
 else bad("KB loader missing embedded branch");
 
-if (html.includes("this.render();") && html.includes("start()")) ok("SPA renders on startup");
-else bad("SPA startup render missing");
+if (html.includes("if (window.EMBEDDED_TS_GUIDE)")) ok("TS loader prefers embedded data");
+else bad("TS loader missing embedded branch");
+
+if (!html.includes("cdn.sheetjs.com")) ok("no SheetJS CDN dependency");
+else bad("still references SheetJS CDN");
+
+if (html.includes('location.hash = "#case"')) ok("SPA defaults to case route");
+else bad("SPA default route should be case");
 
 console.log("\nResults: " + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);

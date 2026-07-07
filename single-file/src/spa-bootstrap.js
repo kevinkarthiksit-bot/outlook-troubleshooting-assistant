@@ -1,16 +1,6 @@
 /**
  * Route registration and bootstrap for single-file build.
  */
-SPA.register("login", {
-  tpl: "tpl-login",
-  bodyClass: "login-page",
-  title: "Login",
-  async init() {
-    ThemePicker.mount("#themePickerMount");
-    Login.init();
-  }
-});
-
 SPA.register("case", {
   tpl: "tpl-case",
   bodyClass: "login-page",
@@ -72,15 +62,6 @@ SPA.register("admin", {
   bodyClass: "",
   title: "Admin",
   async init() {
-    if (!window.XLSX) {
-      await new Promise((resolve, reject) => {
-        const s = document.createElement("script");
-        s.src = "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js";
-        s.onload = resolve;
-        s.onerror = () => reject(new Error("SheetJS CDN unavailable"));
-        document.head.appendChild(s);
-      }).catch((err) => console.warn("Admin Excel upload unavailable:", err));
-    }
     await Admin.init();
   }
 });

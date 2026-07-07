@@ -19,8 +19,20 @@ const Session = {
     return true;
   },
 
+  getLogIdentity() {
+    const caseDetails = this.getCaseDetails();
+    if (caseDetails.chatIms) return caseDetails.chatIms;
+    return this.getEmployeeId() || "agent";
+  },
+
+  ensureAnonymousSession() {
+    if (!this.getEmployeeId()) {
+      Storage.setEmployeeId("agent", false);
+    }
+    return this.getEmployeeId();
+  },
+
   requireCaseSetup(redirectUrl = "case.html") {
-    if (!this.requireAuth()) return false;
     if (!Storage.isCaseSetupComplete()) {
       window.location.href = redirectUrl;
       return false;
@@ -34,7 +46,14 @@ const Session = {
 
   logout() {
     Storage.clearSession();
-    Storage.clearEmployeeId();
+    Storage.clearGuideSession();
+    const details = Storage.getCaseDetails();
+    Storage.setCaseDetails({
+      chatIms: "",
+      platform: details.platform || "Windows",
+      environment: details.environment || "Exchange Online",
+      caseSetupComplete: false
+    });
   },
 
   getCaseDetails() {
@@ -53,7 +72,7 @@ const Session = {
   startGuide(kbId, kbTitle, stepCount, guideType = "kb") {
     const caseDetails = this.getCaseDetails();
     const session = {
-      employeeId: this.getEmployeeId(),
+      employeeId: this.getLogIdentity(),
       chatIms: caseDetails.chatIms,
       platform: caseDetails.platform,
       environment: caseDetails.environment,
@@ -156,7 +175,6 @@ const Session = {
     text += "CASE INFORMATION\n";
     text += "----------------\n";
     text += this.noteLine("Date/Time:", this.formatNotesDateTime()) + "\n";
-    text += this.noteLine("Employee ID:", session.employeeId) + "\n";
     text += this.noteLine("Chat IMS:", session.chatIms) + "\n";
     text += this.noteLine("Platform:", session.platform) + "\n";
     text += this.noteLine("Environment:", session.environment) + "\n\n";

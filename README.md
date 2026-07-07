@@ -10,8 +10,8 @@ Static HTML/CSS/JS tool for SharePoint hosting. No custom backend required.
 
 | App | URL |
 |-----|-----|
-| **Full app (start here)** | https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/login.html |
-| **Single-file version** | https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/single-file/outlook-assistant.html |
+| **Full app (start here)** | https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/case.html |
+| **Single-file version** | https://kevinkarthiksit-bot.github.io/outlook-troubleshooting-assistant/single-file/outlook-assistant.html#case |
 
 No install required — works in any modern browser.
 
@@ -22,9 +22,9 @@ No install required — works in any modern browser.
 **If you received this folder by email, read `START_HERE.txt` first.**
 
 1. **Double-click** `Launch Outlook Assistant.bat` — server starts and browser opens automatically.
-2. Sign in with any Employee ID (e.g. `DEMO001`), complete case setup, then search the KB.
+2. Enter **Case details** (Chat IMS, Platform, Environment), then search the KB.
 
-> Do not open `login.html` by double-clicking the file in File Explorer. Use the launcher.
+> Do not open HTML files by double-clicking in File Explorer. Use the launcher or GitHub Pages.
 
 ### Troubleshooting
 
@@ -37,7 +37,7 @@ cd "OutLook Assistant"
 python -m http.server 8080
 ```
 
-Then open **http://localhost:8080/login.html**
+Then open **http://localhost:8080/case.html**
 
 ### Packaging for email
 
@@ -49,14 +49,13 @@ See **`PACKAGE_FOR_EMAIL.txt`** for full sending instructions.
 ## User flow
 
 ```
-login.html → case.html → index.html (org KB) → guide.html
-                      ↘ troubleshooting.html → troubleshooting-guide.html
+case.html → index.html (org KB) → guide.html
+         ↘ troubleshooting.html → troubleshooting-guide.html
 ```
 
-1. **Login** — Employee ID (optional Remember me)
-2. **Case setup** — Chat IMS, Platform, Environment
-3. **Org KB** — Search GEV articles on `index.html` → step guide on `guide.html`
-4. **Troubleshooting Guides** — Research-based library on `troubleshooting.html` → steps on `troubleshooting-guide.html`
+1. **Case setup** — Chat IMS, Platform, Environment
+2. **Org KB** — Search GEV articles on `index.html` → step guide on `guide.html`
+3. **Troubleshooting Guides** — Research-based library on `troubleshooting.html` → steps on `troubleshooting-guide.html`
 
 ## Two content libraries
 
@@ -98,7 +97,7 @@ Use **`Launch Outlook Assistant.bat`** (one click — starts server and opens br
 python -m http.server 8080
 ```
 
-Open **http://localhost:8080/login.html**
+Open **http://localhost:8080/case.html**
 
 Clear stale cache: **Refresh KB** / **Refresh** on each hub, or delete `outlookAssistant_kbCache` and `outlookAssistant_tsGuideCache` in localStorage.
 
@@ -128,7 +127,7 @@ Clone and run locally:
 git clone https://github.com/kevinkarthiksit-bot/outlook-troubleshooting-assistant.git
 cd outlook-troubleshooting-assistant
 # Windows: double-click Launch Outlook Assistant.bat
-# Or: python -m http.server 8080  →  http://localhost:8080/login.html
+# Or: python -m http.server 8080  →  http://localhost:8080/case.html
 ```
 
 Pages deploys automatically on push to `main` (see `.github/workflows/pages.yml`).
@@ -148,4 +147,4 @@ Upload the full folder including `assets/` and both JSON data files. Configure p
 - Rich steps with images and tips (troubleshooting guides only)
 - Platform-filtered steps from case setup
 - Copy session notes for tickets
-- Admin KB upload (JSON/CSV/Excel)
+- Admin KB upload (JSON/CSV — export Excel as CSV)

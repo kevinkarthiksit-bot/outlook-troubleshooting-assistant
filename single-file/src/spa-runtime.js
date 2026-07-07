@@ -40,7 +40,7 @@ const SPA = {
   },
 
   parseHash() {
-    let h = (location.hash || "").slice(1) || "login";
+    let h = (location.hash || "").slice(1) || "case";
     if (h.startsWith("/")) h = h.slice(1);
     const [route, qs] = h.split("?");
     this._query = new URLSearchParams(qs || "");
@@ -75,7 +75,7 @@ const SPA = {
     const route = this.parseHash();
     const cfg = this.routes[route];
     if (!cfg) {
-      location.hash = "#login";
+      location.hash = "#case";
       return;
     }
 
@@ -100,7 +100,7 @@ const SPA = {
     this.installLinkInterceptor();
     window.addEventListener("hashchange", () => this.render());
     if (!location.hash || location.hash === "#") {
-      location.hash = "#login";
+      location.hash = "#case";
     }
     this.render();
   }

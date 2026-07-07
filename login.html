@@ -1,69 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Login - Outlook Troubleshooting Assistant</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <meta http-equiv="refresh" content="0; url=case.html">
+  <title>Redirecting...</title>
+  <script>location.replace("case.html");</script>
 </head>
-<body class="login-page">
-  <header class="app-header login-header">
-    <div>
-      <h1>Outlook Troubleshooting Assistant</h1>
-      <p class="subtitle">Sign in with your Employee ID to continue</p>
-    </div>
-    <div class="header-actions">
-      <div id="themePickerMount"></div>
-    </div>
-  </header>
-
-  <main class="login-container">
-    <div class="login-card">
-      <h2>Employee Login</h2>
-      <p class="login-hint">Your Employee ID is used for session logging and support tracking.</p>
-
-      <form id="loginForm">
-        <label for="employeeId">Employee ID</label>
-        <input
-          type="text"
-          id="employeeId"
-          name="employeeId"
-          placeholder="e.g. E123456"
-          autocomplete="username"
-          required
-          autofocus
-        >
-
-        <label class="checkbox-label">
-          <input type="checkbox" id="rememberMe" name="rememberMe">
-          Remember me on this device
-        </label>
-
-        <p id="loginError" class="login-error" hidden></p>
-
-        <button type="submit" class="btn btn-primary btn-block">Continue</button>
-      </form>
-
-      <p class="login-footer-link">
-        <a href="admin-login.html">Admin dashboard</a>
-      </p>
-    </div>
-  </main>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script src="js/config.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/sharepoint.js"></script>
-  <script src="js/logging.js"></script>
-  <script src="js/theme-picker.js"></script>
-  <script src="js/themes.js"></script>
-  <script src="js/session.js"></script>
-  <script src="js/login.js"></script>
-  <script>
-    ThemePicker.mount("#themePickerMount");
-    document.addEventListener("DOMContentLoaded", () => Themes.init());
-  </script>
+<body>
+  <p>Redirecting to <a href="case.html">Case Setup</a>...</p>
 </body>
 </html>

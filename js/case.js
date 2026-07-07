@@ -3,13 +3,16 @@
  */
 const CaseSetup = {
   init() {
-    if (!Session.requireAuth()) return;
-
-    const employeeId = Session.getEmployeeId();
-    document.getElementById("userDisplay").textContent = "Employee: " + employeeId;
-    Logger.init(employeeId);
+    Session.ensureAnonymousSession();
+    Logger.init(Session.getLogIdentity());
 
     const existing = Session.getCaseDetails();
+    const display = document.getElementById("userDisplay");
+    if (display && existing.chatIms) {
+      display.textContent = "IMS: " + existing.chatIms;
+    } else if (display) {
+      display.hidden = true;
+    }
     if (existing.chatIms) {
       document.getElementById("chatImsInput").value = existing.chatIms;
     }

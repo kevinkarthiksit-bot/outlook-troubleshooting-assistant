@@ -1358,50 +1358,6 @@ footer.app-footer {
 <body>
   <div id="spa-mount" aria-live="polite"></div>
   <div class="spa-hidden-templates" hidden aria-hidden="true">
-<template id="tpl-login"><header class="app-header login-header">
-    <div>
-      <h1>Outlook Troubleshooting Assistant</h1>
-      <p class="subtitle">Sign in with your Employee ID to continue</p>
-    </div>
-    <div class="header-actions">
-      <div id="themePickerMount"></div>
-    </div>
-  </header>
-
-  <main class="login-container">
-    <div class="login-card">
-      <h2>Employee Login</h2>
-      <p class="login-hint">Your Employee ID is used for session logging and support tracking.</p>
-
-      <form id="loginForm">
-        <label for="employeeId">Employee ID</label>
-        <input
-          type="text"
-          id="employeeId"
-          name="employeeId"
-          placeholder="e.g. E123456"
-          autocomplete="username"
-          required
-          autofocus
-        >
-
-        <label class="checkbox-label">
-          <input type="checkbox" id="rememberMe" name="rememberMe">
-          Remember me on this device
-        </label>
-
-        <p id="loginError" class="login-error" hidden></p>
-
-        <button type="submit" class="btn btn-primary btn-block">Continue</button>
-      </form>
-
-      <p class="login-footer-link">
-        <a href="admin-login.html">Admin dashboard</a>
-      </p>
-    </div>
-  </main>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div></template>
 <template id="tpl-case"><header class="app-header login-header">
     <div>
       <h1>Outlook Troubleshooting Assistant</h1>
@@ -1559,7 +1515,6 @@ footer.app-footer {
         <h2>Session Notes</h2>
         <div class="session-notes-grid">
           <div><strong>Date/Time:</strong> <span id="noteDateTime"></span></div>
-          <div><strong>Employee ID:</strong> <span id="noteEmployeeId"></span></div>
           <div><strong>Chat IMS Number:</strong> <span id="noteChatIms"></span></div>
           <div><strong>Platform:</strong> <span id="notePlatform"></span></div>
           <div><strong>Environment:</strong> <span id="noteEnvironment"></span></div>
@@ -1695,7 +1650,6 @@ footer.app-footer {
         <h2>Session Notes</h2>
         <div class="session-notes-grid">
           <div><strong>Date/Time:</strong> <span id="noteDateTime"></span></div>
-          <div><strong>Employee ID:</strong> <span id="noteEmployeeId"></span></div>
           <div><strong>Chat IMS Number:</strong> <span id="noteChatIms"></span></div>
           <div><strong>Platform:</strong> <span id="notePlatform"></span></div>
           <div><strong>Environment:</strong> <span id="noteEnvironment"></span></div>
@@ -1766,7 +1720,7 @@ footer.app-footer {
       </form>
 
       <p class="login-footer-link">
-        <a href="login.html">Back to user login</a>
+        <a href="case.html">Back to Assistant</a>
       </p>
     </div>
   </main></template>
@@ -1778,7 +1732,7 @@ footer.app-footer {
     <div class="header-actions">
       <div id="themePickerMount"></div>
       <button type="button" id="adminLogoutBtn" class="btn btn-secondary btn-header">Logout</button>
-      <a href="login.html" class="admin-link">Back to Assistant</a>
+      <a href="case.html" class="admin-link">Back to Assistant</a>
     </div>
   </header>
 
@@ -1787,17 +1741,17 @@ footer.app-footer {
 
     <section class="panel">
       <h2>Upload Knowledge Base</h2>
-      <p>Upload JSON, CSV, or Excel (.xlsx) exported from your KB spreadsheet. Users will automatically receive updates without re-uploading.</p>
+      <p>Upload JSON or CSV to update the knowledge base. In Excel, use <strong>Save As → CSV</strong> with columns <strong>Number</strong> and <strong>Short description</strong>.</p>
       <div class="file-input-wrap">
-        <input type="file" id="kbFileInput" accept=".json,.csv,.xlsx,.xls">
+        <input type="file" id="kbFileInput" accept=".json,.csv">
       </div>
       <div id="uploadPreview" class="preview"></div>
       <div class="admin-actions">
-        <button type="button" id="uploadKbBtn" class="btn btn-primary" disabled>Upload to SharePoint</button>
+        <button type="button" id="uploadKbBtn" class="btn btn-primary" disabled>Apply KB update</button>
         <button type="button" id="downloadSampleBtn" class="btn btn-secondary">Download Sample JSON</button>
       </div>
       <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted)">
-        CSV/Excel format: columns <strong>Number</strong> and <strong>Short description</strong> (creates text-only steps).
+        CSV format: columns <strong>Number</strong> and <strong>Short description</strong> (creates text-only steps).
         For rich guides with images and tips, upload <strong>JSON</strong> (KB v2.0.0 format).
       </p>
     </section>
@@ -1905,7 +1859,7 @@ const SP_CONFIG = {
   kbCacheHours: 24,
   adminGroups: ["Outlook Assistant Admins", "Site Owners"],
   employeeIdSource: "loginName",
-  promptForEmployeeId: true,
+  promptForEmployeeId: false,
   logRetentionDays: 90,
   escalationUrl: "mailto:itsupport@company.com?subject=Outlook%20Issue%20Escalation",
   adminUsername: "Hannah",
@@ -4063,7 +4017,7 @@ const SPA = {
   },
 
   parseHash() {
-    let h = (location.hash || "").slice(1) || "login";
+    let h = (location.hash || "").slice(1) || "case";
     if (h.startsWith("/")) h = h.slice(1);
     const [route, qs] = h.split("?");
     this._query = new URLSearchParams(qs || "");
@@ -4098,7 +4052,7 @@ const SPA = {
     const route = this.parseHash();
     const cfg = this.routes[route];
     if (!cfg) {
-      location.hash = "#login";
+      location.hash = "#case";
       return;
     }
 
@@ -4123,7 +4077,7 @@ const SPA = {
     this.installLinkInterceptor();
     window.addEventListener("hashchange", () => this.render());
     if (!location.hash || location.hash === "#") {
-      location.hash = "#login";
+      location.hash = "#case";
     }
     this.render();
   }
@@ -4516,8 +4470,20 @@ const Session = {
     return true;
   },
 
+  getLogIdentity() {
+    const caseDetails = this.getCaseDetails();
+    if (caseDetails.chatIms) return caseDetails.chatIms;
+    return this.getEmployeeId() || "agent";
+  },
+
+  ensureAnonymousSession() {
+    if (!this.getEmployeeId()) {
+      Storage.setEmployeeId("agent", false);
+    }
+    return this.getEmployeeId();
+  },
+
   requireCaseSetup(redirectUrl = "case") {
-    if (!this.requireAuth()) return false;
     if (!Storage.isCaseSetupComplete()) {
       SPA.navigate(SPA.routeFromPage(redirectUrl));
       return false;
@@ -4531,7 +4497,14 @@ const Session = {
 
   logout() {
     Storage.clearSession();
-    Storage.clearEmployeeId();
+    Storage.clearGuideSession();
+    const details = Storage.getCaseDetails();
+    Storage.setCaseDetails({
+      chatIms: "",
+      platform: details.platform || "Windows",
+      environment: details.environment || "Exchange Online",
+      caseSetupComplete: false
+    });
   },
 
   getCaseDetails() {
@@ -4550,7 +4523,7 @@ const Session = {
   startGuide(kbId, kbTitle, stepCount, guideType = "kb") {
     const caseDetails = this.getCaseDetails();
     const session = {
-      employeeId: this.getEmployeeId(),
+      employeeId: this.getLogIdentity(),
       chatIms: caseDetails.chatIms,
       platform: caseDetails.platform,
       environment: caseDetails.environment,
@@ -4653,7 +4626,6 @@ const Session = {
     text += "CASE INFORMATION\n";
     text += "----------------\n";
     text += this.noteLine("Date/Time:", this.formatNotesDateTime()) + "\n";
-    text += this.noteLine("Employee ID:", session.employeeId) + "\n";
     text += this.noteLine("Chat IMS:", session.chatIms) + "\n";
     text += this.noteLine("Platform:", session.platform) + "\n";
     text += this.noteLine("Environment:", session.environment) + "\n\n";
@@ -4729,7 +4701,8 @@ const Logger = {
   sessionId: "",
 
   init(employeeId, userEmail) {
-    this.employeeId = employeeId || Storage.getEmployeeId() || "anonymous";
+    const caseIms = Session?.getCaseDetails?.()?.chatIms;
+    this.employeeId = caseIms || employeeId || Storage.getEmployeeId() || "agent";
     this.userEmail = userEmail || "";
     this.sessionId = Storage.getSessionId();
   },
@@ -5439,13 +5412,16 @@ const Login = {
  */
 const CaseSetup = {
   init() {
-    if (!Session.requireAuth()) return;
-
-    const employeeId = Session.getEmployeeId();
-    document.getElementById("userDisplay").textContent = "Employee: " + employeeId;
-    Logger.init(employeeId);
+    Session.ensureAnonymousSession();
+    Logger.init(Session.getLogIdentity());
 
     const existing = Session.getCaseDetails();
+    const display = document.getElementById("userDisplay");
+    if (display && existing.chatIms) {
+      display.textContent = "IMS: " + existing.chatIms;
+    } else if (display) {
+      display.hidden = true;
+    }
     if (existing.chatIms) {
       document.getElementById("chatImsInput").value = existing.chatIms;
     }
@@ -5551,7 +5527,7 @@ const App = {
 
     document.getElementById("startOverBtn")?.addEventListener("click", () => {
       Session.logout();
-      SPA.navigate("login");
+      SPA.navigate("case");
     });
 
     document.getElementById("editCaseBtn")?.addEventListener("click", () => {
@@ -5577,10 +5553,11 @@ const App = {
   },
 
   initUser() {
-    const employeeId = Session.getEmployeeId();
-    Logger.init(employeeId);
+    Session.ensureAnonymousSession();
+    const identity = Session.getLogIdentity();
+    Logger.init(identity);
     const display = document.getElementById("userDisplay");
-    if (display) display.textContent = "Employee: " + employeeId;
+    if (display) display.textContent = "IMS: " + identity;
   },
 
   handleSearch(query) {
@@ -5876,7 +5853,7 @@ const Guide = {
 
       Session.logout();
 
-      SPA.navigate("login");
+      SPA.navigate("case");
 
     });
 
@@ -6079,8 +6056,6 @@ const Guide = {
 
 
     document.getElementById("noteDateTime").textContent = new Date().toLocaleString();
-
-    document.getElementById("noteEmployeeId").textContent = session.employeeId || "N/A";
 
     document.getElementById("noteChatIms").textContent = session.chatIms || "N/A";
 
@@ -6405,7 +6380,7 @@ const TroubleshootingApp = {
 
     document.getElementById("startOverBtn")?.addEventListener("click", () => {
       Session.logout();
-      SPA.navigate("login");
+      SPA.navigate("case");
     });
   },
 
@@ -6437,10 +6412,11 @@ const TroubleshootingApp = {
   },
 
   initUser() {
-    const employeeId = Session.getEmployeeId();
-    Logger.init(employeeId);
+    Session.ensureAnonymousSession();
+    const identity = Session.getLogIdentity();
+    Logger.init(identity);
     const display = document.getElementById("userDisplay");
-    if (display) display.textContent = "Employee: " + employeeId;
+    if (display) display.textContent = "IMS: " + identity;
   },
 
   handleSearch(query) {
@@ -6761,7 +6737,7 @@ const TroubleshootingGuide = {
     document.getElementById("agentComments")?.addEventListener("input", () => this.saveAgentComments());
     document.getElementById("startOverBtn")?.addEventListener("click", () => {
       Session.logout();
-      SPA.navigate("login");
+      SPA.navigate("case");
     });
     document.getElementById("stepImage")?.addEventListener("error", (e) => {
       const fig = document.getElementById("stepFigure");
@@ -6860,7 +6836,6 @@ const TroubleshootingGuide = {
     if (!session) return;
 
     document.getElementById("noteDateTime").textContent = new Date().toLocaleString();
-    document.getElementById("noteEmployeeId").textContent = session.employeeId || "N/A";
     document.getElementById("noteChatIms").textContent = session.chatIms || "N/A";
     document.getElementById("notePlatform").textContent = session.platform || "N/A";
     document.getElementById("noteEnvironment").textContent = session.environment || "N/A";
@@ -7052,6 +7027,7 @@ const Admin = {
     ThemePicker.mount("#themePickerMount");
     Themes.init();
     await this.checkAccess();
+    this.updateUploadButtonLabel();
     this.bindEvents();
     await this.loadLogStats();
   },
@@ -7117,6 +7093,14 @@ const Admin = {
     document.getElementById("clearLogFiltersBtn")?.addEventListener("click", () => this.clearLogFilters());
   },
 
+  updateUploadButtonLabel() {
+    const btn = document.getElementById("uploadKbBtn");
+    if (!btn) return;
+    btn.textContent = window.SP_CONFIG?.useSharePoint
+      ? "Upload to SharePoint"
+      : "Apply KB update";
+  },
+
   async handleFileSelect(file) {
     if (!file) return;
     const preview = document.getElementById("uploadPreview");
@@ -7129,16 +7113,14 @@ const Admin = {
         this.parsedKb = JSON.parse(text);
       } else if (ext === "csv") {
         this.parsedKb = this.parseCsv(await file.text());
-      } else if (ext === "xlsx" || ext === "xls") {
-        this.parsedKb = await this.parseExcel(file);
       } else {
-        throw new Error("Unsupported format. Use JSON, CSV, or Excel.");
+        throw new Error("Unsupported format. Use JSON or CSV (export Excel as CSV).");
       }
       this.validateKb(this.parsedKb);
       preview.textContent =
         "Valid KB: " +
         (this.parsedKb.articles?.length || 0) +
-        " articles ready to upload.";
+        " articles ready to apply.";
       preview.className = "preview success";
       document.getElementById("uploadKbBtn").disabled = false;
     } catch (err) {
@@ -7209,53 +7191,6 @@ const Admin = {
     return result.map((s) => s.replace(/^"|"$/g, "").trim());
   },
 
-  async parseExcel(file) {
-    if (typeof XLSX === "undefined") {
-      throw new Error("Excel support requires SheetJS (loaded via CDN on this page).");
-    }
-    const buffer = await file.arrayBuffer();
-    const workbook = XLSX.read(buffer, { type: "array" });
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
-
-    const articles = rows
-      .map((row) => {
-        const id =
-          row.Number || row.number || row.ID || row.Id || row["KB Number"] || "";
-        const title =
-          row["Short description"] ||
-          row.Description ||
-          row.Title ||
-          row.title ||
-          "";
-        if (!id || !title) return null;
-        const categoryMatch = String(title).match(/\[([^\]]+)\]/);
-        return {
-          id: String(id).trim(),
-          title: String(title).trim(),
-          category: categoryMatch ? categoryMatch[1] : "General",
-          keywords: String(title)
-            .toLowerCase()
-            .replace(/[^\w\s]/g, " ")
-            .split(/\s+/)
-            .filter((w) => w.length > 2),
-          symptoms: [],
-          priority: 3,
-          steps: ["Refer to the full KB article for detailed steps."],
-          url: ""
-        };
-      })
-      .filter(Boolean);
-
-    return {
-      version: "1.0.0",
-      lastUpdated: new Date().toISOString().slice(0, 10),
-      articles,
-      flows: [],
-      synonyms: {}
-    };
-  },
-
   validateKb(data) {
     if (!data || !Array.isArray(data.articles)) {
       throw new Error("KB must contain an articles array");
@@ -7288,7 +7223,8 @@ const Admin = {
     if (!this.parsedKb) return;
     const btn = document.getElementById("uploadKbBtn");
     btn.disabled = true;
-    btn.textContent = "Uploading...";
+    const savingLabel = window.SP_CONFIG?.useSharePoint ? "Uploading..." : "Saving...";
+    btn.textContent = savingLabel;
 
     try {
       this.parsedKb.lastUpdated = new Date().toISOString().slice(0, 10);
@@ -7297,22 +7233,25 @@ const Admin = {
 
       if (cfg.useSharePoint) {
         await SharePoint.uploadKbFile("kb-articles.json", json);
+        document.getElementById("uploadPreview").textContent =
+          "Upload successful! Users will get the updated KB on next refresh (cached up to " +
+          cfg.kbCacheHours +
+          "h).";
       } else {
         localStorage.setItem("outlookAssistant_adminKb", json);
         Storage.setKbCache(this.parsedKb);
+        document.getElementById("uploadPreview").textContent =
+          "KB saved. Users see updates after clicking Refresh KB (or within " +
+          cfg.kbCacheHours +
+          "h cache).";
       }
-
-      document.getElementById("uploadPreview").textContent =
-        "Upload successful! Users will get the updated KB on next refresh (cached up to " +
-        cfg.kbCacheHours +
-        "h).";
       document.getElementById("uploadPreview").className = "preview success";
     } catch (err) {
-      document.getElementById("uploadPreview").textContent = "Upload failed: " + err.message;
+      document.getElementById("uploadPreview").textContent = "Save failed: " + err.message;
       document.getElementById("uploadPreview").className = "preview error";
     } finally {
       btn.disabled = false;
-      btn.textContent = "Upload to SharePoint";
+      this.updateUploadButtonLabel();
     }
   },
 
@@ -7572,16 +7511,6 @@ if (typeof window !== "undefined") {
 /**
  * Route registration and bootstrap for single-file build.
  */
-SPA.register("login", {
-  tpl: "tpl-login",
-  bodyClass: "login-page",
-  title: "Login",
-  async init() {
-    ThemePicker.mount("#themePickerMount");
-    Login.init();
-  }
-});
-
 SPA.register("case", {
   tpl: "tpl-case",
   bodyClass: "login-page",
@@ -7643,15 +7572,6 @@ SPA.register("admin", {
   bodyClass: "",
   title: "Admin",
   async init() {
-    if (!window.XLSX) {
-      await new Promise((resolve, reject) => {
-        const s = document.createElement("script");
-        s.src = "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js";
-        s.onload = resolve;
-        s.onerror = () => reject(new Error("SheetJS CDN unavailable"));
-        document.head.appendChild(s);
-      }).catch((err) => console.warn("Admin Excel upload unavailable:", err));
-    }
     await Admin.init();
   }
 });

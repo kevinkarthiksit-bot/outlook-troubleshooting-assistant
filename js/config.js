@@ -13,7 +13,7 @@ const SP_CONFIG = {
   kbCacheHours: 24,
   adminGroups: ["Outlook Assistant Admins", "Site Owners"],
   employeeIdSource: "loginName",
-  promptForEmployeeId: true,
+  promptForEmployeeId: false,
   logRetentionDays: 90,
   escalationUrl: "mailto:itsupport@company.com?subject=Outlook%20Issue%20Escalation",
   adminUsername: "Hannah",

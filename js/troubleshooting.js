@@ -51,7 +51,7 @@ const TroubleshootingApp = {
 
     document.getElementById("startOverBtn")?.addEventListener("click", () => {
       Session.logout();
-      window.location.href = "login.html";
+      window.location.href = "case.html";
     });
   },
 
@@ -83,10 +83,11 @@ const TroubleshootingApp = {
   },
 
   initUser() {
-    const employeeId = Session.getEmployeeId();
-    Logger.init(employeeId);
+    Session.ensureAnonymousSession();
+    const identity = Session.getLogIdentity();
+    Logger.init(identity);
     const display = document.getElementById("userDisplay");
-    if (display) display.textContent = "Employee: " + employeeId;
+    if (display) display.textContent = "IMS: " + identity;
   },
 
   handleSearch(query) {

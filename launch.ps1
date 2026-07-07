@@ -3,7 +3,7 @@ $root = $PSScriptRoot
 Set-Location $root
 
 $port = 8080
-$url = "http://localhost:$port/login.html"
+$url = "http://localhost:$port/case.html"
 
 function Get-PythonCommand {
   if (Get-Command py -ErrorAction SilentlyContinue) {

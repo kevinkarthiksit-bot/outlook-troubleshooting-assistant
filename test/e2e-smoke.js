@@ -19,9 +19,9 @@ function bad(msg) {
 }
 
 const pages = [
-  "login.html", "case.html", "index.html", "guide.html",
+  "case.html", "index.html", "guide.html",
   "troubleshooting.html", "troubleshooting-guide.html",
-  "admin-login.html", "admin.html"
+  "admin-login.html", "admin.html", "login.html"
 ];
 const scripts = [
   "js/config.js", "js/storage.js", "js/session.js", "js/app.js", "js/guide.js",

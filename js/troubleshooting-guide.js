@@ -57,11 +57,15 @@ const TroubleshootingGuide = {
     document.getElementById("guideContent").hidden = false;
     document.getElementById("guideSubtitle").textContent = this.guide.title;
 
-    if (this.guide.url) {
-      const link = document.getElementById("kbDocLink");
-      if (link) {
-        link.href = this.guide.url;
+    const link = document.getElementById("kbDocLink");
+    if (link) {
+      const url = (this.guide.url || "").trim();
+      if (/^https?:\/\//i.test(url)) {
+        link.href = url;
         link.hidden = false;
+      } else {
+        link.removeAttribute("href");
+        link.hidden = true;
       }
     }
 

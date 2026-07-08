@@ -126,21 +126,17 @@ const Guide = {
 
 
 
-    if (this.article.url) {
-
-      const link = document.getElementById("kbDocLink");
-
-      if (link) {
-
-        link.href = this.article.url;
-
+    const link = document.getElementById("kbDocLink");
+    if (link) {
+      const url = (this.article.url || "").trim();
+      if (/^https?:\/\//i.test(url)) {
+        link.href = url;
         link.hidden = false;
-
+      } else {
+        link.removeAttribute("href");
+        link.hidden = true;
       }
-
     }
-
-
 
     Logger.logArticleView(this.article);
 

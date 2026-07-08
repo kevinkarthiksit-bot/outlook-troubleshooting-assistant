@@ -52,9 +52,17 @@ const SPA = {
       "click",
       (e) => {
         const a = e.target.closest("a[href]");
-        if (!a || a.target === "_blank" || a.getAttribute("href") === "#") return;
-        const href = a.getAttribute("href");
-        if (href && /\.html(\?|$)/i.test(href)) {
+        if (!a) return;
+        const href = a.getAttribute("href") || "";
+        // Bare "#" clears the SPA hash and drops users onto case setup.
+        if (href === "#" || href === "") {
+          e.preventDefault();
+          return;
+        }
+        if (a.target === "_blank" || /^https?:\/\//i.test(href) || href.startsWith("mailto:")) {
+          return;
+        }
+        if (/\.html(\?|$)/i.test(href)) {
           e.preventDefault();
           this.navigateFromHref(href);
         }

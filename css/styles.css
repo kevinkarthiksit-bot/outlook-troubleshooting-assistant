@@ -1479,6 +1479,12 @@ footer.app-footer {
   font-weight: 600;
 }
 
+/* display:inline-flex above must not override the HTML hidden attribute */
+.guide-doc-link a[hidden],
+[hidden] {
+  display: none !important;
+}
+
 .guide-doc-link a:hover {
   border-color: var(--primary);
 }

@@ -1487,6 +1487,12 @@ footer.app-footer {
   font-weight: 600;
 }
 
+/* display:inline-flex above must not override the HTML hidden attribute */
+.guide-doc-link a[hidden],
+[hidden] {
+  display: none !important;
+}
+
 .guide-doc-link a:hover {
   border-color: var(--primary);
 }
@@ -4554,9 +4560,17 @@ const SPA = {
       "click",
       (e) => {
         const a = e.target.closest("a[href]");
-        if (!a || a.target === "_blank" || a.getAttribute("href") === "#") return;
-        const href = a.getAttribute("href");
-        if (href && /\.html(\?|$)/i.test(href)) {
+        if (!a) return;
+        const href = a.getAttribute("href") || "";
+        // Bare "#" clears the SPA hash and drops users onto case setup.
+        if (href === "#" || href === "") {
+          e.preventDefault();
+          return;
+        }
+        if (a.target === "_blank" || /^https?:\/\//i.test(href) || href.startsWith("mailto:")) {
+          return;
+        }
+        if (/\.html(\?|$)/i.test(href)) {
           e.preventDefault();
           this.navigateFromHref(href);
         }
@@ -6453,21 +6467,17 @@ const Guide = {
 
 
 
-    if (this.article.url) {
-
-      const link = document.getElementById("kbDocLink");
-
-      if (link) {
-
-        link.href = this.article.url;
-
+    const link = document.getElementById("kbDocLink");
+    if (link) {
+      const url = (this.article.url || "").trim();
+      if (/^https?:\/\//i.test(url)) {
+        link.href = url;
         link.hidden = false;
-
+      } else {
+        link.removeAttribute("href");
+        link.hidden = true;
       }
-
     }
-
-
 
     Logger.logArticleView(this.article);
 
@@ -7388,11 +7398,15 @@ const TroubleshootingGuide = {
     document.getElementById("guideContent").hidden = false;
     document.getElementById("guideSubtitle").textContent = this.guide.title;
 
-    if (this.guide.url) {
-      const link = document.getElementById("kbDocLink");
-      if (link) {
-        link.href = this.guide.url;
+    const link = document.getElementById("kbDocLink");
+    if (link) {
+      const url = (this.guide.url || "").trim();
+      if (/^https?:\/\//i.test(url)) {
+        link.href = url;
         link.hidden = false;
+      } else {
+        link.removeAttribute("href");
+        link.hidden = true;
       }
     }
 

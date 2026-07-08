@@ -147,4 +147,4 @@ Upload the full folder including `assets/` and both JSON data files. Configure p
 - Rich steps with images and tips (troubleshooting guides only)
 - Platform-filtered steps from case setup
 - Copy session notes for tickets
-- Admin KB upload (JSON/CSV — export Excel as CSV)
+- Admin KB upload (JSON/CSV — export Excel as CSV) → **Apply & download single-file app** bakes KB into `outlook-assistant.html`

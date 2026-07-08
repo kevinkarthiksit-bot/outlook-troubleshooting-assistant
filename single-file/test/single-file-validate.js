@@ -56,6 +56,12 @@ for (const m of markers) {
   html.includes(m) ? ok("marker: " + m) : bad("marker: " + m);
 }
 
+if (html.includes("/*__EMBEDDED_KB__*/") && html.includes("/*__END_EMBEDDED_KB__*/")) {
+  ok("EMBEDDED_KB bake markers present");
+} else {
+  bad("missing EMBEDDED_KB bake markers");
+}
+
 function extractJsonAfter(marker) {
   const idx = html.indexOf(marker);
   if (idx < 0) return null;

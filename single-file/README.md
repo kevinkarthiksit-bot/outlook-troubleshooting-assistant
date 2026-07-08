@@ -28,7 +28,7 @@ node build.js
 
 ## Admin KB upload
 
-JSON or CSV only (export Excel as CSV). Button: **Apply KB update** — no SharePoint or CDN required.
+JSON or CSV only (export Excel as CSV). Click **Apply & download single-file app** to bake the KB into a downloadable `outlook-assistant.html` for redistribution. Optional **Download KB JSON** for committing into `data/`.
 
 ## Admin login
 

@@ -18,6 +18,20 @@ const HubUi = {
     "performance-stability": "#5c2d91"
   },
 
+  CARD_DISPLAY_LIMIT: 6,
+
+  getVisibleResults(results, options = {}) {
+    const limit = options.limit ?? this.CARD_DISPLAY_LIMIT;
+    if (results.length <= limit) {
+      return { visible: results, limited: false, hiddenCount: 0 };
+    }
+    return {
+      visible: results.slice(0, limit),
+      limited: true,
+      hiddenCount: results.length - limit
+    };
+  },
+
   categorySlug(category) {
     return (category || "other")
       .toLowerCase()
@@ -58,8 +72,8 @@ const HubUi = {
 
   updateResultCount(container, options) {
     if (!container) return;
-    const count = options.count ?? 0;
-    const total = options.total ?? count;
+    const displayed = options.displayed ?? options.count ?? 0;
+    const total = options.total ?? displayed;
     const query = (options.query || "").trim();
     const noun = options.noun || "results";
     const singular = options.singular || noun.replace(/s$/, "");
@@ -67,15 +81,23 @@ const HubUi = {
     let text;
     if (query) {
       text =
-        count === 1
+        displayed === 1
           ? '1 ' + singular + ' for <strong>"' + this.escape(query) + '"</strong>'
-          : count + " " + noun + ' for <strong>"' + this.escape(query) + '"</strong>';
-    } else if (total && count === total) {
-      text = "Showing all <strong>" + count + "</strong> " + (count === 1 ? singular : noun);
+          : displayed + " " + noun + ' for <strong>"' + this.escape(query) + '"</strong>';
+    } else if (options.limited && total > displayed) {
+      text =
+        "Showing <strong>" +
+        displayed +
+        "</strong> of <strong>" +
+        total +
+        "</strong> " +
+        (total === 1 ? singular : noun);
+    } else if (total && displayed === total) {
+      text = "Showing all <strong>" + displayed + "</strong> " + (displayed === 1 ? singular : noun);
     } else {
       text =
         "Showing <strong>" +
-        count +
+        displayed +
         "</strong> of <strong>" +
         total +
         "</strong> " +

@@ -377,8 +377,8 @@ a {
 /* Search */
 .search-section {
   background: var(--surface);
-  border-radius: var(--radius);
-  padding: 1.2rem 1.25rem;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.6rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
   margin-bottom: 1.25rem;
@@ -386,7 +386,7 @@ a {
 
 .search-section h2 {
   margin: 0 0 0.75rem;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 .search-section-header {
@@ -395,11 +395,13 @@ a {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem 1rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .search-section-header h2 {
   margin: 0;
+  font-size: 1.3rem;
+  font-weight: 650;
 }
 
 .result-count {
@@ -421,9 +423,10 @@ a {
 
 .search-box input {
   flex: 1;
-  padding: 0.8rem 1rem;
-  font-size: 1rem;
-  border: 1.5px solid var(--border);
+  padding: 1rem 1.15rem;
+  font-size: 1.12rem;
+  min-height: 3.25rem;
+  border: 2px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--text);
@@ -528,43 +531,48 @@ a {
 
 .result-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+}
+
+/* Hard cap: never show more than 6 KB/guide cards */
+.result-grid > .result-card:nth-child(n + 7) {
+  display: none !important;
 }
 
 .result-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--cat-accent, var(--border));
-  border-radius: var(--radius);
-  padding: 1.05rem 1.1rem;
+  border-left: 3px solid var(--cat-accent, var(--border));
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.8rem;
   margin-bottom: 0;
   cursor: pointer;
   box-shadow: var(--shadow-sm);
   transition: border-color 0.15s, transform 0.12s, box-shadow 0.15s;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-height: 0;
 }
 
 .result-card:hover {
   border-color: var(--cat-accent, var(--primary));
   border-left-color: var(--cat-accent, var(--primary));
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 .result-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  gap: 0.35rem;
+  margin-bottom: 0.35rem;
   align-items: center;
 }
 
 .kb-id {
   font-family: Consolas, monospace;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: var(--primary);
   font-weight: 600;
 }
@@ -592,13 +600,14 @@ a {
 }
 
 .category-line {
-  margin: 0.35rem 0 0;
+  margin: 0.25rem 0 0;
 }
 
 .category-line .category-tag {
   display: inline-block;
-  padding: 0.15rem 0.5rem;
+  padding: 0.1rem 0.4rem;
   border-radius: 999px;
+  font-size: 0.68rem;
   background: color-mix(in srgb, var(--cat-accent, var(--surface-alt)) 12%, var(--surface-alt));
   border: 1px solid color-mix(in srgb, var(--cat-accent, var(--border)) 35%, var(--border));
   color: var(--text);
@@ -608,14 +617,14 @@ a {
 .symptom-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: 0.65rem;
+  gap: 0.25rem;
+  margin-top: 0.4rem;
 }
 
 .symptom-tag {
-  font-size: 0.72rem;
-  padding: 0.15rem 0.45rem;
-  border-radius: 6px;
+  font-size: 0.62rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
   background: var(--surface-alt);
   color: var(--text-muted);
   border: 1px solid var(--border);
@@ -623,8 +632,20 @@ a {
 
 .result-card h3 {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.35;
+  font-size: 0.86rem;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.show-all-results-btn {
+  display: block;
+  margin: 0.85rem auto 0;
+}
+
+@media (max-width: 900px) {
+  .result-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .symptoms {
@@ -1166,8 +1187,8 @@ footer.app-footer {
 }
 
 .step-count {
-  font-size: 0.75rem;
-  padding: 0.15rem 0.5rem;
+  font-size: 0.65rem;
+  padding: 0.1rem 0.4rem;
   border-radius: 10px;
   background: var(--surface-alt);
   color: var(--text-muted);
@@ -1824,6 +1845,8 @@ footer.app-footer {
 
 .search-box .btn {
   white-space: nowrap;
+  min-height: 3.25rem;
+  padding: 0.85rem 1.1rem;
 }
 
 #flowQuestion {

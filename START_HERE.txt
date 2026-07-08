@@ -29,12 +29,14 @@ STEP 3 — CASE SETUP
 2. Continue to the Org KB or Troubleshooting Guides.
 
 
-ADMIN — UPLOAD KB (JSON or CSV)
---------------------------------
+ADMIN — UPLOAD KB (JSON or CSV) → BAKED SINGLE-FILE
+-----------------------------------------------------
 1. Open Admin dashboard (link from app or admin-login.html).
 2. Sign in: Hannah / Hannah@95
-3. Choose a JSON or CSV file, then click **Apply KB update**.
-   (In Excel: Save As → CSV with Number + Short description columns.)
+3. Choose a JSON or CSV file (Excel: Save As → CSV with Number + Short description).
+4. Click **Apply & download single-file app**.
+5. Redistribute the downloaded outlook-assistant.html — the KB is baked in.
+   (Optional: Download KB JSON to commit into data/ and rebuild from source.)
 
 
 OTHER PAGES (after server is running)

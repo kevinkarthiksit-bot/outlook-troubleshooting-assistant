@@ -104,11 +104,13 @@ const App = {
     const noResults = document.getElementById("noResults");
     const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
     const total = meta.total ?? this.kbData?.articles?.length ?? results.length;
+    const { visible, limited } = HubUi.getVisibleResults(results);
 
     HubUi.updateResultCount(document.getElementById("resultCount"), {
-      count: results.length,
-      total,
+      displayed: visible.length,
+      total: query ? results.length : total,
       query: (query || "").trim(),
+      limited,
       noun: "articles",
       singular: "article"
     });
@@ -121,7 +123,7 @@ const App = {
     }
     noResults.hidden = true;
 
-    results.forEach((article) => {
+    visible.forEach((article) => {
       const stepCount = (article.steps || []).length;
       const card = document.createElement("article");
       card.className = "result-card issue-card";
@@ -138,7 +140,7 @@ const App = {
         (article.category
           ? '<p class="category-line"><span class="category-tag">' + this.escape(article.category) + "</span></p>"
           : "") +
-        HubUi.buildSymptomTagsHtml(article.symptoms, 3, (s) => this.escape(s));
+        HubUi.buildSymptomTagsHtml(article.symptoms, 2, (s) => this.escape(s));
       card.addEventListener("click", () => this.openArticle(article));
       container.appendChild(card);
     });

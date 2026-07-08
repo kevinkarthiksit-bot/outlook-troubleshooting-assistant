@@ -60,6 +60,7 @@ const Admin = {
       this.handleFileSelect(e.target.files[0])
     );
     document.getElementById("uploadKbBtn")?.addEventListener("click", () => this.uploadKb());
+    document.getElementById("downloadKbJsonBtn")?.addEventListener("click", () => this.downloadParsedKbJson());
     document.getElementById("downloadSampleBtn")?.addEventListener("click", () => this.downloadSample());
     document.getElementById("refreshLogsBtn")?.addEventListener("click", () => this.loadLogStats());
     document.getElementById("exportLogsBtn")?.addEventListener("click", () => this.exportLogsCsv());
@@ -81,9 +82,17 @@ const Admin = {
   updateUploadButtonLabel() {
     const btn = document.getElementById("uploadKbBtn");
     if (!btn) return;
-    btn.textContent = window.SP_CONFIG?.useSharePoint
-      ? "Upload to SharePoint"
-      : "Apply KB update";
+    if (window.SP_CONFIG?.useSharePoint) {
+      btn.textContent = "Upload to SharePoint & download single-file";
+    } else {
+      btn.textContent = "Apply & download single-file app";
+    }
+  },
+
+  setParsedKbReady(ready) {
+    document.getElementById("uploadKbBtn").disabled = !ready;
+    const jsonBtn = document.getElementById("downloadKbJsonBtn");
+    if (jsonBtn) jsonBtn.disabled = !ready;
   },
 
   async handleFileSelect(file) {
@@ -107,12 +116,12 @@ const Admin = {
         (this.parsedKb.articles?.length || 0) +
         " articles ready to apply.";
       preview.className = "preview success";
-      document.getElementById("uploadKbBtn").disabled = false;
+      this.setParsedKbReady(true);
     } catch (err) {
       preview.textContent = "Error: " + err.message;
       preview.className = "preview error";
       this.parsedKb = null;
-      document.getElementById("uploadKbBtn").disabled = true;
+      this.setParsedKbReady(false);
     }
   },
 
@@ -208,36 +217,96 @@ const Admin = {
     if (!this.parsedKb) return;
     const btn = document.getElementById("uploadKbBtn");
     btn.disabled = true;
-    const savingLabel = window.SP_CONFIG?.useSharePoint ? "Uploading..." : "Saving...";
+    const savingLabel = window.SP_CONFIG?.useSharePoint ? "Uploading..." : "Applying...";
     btn.textContent = savingLabel;
+
+    const preview = document.getElementById("uploadPreview");
 
     try {
       this.parsedKb.lastUpdated = new Date().toISOString().slice(0, 10);
       const json = JSON.stringify(this.parsedKb, null, 2);
       const cfg = window.SP_CONFIG;
+      const messages = [];
 
       if (cfg.useSharePoint) {
         await SharePoint.uploadKbFile("kb-articles.json", json);
-        document.getElementById("uploadPreview").textContent =
-          "Upload successful! Users will get the updated KB on next refresh (cached up to " +
-          cfg.kbCacheHours +
-          "h).";
+        messages.push(
+          "SharePoint upload successful (cache up to " + cfg.kbCacheHours + "h)."
+        );
       } else {
         localStorage.setItem("outlookAssistant_adminKb", json);
         Storage.setKbCache(this.parsedKb);
-        document.getElementById("uploadPreview").textContent =
-          "KB saved. Users see updates after clicking Refresh KB (or within " +
-          cfg.kbCacheHours +
-          "h cache).";
+        messages.push("KB applied in this browser.");
       }
-      document.getElementById("uploadPreview").className = "preview success";
+
+      btn.textContent = "Baking single-file...";
+      await this.downloadBakedSingleFile(json);
+      messages.push(
+        "Downloaded outlook-assistant.html with this KB baked in — redistribute that file."
+      );
+
+      preview.textContent = messages.join(" ");
+      preview.className = "preview success";
     } catch (err) {
-      document.getElementById("uploadPreview").textContent = "Save failed: " + err.message;
-      document.getElementById("uploadPreview").className = "preview error";
+      preview.textContent = "Save / bake failed: " + err.message;
+      preview.className = "preview error";
     } finally {
-      btn.disabled = false;
+      btn.disabled = !this.parsedKb;
       this.updateUploadButtonLabel();
+      const jsonBtn = document.getElementById("downloadKbJsonBtn");
+      if (jsonBtn) jsonBtn.disabled = !this.parsedKb;
     }
+  },
+
+  getSingleFileSourceUrl() {
+    if (window.SP_CONFIG?.singleFile) {
+      return location.href.split("#")[0].split("?")[0];
+    }
+    return "single-file/outlook-assistant.html";
+  },
+
+  async fetchSingleFileHtml() {
+    const url = this.getSingleFileSourceUrl();
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) {
+      throw new Error(
+        "Could not load single-file app from " +
+          url +
+          " (" +
+          res.status +
+          "). Serve the project over http and ensure single-file/outlook-assistant.html exists."
+      );
+    }
+    return res.text();
+  },
+
+  bakeEmbeddedKb(html, kbJson) {
+    const start = "/*__EMBEDDED_KB__*/";
+    const end = "/*__END_EMBEDDED_KB__*/";
+    const startIdx = html.indexOf(start);
+    const endIdx = html.indexOf(end);
+    if (startIdx < 0 || endIdx < 0 || endIdx <= startIdx) {
+      throw new Error(
+        "Single-file HTML is missing EMBEDDED_KB bake markers. Rebuild with: node single-file/build.js"
+      );
+    }
+    return (
+      html.slice(0, startIdx + start.length) +
+      kbJson +
+      html.slice(endIdx)
+    );
+  },
+
+  async downloadBakedSingleFile(kbJson) {
+    const html = await this.fetchSingleFileHtml();
+    const baked = this.bakeEmbeddedKb(html, kbJson);
+    this.downloadBlob(baked, "outlook-assistant.html", "text/html;charset=utf-8");
+  },
+
+  downloadParsedKbJson() {
+    if (!this.parsedKb) return;
+    const json = JSON.stringify(this.parsedKb, null, 2);
+    this.downloadBlob(json, "kb-articles.json", "application/json");
   },
 
   async loadLogStats() {

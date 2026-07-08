@@ -120,11 +120,13 @@ const TroubleshootingApp = {
     const noResults = document.getElementById("noResults");
     const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
     const total = meta.total ?? this.data?.guides?.length ?? results.length;
+    const { visible, limited } = HubUi.getVisibleResults(results);
 
     HubUi.updateResultCount(document.getElementById("resultCount"), {
-      count: results.length,
-      total,
+      displayed: visible.length,
+      total: query ? results.length : total,
       query: (query || "").trim(),
+      limited,
       noun: "guides",
       singular: "guide"
     });
@@ -137,7 +139,7 @@ const TroubleshootingApp = {
     }
     noResults.hidden = true;
 
-    results.forEach((guide) => {
+    visible.forEach((guide) => {
       const stepCount = (guide.steps || []).length;
       const hasVisuals = StepUtils.articleHasImages(guide);
       const card = document.createElement("article");
@@ -156,7 +158,7 @@ const TroubleshootingApp = {
         (guide.category
           ? '<p class="category-line"><span class="category-tag">' + this.escape(guide.category) + "</span></p>"
           : "") +
-        HubUi.buildSymptomTagsHtml(guide.symptoms, 3, (s) => this.escape(s));
+        HubUi.buildSymptomTagsHtml(guide.symptoms, 2, (s) => this.escape(s));
       card.addEventListener("click", () => this.openGuide(guide));
       container.appendChild(card);
     });

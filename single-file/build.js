@@ -192,7 +192,7 @@ function buildJsBundle() {
 
   const chunks = [
     config,
-    `window.EMBEDDED_KB = ${embeddedKb};`,
+    `window.EMBEDDED_KB = /*__EMBEDDED_KB__*/${embeddedKb}/*__END_EMBEDDED_KB__*/;`,
     `window.EMBEDDED_TS_GUIDE = ${embeddedTs};`,
     `window.EMBEDDED_IMAGES = ${embeddedImages};`,
     spaRuntime

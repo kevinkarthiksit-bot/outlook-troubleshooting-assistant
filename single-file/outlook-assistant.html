@@ -385,8 +385,8 @@ a {
 /* Search */
 .search-section {
   background: var(--surface);
-  border-radius: var(--radius);
-  padding: 1.2rem 1.25rem;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.6rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
   margin-bottom: 1.25rem;
@@ -394,7 +394,7 @@ a {
 
 .search-section h2 {
   margin: 0 0 0.75rem;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 .search-section-header {
@@ -403,11 +403,13 @@ a {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.5rem 1rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .search-section-header h2 {
   margin: 0;
+  font-size: 1.3rem;
+  font-weight: 650;
 }
 
 .result-count {
@@ -429,9 +431,10 @@ a {
 
 .search-box input {
   flex: 1;
-  padding: 0.8rem 1rem;
-  font-size: 1rem;
-  border: 1.5px solid var(--border);
+  padding: 1rem 1.15rem;
+  font-size: 1.12rem;
+  min-height: 3.25rem;
+  border: 2px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--text);
@@ -536,43 +539,48 @@ a {
 
 .result-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+}
+
+/* Hard cap: never show more than 6 KB/guide cards */
+.result-grid > .result-card:nth-child(n + 7) {
+  display: none !important;
 }
 
 .result-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--cat-accent, var(--border));
-  border-radius: var(--radius);
-  padding: 1.05rem 1.1rem;
+  border-left: 3px solid var(--cat-accent, var(--border));
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.8rem;
   margin-bottom: 0;
   cursor: pointer;
   box-shadow: var(--shadow-sm);
   transition: border-color 0.15s, transform 0.12s, box-shadow 0.15s;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-height: 0;
 }
 
 .result-card:hover {
   border-color: var(--cat-accent, var(--primary));
   border-left-color: var(--cat-accent, var(--primary));
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 .result-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  gap: 0.35rem;
+  margin-bottom: 0.35rem;
   align-items: center;
 }
 
 .kb-id {
   font-family: Consolas, monospace;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: var(--primary);
   font-weight: 600;
 }
@@ -600,13 +608,14 @@ a {
 }
 
 .category-line {
-  margin: 0.35rem 0 0;
+  margin: 0.25rem 0 0;
 }
 
 .category-line .category-tag {
   display: inline-block;
-  padding: 0.15rem 0.5rem;
+  padding: 0.1rem 0.4rem;
   border-radius: 999px;
+  font-size: 0.68rem;
   background: color-mix(in srgb, var(--cat-accent, var(--surface-alt)) 12%, var(--surface-alt));
   border: 1px solid color-mix(in srgb, var(--cat-accent, var(--border)) 35%, var(--border));
   color: var(--text);
@@ -616,14 +625,14 @@ a {
 .symptom-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: 0.65rem;
+  gap: 0.25rem;
+  margin-top: 0.4rem;
 }
 
 .symptom-tag {
-  font-size: 0.72rem;
-  padding: 0.15rem 0.45rem;
-  border-radius: 6px;
+  font-size: 0.62rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
   background: var(--surface-alt);
   color: var(--text-muted);
   border: 1px solid var(--border);
@@ -631,8 +640,20 @@ a {
 
 .result-card h3 {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.35;
+  font-size: 0.86rem;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.show-all-results-btn {
+  display: block;
+  margin: 0.85rem auto 0;
+}
+
+@media (max-width: 900px) {
+  .result-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .symptoms {
@@ -1174,8 +1195,8 @@ footer.app-footer {
 }
 
 .step-count {
-  font-size: 0.75rem;
-  padding: 0.15rem 0.5rem;
+  font-size: 0.65rem;
+  padding: 0.1rem 0.4rem;
   border-radius: 10px;
   background: var(--surface-alt);
   color: var(--text-muted);
@@ -1832,6 +1853,8 @@ footer.app-footer {
 
 .search-box .btn {
   white-space: nowrap;
+  min-height: 3.25rem;
+  padding: 0.85rem 1.1rem;
 }
 
 #flowQuestion {
@@ -2272,18 +2295,26 @@ footer.app-footer {
 
     <section class="panel">
       <h2>Upload Knowledge Base</h2>
-      <p>Upload JSON or CSV to update the knowledge base. In Excel, use <strong>Save As → CSV</strong> with columns <strong>Number</strong> and <strong>Short description</strong>.</p>
+      <p>
+        Single entry: upload a KB file, then <strong>Apply &amp; download single-file app</strong>.
+        That downloads an updated <code>outlook-assistant.html</code> with your KB baked in — redistribute that file.
+      </p>
+      <p>
+        Excel: <strong>Save As → CSV</strong> with columns <strong>Number</strong> and <strong>Short description</strong>.
+        Rich guides: upload <strong>JSON</strong> (KB format with steps).
+      </p>
       <div class="file-input-wrap">
         <input type="file" id="kbFileInput" accept=".json,.csv">
       </div>
       <div id="uploadPreview" class="preview"></div>
       <div class="admin-actions">
-        <button type="button" id="uploadKbBtn" class="btn btn-primary" disabled>Apply KB update</button>
+        <button type="button" id="uploadKbBtn" class="btn btn-primary" disabled>Apply &amp; download single-file app</button>
+        <button type="button" id="downloadKbJsonBtn" class="btn btn-secondary" disabled>Download KB JSON</button>
         <button type="button" id="downloadSampleBtn" class="btn btn-secondary">Download Sample JSON</button>
       </div>
       <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted)">
-        CSV format: columns <strong>Number</strong> and <strong>Short description</strong> (creates text-only steps).
-        For rich guides with images and tips, upload <strong>JSON</strong> (KB v2.0.0 format).
+        CSV creates text-only stub steps. JSON supports full steps, tips, and URLs.
+        Optionally download KB JSON to commit into <code>data/</code> and rebuild from source later.
       </p>
     </section>
 
@@ -2402,7 +2433,7 @@ if (typeof window !== "undefined") {
 }
 
 
-window.EMBEDDED_KB = {
+window.EMBEDDED_KB = /*__EMBEDDED_KB__*/{
   "version": "1.0.0",
   "lastUpdated": "2026-07-06",
   "articles": [
@@ -2991,7 +3022,7 @@ window.EMBEDDED_KB = {
       "assistant"
     ]
   }
-};
+}/*__END_EMBEDDED_KB__*/;
 
 window.EMBEDDED_TS_GUIDE = {
   "version": "1.0.0",
@@ -5754,6 +5785,20 @@ const HubUi = {
     "performance-stability": "#5c2d91"
   },
 
+  CARD_DISPLAY_LIMIT: 6,
+
+  getVisibleResults(results, options = {}) {
+    const limit = options.limit ?? this.CARD_DISPLAY_LIMIT;
+    if (results.length <= limit) {
+      return { visible: results, limited: false, hiddenCount: 0 };
+    }
+    return {
+      visible: results.slice(0, limit),
+      limited: true,
+      hiddenCount: results.length - limit
+    };
+  },
+
   categorySlug(category) {
     return (category || "other")
       .toLowerCase()
@@ -5794,8 +5839,8 @@ const HubUi = {
 
   updateResultCount(container, options) {
     if (!container) return;
-    const count = options.count ?? 0;
-    const total = options.total ?? count;
+    const displayed = options.displayed ?? options.count ?? 0;
+    const total = options.total ?? displayed;
     const query = (options.query || "").trim();
     const noun = options.noun || "results";
     const singular = options.singular || noun.replace(/s$/, "");
@@ -5803,15 +5848,23 @@ const HubUi = {
     let text;
     if (query) {
       text =
-        count === 1
+        displayed === 1
           ? '1 ' + singular + ' for <strong>"' + this.escape(query) + '"</strong>'
-          : count + " " + noun + ' for <strong>"' + this.escape(query) + '"</strong>';
-    } else if (total && count === total) {
-      text = "Showing all <strong>" + count + "</strong> " + (count === 1 ? singular : noun);
+          : displayed + " " + noun + ' for <strong>"' + this.escape(query) + '"</strong>';
+    } else if (options.limited && total > displayed) {
+      text =
+        "Showing <strong>" +
+        displayed +
+        "</strong> of <strong>" +
+        total +
+        "</strong> " +
+        (total === 1 ? singular : noun);
+    } else if (total && displayed === total) {
+      text = "Showing all <strong>" + displayed + "</strong> " + (displayed === 1 ? singular : noun);
     } else {
       text =
         "Showing <strong>" +
-        count +
+        displayed +
         "</strong> of <strong>" +
         total +
         "</strong> " +
@@ -6237,11 +6290,13 @@ const App = {
     const noResults = document.getElementById("noResults");
     const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
     const total = meta.total ?? this.kbData?.articles?.length ?? results.length;
+    const { visible, limited } = HubUi.getVisibleResults(results);
 
     HubUi.updateResultCount(document.getElementById("resultCount"), {
-      count: results.length,
-      total,
+      displayed: visible.length,
+      total: query ? results.length : total,
       query: (query || "").trim(),
+      limited,
       noun: "articles",
       singular: "article"
     });
@@ -6254,7 +6309,7 @@ const App = {
     }
     noResults.hidden = true;
 
-    results.forEach((article) => {
+    visible.forEach((article) => {
       const stepCount = (article.steps || []).length;
       const card = document.createElement("article");
       card.className = "result-card issue-card";
@@ -6271,7 +6326,7 @@ const App = {
         (article.category
           ? '<p class="category-line"><span class="category-tag">' + this.escape(article.category) + "</span></p>"
           : "") +
-        HubUi.buildSymptomTagsHtml(article.symptoms, 3, (s) => this.escape(s));
+        HubUi.buildSymptomTagsHtml(article.symptoms, 2, (s) => this.escape(s));
       card.addEventListener("click", () => this.openArticle(article));
       container.appendChild(card);
     });
@@ -7109,11 +7164,13 @@ const TroubleshootingApp = {
     const noResults = document.getElementById("noResults");
     const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
     const total = meta.total ?? this.data?.guides?.length ?? results.length;
+    const { visible, limited } = HubUi.getVisibleResults(results);
 
     HubUi.updateResultCount(document.getElementById("resultCount"), {
-      count: results.length,
-      total,
+      displayed: visible.length,
+      total: query ? results.length : total,
       query: (query || "").trim(),
+      limited,
       noun: "guides",
       singular: "guide"
     });
@@ -7126,7 +7183,7 @@ const TroubleshootingApp = {
     }
     noResults.hidden = true;
 
-    results.forEach((guide) => {
+    visible.forEach((guide) => {
       const stepCount = (guide.steps || []).length;
       const hasVisuals = StepUtils.articleHasImages(guide);
       const card = document.createElement("article");
@@ -7145,7 +7202,7 @@ const TroubleshootingApp = {
         (guide.category
           ? '<p class="category-line"><span class="category-tag">' + this.escape(guide.category) + "</span></p>"
           : "") +
-        HubUi.buildSymptomTagsHtml(guide.symptoms, 3, (s) => this.escape(s));
+        HubUi.buildSymptomTagsHtml(guide.symptoms, 2, (s) => this.escape(s));
       card.addEventListener("click", () => this.openGuide(guide));
       container.appendChild(card);
     });
@@ -7761,6 +7818,7 @@ const Admin = {
       this.handleFileSelect(e.target.files[0])
     );
     document.getElementById("uploadKbBtn")?.addEventListener("click", () => this.uploadKb());
+    document.getElementById("downloadKbJsonBtn")?.addEventListener("click", () => this.downloadParsedKbJson());
     document.getElementById("downloadSampleBtn")?.addEventListener("click", () => this.downloadSample());
     document.getElementById("refreshLogsBtn")?.addEventListener("click", () => this.loadLogStats());
     document.getElementById("exportLogsBtn")?.addEventListener("click", () => this.exportLogsCsv());
@@ -7782,9 +7840,17 @@ const Admin = {
   updateUploadButtonLabel() {
     const btn = document.getElementById("uploadKbBtn");
     if (!btn) return;
-    btn.textContent = window.SP_CONFIG?.useSharePoint
-      ? "Upload to SharePoint"
-      : "Apply KB update";
+    if (window.SP_CONFIG?.useSharePoint) {
+      btn.textContent = "Upload to SharePoint & download single-file";
+    } else {
+      btn.textContent = "Apply & download single-file app";
+    }
+  },
+
+  setParsedKbReady(ready) {
+    document.getElementById("uploadKbBtn").disabled = !ready;
+    const jsonBtn = document.getElementById("downloadKbJsonBtn");
+    if (jsonBtn) jsonBtn.disabled = !ready;
   },
 
   async handleFileSelect(file) {
@@ -7808,12 +7874,12 @@ const Admin = {
         (this.parsedKb.articles?.length || 0) +
         " articles ready to apply.";
       preview.className = "preview success";
-      document.getElementById("uploadKbBtn").disabled = false;
+      this.setParsedKbReady(true);
     } catch (err) {
       preview.textContent = "Error: " + err.message;
       preview.className = "preview error";
       this.parsedKb = null;
-      document.getElementById("uploadKbBtn").disabled = true;
+      this.setParsedKbReady(false);
     }
   },
 
@@ -7909,36 +7975,96 @@ const Admin = {
     if (!this.parsedKb) return;
     const btn = document.getElementById("uploadKbBtn");
     btn.disabled = true;
-    const savingLabel = window.SP_CONFIG?.useSharePoint ? "Uploading..." : "Saving...";
+    const savingLabel = window.SP_CONFIG?.useSharePoint ? "Uploading..." : "Applying...";
     btn.textContent = savingLabel;
+
+    const preview = document.getElementById("uploadPreview");
 
     try {
       this.parsedKb.lastUpdated = new Date().toISOString().slice(0, 10);
       const json = JSON.stringify(this.parsedKb, null, 2);
       const cfg = window.SP_CONFIG;
+      const messages = [];
 
       if (cfg.useSharePoint) {
         await SharePoint.uploadKbFile("kb-articles.json", json);
-        document.getElementById("uploadPreview").textContent =
-          "Upload successful! Users will get the updated KB on next refresh (cached up to " +
-          cfg.kbCacheHours +
-          "h).";
+        messages.push(
+          "SharePoint upload successful (cache up to " + cfg.kbCacheHours + "h)."
+        );
       } else {
         localStorage.setItem("outlookAssistant_adminKb", json);
         Storage.setKbCache(this.parsedKb);
-        document.getElementById("uploadPreview").textContent =
-          "KB saved. Users see updates after clicking Refresh KB (or within " +
-          cfg.kbCacheHours +
-          "h cache).";
+        messages.push("KB applied in this browser.");
       }
-      document.getElementById("uploadPreview").className = "preview success";
+
+      btn.textContent = "Baking single-file...";
+      await this.downloadBakedSingleFile(json);
+      messages.push(
+        "Downloaded outlook-assistant.html with this KB baked in — redistribute that file."
+      );
+
+      preview.textContent = messages.join(" ");
+      preview.className = "preview success";
     } catch (err) {
-      document.getElementById("uploadPreview").textContent = "Save failed: " + err.message;
-      document.getElementById("uploadPreview").className = "preview error";
+      preview.textContent = "Save / bake failed: " + err.message;
+      preview.className = "preview error";
     } finally {
-      btn.disabled = false;
+      btn.disabled = !this.parsedKb;
       this.updateUploadButtonLabel();
+      const jsonBtn = document.getElementById("downloadKbJsonBtn");
+      if (jsonBtn) jsonBtn.disabled = !this.parsedKb;
     }
+  },
+
+  getSingleFileSourceUrl() {
+    if (window.SP_CONFIG?.singleFile) {
+      return location.href.split("#")[0].split("?")[0];
+    }
+    return "single-file/outlook-assistant.html";
+  },
+
+  async fetchSingleFileHtml() {
+    const url = this.getSingleFileSourceUrl();
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) {
+      throw new Error(
+        "Could not load single-file app from " +
+          url +
+          " (" +
+          res.status +
+          "). Serve the project over http and ensure single-file/outlook-assistant.html exists."
+      );
+    }
+    return res.text();
+  },
+
+  bakeEmbeddedKb(html, kbJson) {
+    const start = "/*__EMBEDDED_KB__*/";
+    const end = "/*__END_EMBEDDED_KB__*/";
+    const startIdx = html.indexOf(start);
+    const endIdx = html.indexOf(end);
+    if (startIdx < 0 || endIdx < 0 || endIdx <= startIdx) {
+      throw new Error(
+        "Single-file HTML is missing EMBEDDED_KB bake markers. Rebuild with: node single-file/build.js"
+      );
+    }
+    return (
+      html.slice(0, startIdx + start.length) +
+      kbJson +
+      html.slice(endIdx)
+    );
+  },
+
+  async downloadBakedSingleFile(kbJson) {
+    const html = await this.fetchSingleFileHtml();
+    const baked = this.bakeEmbeddedKb(html, kbJson);
+    this.downloadBlob(baked, "outlook-assistant.html", "text/html;charset=utf-8");
+  },
+
+  downloadParsedKbJson() {
+    if (!this.parsedKb) return;
+    const json = JSON.stringify(this.parsedKb, null, 2);
+    this.downloadBlob(json, "kb-articles.json", "application/json");
   },
 
   async loadLogStats() {

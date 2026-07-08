@@ -6,7 +6,7 @@ const { execSync } = require("child_process");
 const path = require("path");
 
 const root = path.join(__dirname, "..");
-const tests = ["kb-validate.js", "ts-validate.js", "e2e-smoke.js"];
+const tests = ["kb-validate.js", "ts-validate.js", "hub-ui-validate.js", "e2e-smoke.js"];
 
 for (const t of tests) {
   console.log("\n=== " + t + " ===\n");

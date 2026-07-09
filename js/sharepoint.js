@@ -117,8 +117,11 @@ const SharePoint = {
       const digest = await this.getFormDigest();
       const body = {
         __metadata: { type: "SP.Data." + cfg.logListTitle.replace(/\s/g, "_x0020_") + "ListItem" },
-        Title: entry.employeeId || "unknown",
+        Title: entry.employeeId || entry.chatIms || "unknown",
         EmployeeId: entry.employeeId || "",
+        ChatIms: entry.chatIms || "",
+        Platform: entry.platform || "",
+        Environment: entry.environment || "",
         UserEmail: entry.userEmail || "",
         SessionId: entry.sessionId || "",
         Action: entry.action || "",
@@ -170,7 +173,10 @@ const SharePoint = {
     );
     return (data.d.results || []).map((item) => ({
       timestamp: item.Created,
-      employeeId: item.EmployeeId || item.Title,
+      employeeId: item.EmployeeId || "",
+      chatIms: item.ChatIms || "",
+      platform: item.Platform || "",
+      environment: item.Environment || "",
       userEmail: item.UserEmail,
       sessionId: item.SessionId,
       action: item.Action,

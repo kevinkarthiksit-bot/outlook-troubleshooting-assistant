@@ -82,8 +82,9 @@ function extractJsonAfter(marker) {
 
 try {
   const kb = extractJsonAfter("window.EMBEDDED_KB =");
-  if (kb?.articles?.length === 24) ok("embedded 24 org KB articles");
-  else bad("embedded KB article count");
+  const count = kb?.articles?.length || 0;
+  if (count >= 90) ok("embedded " + count + " org KB articles");
+  else bad("embedded KB article count (" + count + ", expected >= 90)");
   if (!kb?.flows?.length) ok("embedded org KB has no flows");
   else bad("embedded org KB has flows");
 } catch (e) {
@@ -115,8 +116,20 @@ else bad("KB loader missing embedded branch");
 if (html.includes("if (window.EMBEDDED_TS_GUIDE)")) ok("TS loader prefers embedded data");
 else bad("TS loader missing embedded branch");
 
-if (!html.includes("cdn.sheetjs.com")) ok("no SheetJS CDN dependency");
-else bad("still references SheetJS CDN");
+if (html.includes("cdn.sheetjs.com")) ok("admin can load SheetJS on demand for Excel upload");
+else bad("admin missing on-demand Excel parser hook");
+
+if (html.includes("const GuideResolver")) ok("guide resolver bundled");
+else bad("guide resolver missing");
+
+if (html.includes("const UnifiedSearch")) ok("unified search bundled");
+else bad("unified search missing");
+
+if (html.includes("const SearchSuggestions")) ok("search suggestions bundled");
+else bad("search suggestions missing");
+
+if (html.includes('SPA.navigate("troubleshooting")')) ok("SPA routes to troubleshooting hub");
+else bad("SPA missing troubleshooting route from case");
 
 if (html.includes('location.hash = "#case"')) ok("SPA defaults to case route");
 else bad("SPA default route should be case");

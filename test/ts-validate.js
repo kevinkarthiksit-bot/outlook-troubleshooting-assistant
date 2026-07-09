@@ -30,6 +30,24 @@ for (const g of data.guides) {
   ids.add(g.id);
 }
 
+for (const flow of data.flows) {
+  for (const step of flow.steps || []) {
+    for (const opt of step.options || []) {
+      const guideIds = opt.guideIds || opt.kbIds || [];
+      const seen = new Set();
+      for (const id of guideIds) {
+        if (seen.has(id)) {
+          console.error(
+            "FAIL: duplicate guideId " + id + " in flow '" + flow.id + "' option '" + opt.label + "'"
+          );
+          process.exit(1);
+        }
+        seen.add(id);
+      }
+    }
+  }
+}
+
 console.log(
   "OK troubleshooting: " + data.guides.length + " guides, " + data.flows.length + " flows"
 );

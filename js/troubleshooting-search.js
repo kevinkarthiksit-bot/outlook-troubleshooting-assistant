@@ -28,7 +28,7 @@ const TroubleshootingSearch = {
     return [...terms];
   },
 
-  scoreGuide(guide, terms, rawQuery) {
+  scoreGuide(guide, terms, rawQuery, platform) {
     let score = 0;
     const q = this.normalize(rawQuery);
     const title = this.normalize(guide.title);
@@ -49,22 +49,31 @@ const TroubleshootingSearch = {
       if (category.includes(term)) score += 5;
     }
     score += Math.max(0, 4 - (guide.priority || 3));
+    if (typeof PlatformMatch !== "undefined" && platform) {
+      score += PlatformMatch.platformBoost(guide, platform, true);
+    }
     return score;
   },
 
-  search(query, limit = 12) {
+  search(query, limit = 12, options = {}) {
     const guides = this.data?.guides || [];
     const q = (query || "").trim();
-    if (!q) return guides.map((g) => ({ ...g, matchLabel: "Available" }));
+    const platform = options.platform;
+    if (!q) {
+      return guides
+        .filter((g) => !platform || PlatformMatch.guideAppliesToPlatform(g, platform))
+        .map((g) => ({ ...g, matchLabel: "Available" }));
+    }
 
     const terms = this.expandQuery(q);
     return guides
-      .map((guide) => ({ guide, score: this.scoreGuide(guide, terms, q) }))
+      .map((guide) => ({ guide, score: this.scoreGuide(guide, terms, q, platform) }))
       .filter((r) => r.score > 0)
       .sort((a, b) => b.score - a.score)
       .slice(0, limit)
       .map((r, i) => ({
         ...r.guide,
+        relevanceScore: r.score,
         matchLabel: i === 0 ? "Best match" : i < 3 ? "Related" : "Try if above fails"
       }));
   },

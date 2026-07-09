@@ -1,11 +1,13 @@
 /**
- * Troubleshooting hub — guided flows and research guide browser.
+ * Troubleshooting hub — primary symptom-first entry point.
  */
 const TroubleshootingApp = {
   data: null,
   currentFlow: null,
   flowStepIndex: 0,
   searchDebounce: null,
+  suggestionState: null,
+  browseShowAll: false,
 
   async init() {
     if (!Session.requireCaseSetup()) return;
@@ -14,6 +16,7 @@ const TroubleshootingApp = {
     Themes.init();
     this.bindEvents();
     await this.loadData();
+    await KbLoader.load();
     this.initUser();
     this.renderSessionSummary();
     this.renderQuickFlows();
@@ -26,25 +29,41 @@ const TroubleshootingApp = {
 
   bindEvents() {
     const searchInput = document.getElementById("searchInput");
+
+    this.suggestionState = SearchSuggestions.mount(searchInput, {
+      getSuggestions: (q) => Promise.resolve(UnifiedSearch.suggest(q, { limit: 10, kbReserve: 3 })),
+      onSelect: (item) => {
+        if (item.type === "flow" && item.flow) {
+          this.startFlow(item.flow);
+          return;
+        }
+        GuideResolver.openItem(item);
+      },
+      onSubmit: (q) => this.handleSearch(q)
+    });
+
     searchInput?.addEventListener("input", (e) => {
       clearTimeout(this.searchDebounce);
       this.searchDebounce = setTimeout(() => this.handleSearch(e.target.value), 250);
     });
-    searchInput?.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") this.handleSearch(e.target.value);
-    });
-
     document.getElementById("clearSearch")?.addEventListener("click", () => {
       searchInput.value = "";
+      this.browseShowAll = false;
+      SearchSuggestions.hide(this.suggestionState);
       this.renderAllGuides();
     });
 
     document.getElementById("closeFlow")?.addEventListener("click", () => this.closeFlow());
     document.getElementById("escalateBtn")?.addEventListener("click", () => this.escalate());
 
+    document.getElementById("editCaseBtn")?.addEventListener("click", () => {
+      window.location.href = "case.html?edit=1";
+    });
+
     document.getElementById("refreshGuide")?.addEventListener("click", async () => {
       Storage.clearTsGuideCache();
       await this.loadData(true);
+      await KbLoader.load(true);
       this.renderAllGuides();
       this.showToast("Troubleshooting guide refreshed.");
     });
@@ -90,26 +109,35 @@ const TroubleshootingApp = {
   initUser() {
     Session.ensureAnonymousSession();
     const identity = Session.getLogIdentity();
-    Logger.init(identity);
+    Logger.init(Session.getAgentId());
     const display = document.getElementById("userDisplay");
     if (display) display.textContent = "IMS: " + identity;
   },
 
   handleSearch(query) {
     const q = (query || "").trim();
+    this.browseShowAll = false;
     if (!q) {
       this.renderAllGuides();
       return;
     }
-    const results = TroubleshootingSearch.search(q);
+    const results = UnifiedSearch.search(q);
     Logger.logSearch(q, results.length);
     this.renderGuideResults(results, { query: q });
   },
 
   renderAllGuides() {
-    const guides = this.data?.guides || [];
+    const platform = PlatformMatch.getSessionPlatform();
+    const guides = (this.data?.guides || []).filter((g) =>
+      PlatformMatch.guideAppliesToPlatform(g, platform)
+    );
     this.renderGuideResults(
-      guides.map((g) => ({ ...g, matchLabel: "Available" })),
+      guides.map((g) => ({
+        ...g,
+        type: "troubleshooting",
+        matchLabel: "Available",
+        badge: "Guide"
+      })),
       { query: "", total: guides.length }
     );
     document.getElementById("noResults").hidden = guides.length > 0;
@@ -120,15 +148,20 @@ const TroubleshootingApp = {
     const noResults = document.getElementById("noResults");
     const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
     const total = meta.total ?? this.data?.guides?.length ?? results.length;
-    const { visible, limited } = HubUi.getVisibleResults(results);
+    const showAll = meta.showAll ?? this.browseShowAll;
+    const { visible, limited, hiddenCount } = HubUi.getVisibleResults(
+      results,
+      showAll ? { limit: results.length } : {}
+    );
+    container.classList.toggle("result-grid-expanded", showAll || !limited);
 
     HubUi.updateResultCount(document.getElementById("resultCount"), {
       displayed: visible.length,
       total: query ? results.length : total,
       query: (query || "").trim(),
       limited,
-      noun: "guides",
-      singular: "guide"
+      noun: "results",
+      singular: "result"
     });
 
     container.innerHTML = "";
@@ -139,41 +172,52 @@ const TroubleshootingApp = {
     }
     noResults.hidden = true;
 
-    visible.forEach((guide) => {
-      const stepCount = (guide.steps || []).length;
-      const hasVisuals = StepUtils.articleHasImages(guide);
+    visible.forEach((item) => {
+      const isKb = item.type === "kb";
+      const stepCount = (item.steps || []).length;
+      const hasVisuals = !isKb && StepUtils.articleHasImages(item);
       const card = document.createElement("article");
       card.className = "result-card issue-card";
-      HubUi.applyCategory(card, guide.category);
+      HubUi.applyCategory(card, item.category);
       card.innerHTML =
         '<div class="result-meta">' +
-        '<span class="kb-id">' + this.escape(guide.id) + "</span>" +
-        (guide.matchLabel && guide.matchLabel !== "Available"
-          ? '<span class="match-badge">' + this.escape(guide.matchLabel) + "</span>"
+        '<span class="type-badge type-badge-' +
+        (isKb ? "kb" : "guide") +
+        '">' +
+        this.escape(item.badge || (isKb ? "Org KB" : "Guide")) +
+        "</span>" +
+        '<span class="kb-id">' + this.escape(item.id) + "</span>" +
+        (item.matchLabel && item.matchLabel !== "Available"
+          ? '<span class="match-badge">' + this.escape(item.matchLabel) + "</span>"
           : "") +
         (hasVisuals ? '<span class="visual-badge">Has visuals</span>' : "") +
         '<span class="step-count">' + stepCount + " step" + (stepCount !== 1 ? "s" : "") + "</span>" +
         "</div>" +
-        "<h3>" + this.escape(guide.title) + "</h3>" +
-        (guide.category
-          ? '<p class="category-line"><span class="category-tag">' + this.escape(guide.category) + "</span></p>"
+        "<h3>" + this.escape(item.title) + "</h3>" +
+        (item.category
+          ? '<p class="category-line"><span class="category-tag">' + this.escape(item.category) + "</span></p>"
           : "") +
-        HubUi.buildSymptomTagsHtml(guide.symptoms, 2, (s) => this.escape(s));
-      card.addEventListener("click", () => this.openGuide(guide));
+        HubUi.buildSymptomTagsHtml(item.symptoms, 2, (s) => this.escape(s));
+      card.addEventListener("click", () => GuideResolver.openItem(item));
       container.appendChild(card);
+    });
+
+    HubUi.renderShowAllButton(container.parentElement, {
+      limited: limited && !showAll,
+      hiddenCount,
+      onShowAll: () => {
+        this.browseShowAll = true;
+        this.renderGuideResults(results, { ...meta, showAll: true });
+      }
     });
   },
 
   openGuide(guide) {
-    const platform = Session.getCaseDetails()?.platform || "Windows";
-    const steps = StepUtils.filterSteps(guide.steps || [], platform);
-    const count = steps.length || (guide.steps || []).length;
-    Session.startGuide(guide.id, guide.title, count, "troubleshooting");
-    Logger.logArticleView({ id: guide.id, title: guide.title });
-    window.location.href = "troubleshooting-guide.html?guide=" + encodeURIComponent(guide.id);
+    GuideResolver.openItem({ ...guide, type: "troubleshooting" });
   },
 
   escalate() {
+    Session.setEscalated();
     const reason =
       "Case escalated — no matching guide. Last search: " +
       (document.getElementById("searchInput")?.value || "N/A");
@@ -256,18 +300,21 @@ const TroubleshootingApp = {
     Logger.logFlowStep(this.currentFlow.id, step.question, option.label);
 
     const guideIds = this.getOptionGuideIds(option);
+    const targets = GuideResolver.resolveFlowTargets(guideIds);
 
     if (option.action === "escalate") {
       this.escalate();
-      if (guideIds.length === 1) {
-        this.openGuide(TroubleshootingSearch.getGuideById(guideIds[0]));
-      } else if (guideIds.length > 1) {
-        this.renderFlowGuideResults(guideIds);
+      if (targets.length === 1) {
+        GuideResolver.openItem({ ...targets[0].item, type: targets[0].type });
+      } else if (targets.length > 1) {
+        this.renderFlowGuideResults(targets);
       }
       return;
     }
 
     if (option.action === "resolved") {
+      Session.setResolution("Resolved");
+      Logger.logResolution(this.currentFlow?.id || "", this.currentFlow?.title || "");
       this.showToast("Glad that resolved your issue!");
       this.closeFlow();
       return;
@@ -282,16 +329,13 @@ const TroubleshootingApp = {
       }
     }
 
-    if (guideIds.length === 1) {
-      const guide = TroubleshootingSearch.getGuideById(guideIds[0]);
-      if (guide) {
-        this.openGuide(guide);
-        return;
-      }
+    if (targets.length === 1) {
+      GuideResolver.openItem({ ...targets[0].item, type: targets[0].type });
+      return;
     }
 
-    if (guideIds.length > 1) {
-      this.renderFlowGuideResults(guideIds);
+    if (targets.length > 1) {
+      this.renderFlowGuideResults(targets);
       this.showToast("Select a guide below to start step-by-step troubleshooting.");
       return;
     }
@@ -299,20 +343,30 @@ const TroubleshootingApp = {
     this.showToast("Continue with the next question or mark case as escalated.");
   },
 
-  renderFlowGuideResults(ids) {
-    const guides = TroubleshootingSearch.getGuidesByIds(ids);
+  renderFlowGuideResults(targets) {
     const container = document.getElementById("flowGuideResults");
-    container.innerHTML = "<h4>Start a troubleshooting guide</h4>";
-    guides.forEach((guide) => {
+    container.innerHTML = "<h4>Start troubleshooting</h4>";
+    targets.forEach((target) => {
+      const item = target.item;
       const card = document.createElement("button");
       card.type = "button";
       card.className = "flow-kb-card";
-      const steps = (guide.steps || []).length;
+      const steps = (item.steps || []).length;
+      const badge = target.type === "kb" ? "Org KB" : "Guide";
       card.innerHTML =
-        "<strong>" + this.escape(guide.id) + "</strong>: " +
-        this.escape(guide.title) +
-        " <span class='step-count-inline'>(" + steps + " steps)</span>";
-      card.addEventListener("click", () => this.openGuide(guide));
+        "<span class='type-badge type-badge-" +
+        (target.type === "kb" ? "kb" : "guide") +
+        "'>" +
+        this.escape(badge) +
+        "</span> " +
+        "<strong>" +
+        this.escape(item.id) +
+        "</strong>: " +
+        this.escape(item.title) +
+        " <span class='step-count-inline'>(" +
+        steps +
+        " steps)</span>";
+      card.addEventListener("click", () => GuideResolver.openItem({ ...item, type: target.type }));
       container.appendChild(card);
     });
     container.scrollIntoView({ behavior: "smooth", block: "nearest" });

@@ -7,7 +7,7 @@ const Login = {
 
     if (Session.isLoggedIn()) {
       if (Storage.isCaseSetupComplete()) {
-        window.location.href = "index.html";
+        window.location.href = "troubleshooting.html";
       } else {
         window.location.href = "case.html";
       }

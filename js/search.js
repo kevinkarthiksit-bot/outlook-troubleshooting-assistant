@@ -29,7 +29,7 @@ const SearchEngine = {
     return [...terms];
   },
 
-  scoreArticle(article, terms, rawQuery) {
+  scoreArticle(article, terms, rawQuery, platform) {
     let score = 0;
     const q = this.normalize(rawQuery);
     const title = this.normalize(article.title);
@@ -52,19 +52,23 @@ const SearchEngine = {
     }
 
     score += Math.max(0, 4 - (article.priority || 3));
+    if (typeof PlatformMatch !== "undefined" && platform) {
+      score += PlatformMatch.platformBoost(article, platform, false);
+    }
     return score;
   },
 
-  search(query, limit = 10) {
+  search(query, limit = 10, options = {}) {
     if (!this.kbData?.articles?.length) return [];
     const q = (query || "").trim();
     if (!q) return [];
 
+    const platform = options.platform;
     const terms = this.expandQuery(q);
     const results = this.kbData.articles
       .map((article) => ({
         article,
-        score: this.scoreArticle(article, terms, q)
+        score: this.scoreArticle(article, terms, q, platform)
       }))
       .filter((r) => r.score > 0)
       .sort((a, b) => b.score - a.score)

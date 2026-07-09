@@ -6,16 +6,66 @@ const Logger = {
   userEmail: "",
   sessionId: "",
 
+  getConfig() {
+    return window.SP_CONFIG?.logging || {};
+  },
+
   init(employeeId, userEmail) {
-    const caseIms = Session?.getCaseDetails?.()?.chatIms;
-    this.employeeId = caseIms || employeeId || Storage.getEmployeeId() || "agent";
+    this.employeeId = employeeId || Session?.getEmployeeId?.() || Storage.getEmployeeId() || "agent";
     this.userEmail = userEmail || "";
     this.sessionId = Storage.getSessionId();
   },
 
+  getCaseDetailsForLogging() {
+    let details = {};
+    if (typeof Storage !== "undefined" && Storage.getCaseDetails) {
+      details = Storage.getCaseDetails() || {};
+    }
+    if (typeof Session !== "undefined" && Session.getCaseDetails) {
+      details = { ...details, ...Session.getCaseDetails() };
+    }
+    const guide =
+      (typeof Session !== "undefined" && Session.getGuideSession?.()) ||
+      (typeof Storage !== "undefined" && Storage.getGuideSession?.()) ||
+      null;
+    if (guide) {
+      details = {
+        chatIms: details.chatIms || guide.chatIms || "",
+        platform: details.platform || guide.platform || "",
+        environment: details.environment || guide.environment || ""
+      };
+    }
+    return {
+      chatIms: (details.chatIms || "").trim(),
+      platform: details.platform || "Windows",
+      environment: details.environment || "Exchange Online"
+    };
+  },
+
+  buildContext() {
+    const cfg = this.getConfig();
+    const caseDetails = this.getCaseDetailsForLogging();
+    const ctx = {};
+
+    if (cfg.captureEmployeeId !== false) {
+      ctx.employeeId = this.employeeId || "agent";
+    }
+    if (cfg.captureChatIms !== false) {
+      ctx.chatIms = caseDetails.chatIms;
+    }
+    if (cfg.capturePlatform !== false) {
+      ctx.platform = caseDetails.platform;
+    }
+    if (cfg.captureEnvironment !== false) {
+      ctx.environment = caseDetails.environment;
+    }
+
+    return ctx;
+  },
+
   async log(action, details = {}) {
     const entry = {
-      employeeId: this.employeeId,
+      ...this.buildContext(),
       userEmail: this.userEmail,
       sessionId: this.sessionId,
       action,
@@ -30,7 +80,7 @@ const Logger = {
   },
 
   logLogin(employeeId) {
-    return this.log("login", { details: "Employee ID: " + employeeId });
+    return this.log("login", { details: "Agent signed in: " + employeeId });
   },
 
   logSearch(query, resultCount) {

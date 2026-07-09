@@ -35,10 +35,15 @@ const JS_ORDER = [
   "js/troubleshooting-search.js",
   "js/troubleshooting-loader.js",
   "js/step-utils.js",
+  "js/platform-match.js",
+  "js/guide-resolver.js",
+  "js/unified-search.js",
+  "js/search-suggestions.js",
   "js/hub-ui.js",
   "js/theme-picker.js",
   "js/themes.js",
   "js/admin-auth.js",
+  "js/kb-spreadsheet.js",
   "js/login.js",
   "js/case.js",
   "js/app.js",
@@ -87,6 +92,7 @@ function patchJs(code) {
     [/window\.location\.href\s*=\s*redirectUrl;/g, 'SPA.navigate(SPA.routeFromPage(redirectUrl));'],
     [/window\.location\.href\s*=\s*"login\.html"/g, 'SPA.navigate("login")'],
     [/window\.location\.href\s*=\s*"case\.html"/g, 'SPA.navigate("case")'],
+    [/window\.location\.href\s*=\s*"troubleshooting\.html"/g, 'SPA.navigate("troubleshooting")'],
     [/window\.location\.href\s*=\s*"index\.html"/g, 'SPA.navigate("index")'],
     [/window\.location\.href\s*=\s*"admin\.html"/g, 'SPA.navigate("admin")'],
     [/window\.location\.href\s*=\s*"admin-login\.html"/g, 'SPA.navigate("admin-login")'],
@@ -150,6 +156,13 @@ function patchJs(code) {
     );
   }
 
+    if (code.includes("const Login")) {
+      code = code.replace(
+        /SPA\.navigate\("index"\);\s*\n\s*\} else \{\s*\n\s*SPA\.navigate\("case"\)/,
+        'SPA.navigate("troubleshooting");\n      } else {\n        SPA.navigate("case")'
+      );
+    }
+
   return code;
 }
 
@@ -180,7 +193,10 @@ function buildJsBundle() {
   const spaRuntime = read(path.join(__dirname, "src", "spa-runtime.js"));
   const spaBootstrap = read(path.join(__dirname, "src", "spa-bootstrap.js"));
 
-  const embeddedKb = read("data/kb-articles.sample.json");
+  const kbPath = fs.existsSync(path.join(ROOT, "data", "kb-articles.json"))
+    ? "data/kb-articles.json"
+    : "data/kb-articles.sample.json";
+  const embeddedKb = read(kbPath);
   const embeddedTs = read("data/troubleshooting-guide.json");
   const embeddedImages = JSON.stringify(loadEmbeddedImages());
 

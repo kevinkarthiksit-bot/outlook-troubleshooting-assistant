@@ -3,6 +3,9 @@
  */
 const AdminLogin = {
   init() {
+    ThemePicker.mount("#themePickerMount");
+    Themes.init();
+
     if (AdminAuth.isAuthenticated()) {
       window.location.href = "admin.html";
       return;

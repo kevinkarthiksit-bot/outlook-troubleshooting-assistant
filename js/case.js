@@ -2,11 +2,17 @@
  * Case setup page — Chat IMS, OS, Environment before troubleshooting.
  */
 const CaseSetup = {
+  isEditMode() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("edit") === "1";
+  },
+
   init() {
     Session.ensureAnonymousSession();
-    Logger.init(Session.getLogIdentity());
+    Logger.init(Session.getAgentId());
 
     const existing = Session.getCaseDetails();
+    const editing = this.isEditMode();
     const display = document.getElementById("userDisplay");
     if (display && existing.chatIms) {
       display.textContent = "IMS: " + existing.chatIms;
@@ -21,6 +27,22 @@ const CaseSetup = {
     }
     if (existing.environment) {
       document.getElementById("environmentSelect").value = existing.environment;
+    }
+
+    if (existing.chatIms && Storage.isCaseSetupComplete() && !editing) {
+      window.location.href = "troubleshooting.html";
+      return;
+    }
+
+    if (editing) {
+      const title = document.querySelector(".case-setup-card h2");
+      const submitBtn = document.querySelector("#caseForm button[type='submit']");
+      const subtitle = document.querySelector(".login-hint");
+      if (title) title.textContent = "Edit Case Details";
+      if (submitBtn) submitBtn.textContent = "Save & return to troubleshooting";
+      if (subtitle) {
+        subtitle.textContent = "Update chat IMS, platform, or environment for this session.";
+      }
     }
 
     document.getElementById("caseForm").addEventListener("submit", (e) => {
@@ -63,8 +85,7 @@ const CaseSetup = {
     } catch (err) {
       console.warn("Case setup logging failed:", err);
     }
-
-    window.location.href = "index.html";
+    window.location.href = "troubleshooting.html";
   }
 };
 

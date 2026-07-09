@@ -543,8 +543,8 @@ a {
   gap: 0.65rem;
 }
 
-/* Hard cap: never show more than 6 KB/guide cards */
-.result-grid > .result-card:nth-child(n + 7) {
+/* Hard cap: never show more than 6 KB/guide cards unless expanded */
+.result-grid:not(.result-grid-expanded) > .result-card:nth-child(n + 7) {
   display: none !important;
 }
 
@@ -1857,6 +1857,139 @@ footer.app-footer {
   padding: 0.85rem 1.1rem;
 }
 
+.search-section-priority {
+  margin-bottom: 1.25rem;
+}
+
+.search-section-priority .search-section-lead {
+  margin: 0.25rem 0 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.search-section-priority .search-section-header h2 {
+  margin-bottom: 0;
+}
+.search-input-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.search-input-wrap > input {
+  width: 100%;
+}
+
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  margin: 0;
+  padding: 0.35rem 0;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  max-height: 18rem;
+  overflow-y: auto;
+}
+
+.search-suggestion-group {
+  padding: 0.45rem 0.85rem 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: default;
+  user-select: none;
+}
+
+.search-suggestion-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 0.15rem 0.65rem;
+  align-items: center;
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+}
+
+.search-suggestion-item:hover,
+.search-suggestion-item.active {
+  background: var(--surface-muted);
+}
+
+.suggestion-badge {
+  grid-row: 1 / span 2;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.suggestion-badge-guide {
+  background: rgba(0, 120, 212, 0.12);
+  color: var(--primary);
+}
+
+.suggestion-badge-kb {
+  background: rgba(16, 124, 16, 0.12);
+  color: #107c10;
+}
+
+.suggestion-badge-flow {
+  background: rgba(135, 100, 184, 0.14);
+  color: #8764b8;
+}
+
+.suggestion-title {
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.suggestion-subtitle {
+  grid-column: 2;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.type-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.4rem;
+  border-radius: 999px;
+}
+
+.type-badge-guide {
+  background: rgba(0, 120, 212, 0.12);
+  color: var(--primary);
+}
+
+.type-badge-kb {
+  background: rgba(16, 124, 16, 0.12);
+  color: #107c10;
+}
+
+.kb-fallback-panel {
+  margin-top: 1.25rem;
+  border-left: 4px solid var(--primary);
+}
+
+.kb-fallback-panel h3 {
+  margin: 0 0 0.35rem;
+}
+
 #flowQuestion {
   font-size: 1.05rem;
   line-height: 1.55;
@@ -1882,6 +2015,7 @@ footer.app-footer {
     <div class="header-actions">
       <span id="userDisplay" class="user-display"></span>
       <div id="themePickerMount"></div>
+      <a href="admin-login.html" class="admin-link">Admin sign in</a>
     </div>
   </header>
 
@@ -1920,6 +2054,10 @@ footer.app-footer {
 
         <button type="submit" class="btn btn-primary btn-block">Continue to Troubleshooting</button>
       </form>
+
+      <p class="login-footer-link">
+        <a href="admin-login.html">Administrator sign in</a>
+      </p>
     </div>
   </main>
 
@@ -1932,7 +2070,7 @@ footer.app-footer {
     <div class="header-actions">
       <span id="userDisplay" class="user-display"></span>
       <div id="themePickerMount"></div>
-      <a href="troubleshooting.html" class="admin-link">Troubleshooting Guides</a>
+      <a href="troubleshooting.html" class="admin-link">Home</a>
       <button type="button" id="editCaseBtn" class="btn btn-secondary btn-header">Edit Case</button>
       <button type="button" id="startOverBtn" class="btn-start-over">Start Over</button>
       <a href="admin.html" class="admin-link">Admin</a>
@@ -1946,25 +2084,7 @@ footer.app-footer {
     <section class="page-hero page-hero-kb" aria-label="Org KB overview">
       <div class="page-hero-text">
         <h2 class="page-hero-title">Org Knowledge Base</h2>
-        <p class="page-hero-desc">Search internal articles for policies, procedures, and known fixes.</p>
-      </div>
-    </section>
-
-    <section class="panel kb-promo-panel">
-      <div class="kb-promo-inner">
-        <div class="kb-promo-text">
-          <span class="kb-promo-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M22.7 19.3l-2.4-2.4a8.04 8.04 0 0 0 1.2-4.2 8 8 0 1 0-8 8c1.5 0 2.9-.4 4.2-1.2l2.4 2.4 1.5-1.6zM6 11a5 5 0 1 1 10 0 5 5 0 0 1-10 0z"/></svg>
-          </span>
-          <h2>Need symptom-based help?</h2>
-        </div>
-        <a href="troubleshooting.html" class="btn btn-primary kb-promo-btn">Open Troubleshooting Guides</a>
-      </div>
-      <div class="kb-promo-chips" aria-label="Quick symptom shortcuts">
-        <a href="troubleshooting.html?flow=mail-not-syncing" class="symptom-chip">Mail not syncing</a>
-        <a href="troubleshooting.html?flow=outlook-wont-open" class="symptom-chip">Outlook won't open</a>
-        <a href="troubleshooting.html?flow=password-prompt" class="symptom-chip">Password prompts</a>
-        <a href="troubleshooting.html?flow=new-outlook-issues" class="symptom-chip">New Outlook</a>
+        <p class="page-hero-desc">Internal policies, procedures, and known fixes. For step-by-step troubleshooting, use the Home page first.</p>
       </div>
     </section>
 
@@ -2005,7 +2125,8 @@ footer.app-footer {
       <p id="guideSubtitle" class="subtitle">Step-by-step guide</p>
     </div>
     <div class="header-actions">
-      <a href="index.html" class="admin-link">Home</a>
+      <a href="troubleshooting.html" class="admin-link">Home</a>
+      <a href="admin.html" class="admin-link">Admin</a>
       <div id="themePickerMount"></div>
       <button type="button" id="startOverBtn" class="btn-start-over">Start Over</button>
     </div>
@@ -2075,13 +2196,15 @@ footer.app-footer {
   <div id="toast" class="toast" role="status" aria-live="polite"></div></template>
 <template id="tpl-troubleshooting"><header class="app-header">
     <div>
-      <h1>Outlook Troubleshooting Guides</h1>
-      <p class="subtitle">Research-based guides — separate from org KB articles</p>
+      <h1>Outlook Troubleshooting Assistant</h1>
+      <p class="subtitle">Symptom-based troubleshooting for your case</p>
     </div>
     <div class="header-actions">
       <span id="userDisplay" class="user-display"></span>
       <div id="themePickerMount"></div>
-      <a href="index.html" class="admin-link">Org KB</a>
+      <a href="index.html" class="admin-link">Browse Org KB</a>
+      <a href="admin.html" class="admin-link">Admin</a>
+      <button type="button" id="editCaseBtn" class="btn btn-secondary btn-header">Edit Case</button>
       <button type="button" id="startOverBtn" class="btn-start-over">Start Over</button>
     </div>
   </header>
@@ -2090,10 +2213,16 @@ footer.app-footer {
     <div id="statusBar" class="status-bar">Initializing...</div>
     <div id="sessionSummary" class="session-summary session-badges-mount" aria-label="Case context"></div>
 
-    <section class="page-hero page-hero-ts" aria-label="Troubleshooting overview">
-      <div class="page-hero-text">
-        <h2 class="page-hero-title">Symptom-based troubleshooting</h2>
-        <p class="page-hero-desc">Microsoft-aligned guides and guided flows — separate from the org KB library.</p>
+    <section class="search-section search-section-priority">
+      <div class="search-section-header">
+        <h2>Search symptoms and topics</h2>
+        <p class="search-section-lead">Describe what you see — guides for your platform are suggested first.</p>
+        <p id="resultCount" class="result-count" aria-live="polite" hidden></p>
+      </div>
+      <div class="search-box">
+        <input type="search" id="searchInput" placeholder="Describe the symptom (sync, password, crash...)" autocomplete="off" aria-label="Search symptoms and topics">
+        <button type="button" id="clearSearch" class="btn btn-secondary">Clear</button>
+        <button type="button" id="refreshGuide" class="btn btn-secondary" title="Refresh guide data">Refresh</button>
       </div>
     </section>
 
@@ -2130,18 +2259,6 @@ footer.app-footer {
       <div id="quickFlows" class="chip-row flow-tile-row"></div>
     </section>
 
-    <section class="search-section">
-      <div class="search-section-header">
-        <h2>Browse troubleshooting topics</h2>
-        <p id="resultCount" class="result-count" aria-live="polite" hidden></p>
-      </div>
-      <div class="search-box">
-        <input type="search" id="searchInput" placeholder="Search guides (sync, password, New Outlook...)" autocomplete="off">
-        <button type="button" id="clearSearch" class="btn btn-secondary">Clear</button>
-        <button type="button" id="refreshGuide" class="btn btn-secondary" title="Refresh guide data">Refresh</button>
-      </div>
-    </section>
-
     <section class="chip-section">
       <h3>Browse by category</h3>
       <div id="categoryFilters" class="chip-row"></div>
@@ -2157,7 +2274,7 @@ footer.app-footer {
   </main>
 
   <footer class="app-footer">
-    Microsoft-aligned troubleshooting guides — not part of the org KB library.
+    Microsoft-aligned troubleshooting guides — org KB articles available via Browse Org KB.
   </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div></template>
@@ -2167,8 +2284,9 @@ footer.app-footer {
       <p id="guideSubtitle" class="subtitle">Step-by-step</p>
     </div>
     <div class="header-actions">
-      <a href="troubleshooting.html" class="admin-link">All Guides</a>
+      <a href="troubleshooting.html" class="admin-link">Home</a>
       <a href="index.html" class="admin-link">Org KB</a>
+      <a href="admin.html" class="admin-link">Admin</a>
       <div id="themePickerMount"></div>
       <button type="button" id="startOverBtn" class="btn-start-over">Start Over</button>
     </div>
@@ -2198,6 +2316,12 @@ footer.app-footer {
         <button type="button" id="continueBtn" class="btn btn-secondary guide-nav-btn">No, continue</button>
         <button type="button" id="resolvedBtn" class="btn btn-primary guide-nav-btn">Yes, resolved</button>
         <button type="button" id="escalateBtn" class="btn btn-danger guide-nav-btn">Escalate</button>
+      </div>
+
+      <div id="kbFallbackPanel" class="panel kb-fallback-panel" hidden>
+        <h3>Still stuck?</h3>
+        <p id="kbFallbackText">An org KB article may have additional policy-specific steps.</p>
+        <button type="button" id="kbFallbackBtn" class="btn btn-secondary">Open org KB article</button>
       </div>
 
       <section class="session-notes-panel">
@@ -2274,7 +2398,7 @@ footer.app-footer {
       </form>
 
       <p class="login-footer-link">
-        <a href="case.html">Back to Assistant</a>
+        <a href="troubleshooting.html">Back to Assistant</a>
       </p>
     </div>
   </main></template>
@@ -2286,13 +2410,11 @@ footer.app-footer {
     <div class="header-actions">
       <div id="themePickerMount"></div>
       <button type="button" id="adminLogoutBtn" class="btn btn-secondary btn-header">Logout</button>
-      <a href="case.html" class="admin-link">Back to Assistant</a>
+      <a href="troubleshooting.html" class="admin-link">Back to Assistant</a>
     </div>
   </header>
 
   <main class="container">
-    <div id="accessBanner" class="banner info"></div>
-
     <section class="panel">
       <h2>Upload Knowledge Base</h2>
       <p>
@@ -2300,11 +2422,13 @@ footer.app-footer {
         That downloads an updated <code>outlook-assistant.html</code> with your KB baked in — redistribute that file.
       </p>
       <p>
-        Excel: <strong>Save As → CSV</strong> with columns <strong>Number</strong> and <strong>Short description</strong>.
-        Rich guides: upload <strong>JSON</strong> (KB format with steps).
+        <strong>Excel (recommended):</strong> upload <code>Email and Outlook articles.xlsx</code>
+        with columns <strong>Number</strong> and <strong>Short description</strong>.
+        Or run <code>node scripts/sync-kb-from-excel.js</code> after editing the file in the repo.
+        Rich guides: upload <strong>JSON</strong> (full steps, tips, URLs).
       </p>
       <div class="file-input-wrap">
-        <input type="file" id="kbFileInput" accept=".json,.csv">
+        <input type="file" id="kbFileInput" accept=".json,.csv,.xlsx,.xls">
       </div>
       <div id="uploadPreview" class="preview"></div>
       <div class="admin-actions">
@@ -2313,8 +2437,8 @@ footer.app-footer {
         <button type="button" id="downloadSampleBtn" class="btn btn-secondary">Download Sample JSON</button>
       </div>
       <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-muted)">
-        CSV creates text-only stub steps. JSON supports full steps, tips, and URLs.
-        Optionally download KB JSON to commit into <code>data/</code> and rebuild from source later.
+        Excel/CSV updates the article list; existing step-by-step guides are kept when KB IDs match.
+        JSON supports full steps, tips, and URLs. Download KB JSON to commit into <code>data/</code> or rebuild from source.
       </p>
     </section>
 
@@ -2335,7 +2459,7 @@ footer.app-footer {
         </div>
         <div class="stat-card">
           <div class="value" id="statUsers">0</div>
-          <div class="label">Unique Users</div>
+          <div class="label">Unique Cases</div>
         </div>
       </div>
       <h3>Top Searches</h3>
@@ -2360,8 +2484,8 @@ footer.app-footer {
             </select>
           </label>
           <label class="filter-field">
-            <span class="filter-label">Employee ID</span>
-            <input type="text" id="logFilterEmployee" placeholder="e.g. E12345" autocomplete="off">
+            <span class="filter-label">Chat IMS</span>
+            <input type="text" id="logFilterChatIms" placeholder="e.g. IMS-12345678" autocomplete="off">
           </label>
           <label class="filter-field">
             <span class="filter-label">From</span>
@@ -2373,7 +2497,7 @@ footer.app-footer {
           </label>
           <label class="filter-field filter-field-grow">
             <span class="filter-label">Search</span>
-            <input type="search" id="logFilterText" placeholder="Query, KB ID, details…" autocomplete="off">
+            <input type="search" id="logFilterText" placeholder="KB ID, details, search term…" autocomplete="off">
           </label>
           <button type="button" id="clearLogFiltersBtn" class="btn btn-secondary">Clear filters</button>
         </div>
@@ -2384,16 +2508,20 @@ footer.app-footer {
           <thead>
             <tr>
               <th>Timestamp</th>
-              <th>Employee ID</th>
+              <th>Chat IMS</th>
+              <th>Platform</th>
+              <th>Environment</th>
               <th>Action</th>
-              <th>Query</th>
+              <th title="Symptom or KB search text — only filled for search actions">Search term</th>
               <th>KB ID</th>
               <th>Details</th>
+              <th title="Yes when the user marked the issue resolved">Resolved</th>
+              <th title="Yes when the case was escalated">Escalated</th>
               <th>Feedback</th>
             </tr>
           </thead>
           <tbody id="logsTableBody">
-            <tr><td colspan="7">Loading...</td></tr>
+            <tr><td colspan="11">Loading...</td></tr>
           </tbody>
         </table>
       </div>
@@ -2416,7 +2544,7 @@ const SP_CONFIG = {
   kbFilePath: "/sites/ITSupport/Shared Documents/OutlookAssistant/kb-articles.json",
   kbUploadFolder: "/sites/ITSupport/Shared Documents/OutlookAssistant",
   logListTitle: "OutlookAssistantLogs",
-  localKbPath: "data/kb-articles.sample.json",
+  localKbPath: "data/kb-articles.json",
   localTroubleshootingPath: "data/troubleshooting-guide.json",
   kbCacheHours: 24,
   adminGroups: ["Outlook Assistant Admins", "Site Owners"],
@@ -2425,7 +2553,14 @@ const SP_CONFIG = {
   logRetentionDays: 90,
   escalationUrl: "mailto:itsupport@company.com?subject=Outlook%20Issue%20Escalation",
   adminUsername: "Hannah",
-  adminPassword: "Hannah@95"
+  adminPassword: "Hannah@95",
+  /** Admin activity log — set false to omit a field from captured logs. */
+  logging: {
+    captureEmployeeId: true,
+    captureChatIms: true,
+    capturePlatform: true,
+    captureEnvironment: true
+  }
 };
 
 if (typeof window !== "undefined") {
@@ -2435,7 +2570,7 @@ if (typeof window !== "undefined") {
 
 window.EMBEDDED_KB = /*__EMBEDDED_KB__*/{
   "version": "1.0.0",
-  "lastUpdated": "2026-07-06",
+  "lastUpdated": "2026-07-09",
   "articles": [
     {
       "id": "GEVKB0012506",
@@ -2487,6 +2622,35 @@ window.EMBEDDED_KB = /*__EMBEDDED_KB__*/{
       "url": ""
     },
     {
+      "id": "GEVKB0011993",
+      "title": "[Email security] Submit a request to remove the EXT subject tag and External email banner",
+      "category": "Email security",
+      "keywords": [
+        "email",
+        "security",
+        "submit",
+        "request",
+        "remove",
+        "the",
+        "ext",
+        "subject",
+        "tag",
+        "and",
+        "external",
+        "email",
+        "banner"
+      ],
+      "symptoms": [
+        "Submit a request to remove the EXT subject tag and External email banner"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
       "id": "GEVKB0011941",
       "title": "[Email] - Create a New Distribution List",
       "category": "Email",
@@ -2511,49 +2675,232 @@ window.EMBEDDED_KB = /*__EMBEDDED_KB__*/{
       "url": ""
     },
     {
-      "id": "GEVKB0012124",
-      "title": "Manage an Existing Group and Distribution List in Outlook",
+      "id": "GEVKB0012270",
+      "title": "[Email] - Shared/resource mailboxes",
       "category": "Email",
       "keywords": [
-        "manage group",
-        "distribution list",
-        "members",
-        "owners"
+        "email",
+        "shared",
+        "resource",
+        "mailboxes"
       ],
       "symptoms": [
-        "Add member to DL",
-        "Remove member",
-        "Change owner"
+        "- Shared/resource mailboxes"
       ],
       "priority": 3,
       "steps": [
-        "Identify whether the group is M365 Group or classic DL.",
-        "Use Outlook or Admin portal to manage owners/members.",
-        "Allow up to 24 hours for directory sync.",
-        "Confirm changes in Global Address List."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
     {
-      "id": "GEVKB0011484",
-      "title": "[Email] Dynamic Distribution Group (DDG) management",
+      "id": "GEVKB0012238",
+      "title": "[Email] Application Access to Exchange Online Mailboxes",
       "category": "Email",
       "keywords": [
-        "ddg",
-        "dynamic distribution",
-        "group",
-        "membership"
+        "email",
+        "application",
+        "access",
+        "exchange",
+        "online",
+        "mailboxes"
       ],
       "symptoms": [
-        "DDG not updating",
-        "Member missing from DDG"
+        "Application Access to Exchange Online Mailboxes"
       ],
       "priority": 3,
       "steps": [
-        "Review DDG membership rules with the group owner.",
-        "Confirm user attributes match DDG filter criteria.",
-        "Allow directory sync cycle to complete.",
-        "Escalate to messaging team if membership remains incorrect."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012196",
+      "title": "[Email] Change your email address or display name in the Global Address List (GAL)",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "change",
+        "your",
+        "email",
+        "address",
+        "display",
+        "name",
+        "the",
+        "global",
+        "address",
+        "list",
+        "gal"
+      ],
+      "symptoms": [
+        "Change your email address or display name in the Global Address List (GAL)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012431",
+      "title": "[Email] Create a Custom Recipient (CR) email address for external contacts",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "create",
+        "custom",
+        "recipient",
+        "email",
+        "address",
+        "for",
+        "external",
+        "contacts"
+      ],
+      "symptoms": [
+        "Create a Custom Recipient (CR) email address for external contacts"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014484",
+      "title": "[Email] Dynamic Distribution Group (DDG) management",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "dynamic",
+        "distribution",
+        "group",
+        "ddg",
+        "management"
+      ],
+      "symptoms": [
+        "Dynamic Distribution Group (DDG) management"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012467",
+      "title": "[Email] Edit Distribution List Properties",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "edit",
+        "distribution",
+        "list",
+        "properties"
+      ],
+      "symptoms": [
+        "Edit Distribution List Properties"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012300",
+      "title": "[Email] Edit or delete a Custom Recipient (CR)",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "edit",
+        "delete",
+        "custom",
+        "recipient"
+      ],
+      "symptoms": [
+        "Edit or delete a Custom Recipient (CR)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014493",
+      "title": "[Email] Email banner for external emails sent to ge.com domain",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "email",
+        "banner",
+        "for",
+        "external",
+        "emails",
+        "sent",
+        "com",
+        "domain"
+      ],
+      "symptoms": [
+        "Email banner for external emails sent to ge.com domain"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014329",
+      "title": "[Email] Enable Auto-Forwarding to External Address from GEV Mailbox",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "enable",
+        "auto",
+        "forwarding",
+        "external",
+        "address",
+        "from",
+        "gev",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Enable Auto-Forwarding to External Address from GEV Mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011647",
+      "title": "[Email] GE Vernova Email Service Catalog",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "vernova",
+        "email",
+        "service",
+        "catalog"
+      ],
+      "symptoms": [
+        "GE Vernova Email Service Catalog"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
@@ -2583,418 +2930,1909 @@ window.EMBEDDED_KB = /*__EMBEDDED_KB__*/{
       "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/office-365-troubleshooting-resources"
     },
     {
-      "id": "GEVKB0011989",
-      "title": "[Email] Access Multiple Mailboxes",
-      "category": "Shared Mailboxes",
+      "id": "GEVKB0014357",
+      "title": "[Email] Leaver / Terminated Employee - Email Address Continuity Process",
+      "category": "Email",
       "keywords": [
-        "multiple mailbox",
-        "shared mailbox",
-        "open mailbox",
-        "delegate"
+        "email",
+        "leaver",
+        "terminated",
+        "employee",
+        "email",
+        "address",
+        "continuity",
+        "process"
       ],
       "symptoms": [
-        "Cannot see second mailbox",
-        "Shared mailbox missing"
+        "Leaver / Terminated Employee - Email Address Continuity Process",
+        "Leaver / Terminated Employee"
       ],
-      "priority": 2,
+      "priority": 3,
       "steps": [
-        "Confirm you have Full Access permission to the mailbox (request via service catalog if needed).",
-        "Outlook: File > Account Settings > Account Settings > select account > Change > More Settings > Advanced > Add.",
-        "Enter the mailbox SMTP address and click OK. Restart Outlook.",
-        "If mailbox still missing after 24h, verify permissions and check automapping (GEVKB0020025)."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
     {
-      "id": "GEVKB0011999",
+      "id": "GEVKB0012088",
+      "title": "[Email] M365 Email Migration - Frequently Asked Questions",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "m365",
+        "email",
+        "migration",
+        "frequently",
+        "asked",
+        "questions"
+      ],
+      "symptoms": [
+        "M365 Email Migration - Frequently Asked Questions",
+        "M365 Email Migration"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013535",
+      "title": "[Email] Raise Service Request to Reconnect a Disconnected Mailbox",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "raise",
+        "service",
+        "request",
+        "reconnect",
+        "disconnected",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Raise Service Request to Reconnect a Disconnected Mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014188",
+      "title": "[Email] Request to Backup/Restore Mailbox content (Terminated Employees)",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "request",
+        "backup",
+        "restore",
+        "mailbox",
+        "content",
+        "terminated",
+        "employees"
+      ],
+      "symptoms": [
+        "Request to Backup/Restore Mailbox content (Terminated Employees)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014265",
+      "title": "[Email] Scope Document for all levels of service",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "scope",
+        "document",
+        "for",
+        "all",
+        "levels",
+        "service"
+      ],
+      "symptoms": [
+        "Scope Document for all levels of service"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012310",
+      "title": "[Email] Set up an automatic reply on a Shared Mailbox",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "set",
+        "automatic",
+        "reply",
+        "shared",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Set up an automatic reply on a Shared Mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013596",
+      "title": "[Email] Understand Display Names at GE Vernova",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "understand",
+        "display",
+        "names",
+        "vernova"
+      ],
+      "symptoms": [
+        "Understand Display Names at GE Vernova"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011599",
       "title": "[Email] Users outside of GE Vernova do not receive my emails",
       "category": "Email",
       "keywords": [
-        "external send",
-        "bounce",
-        "undelivered",
+        "email",
+        "users",
         "outside",
-        "recipient"
+        "vernova",
+        "not",
+        "receive",
+        "emails"
       ],
       "symptoms": [
-        "External recipients not getting mail",
-        "NDR bounce back"
+        "Users outside of GE Vernova do not receive my emails"
       ],
-      "priority": 1,
+      "priority": 3,
       "steps": [
-        "Check for non-delivery report (NDR) details.",
-        "Verify recipient address and attachment size limits.",
-        "Remove blocked content or large attachments if applicable.",
-        "Contact IT with NDR message if issue persists."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
     {
-      "id": "GEVKB0011997",
-      "title": "[Email] How to share a mailbox or access a shared mailbox",
+      "id": "GEVKB0014466",
+      "title": "[Email] Utilizing Exchange Online Archive to Optimize Mailbox Size",
       "category": "Email",
       "keywords": [
-        "shared mailbox",
-        "share mailbox",
-        "delegate access",
+        "email",
+        "utilizing",
+        "exchange",
+        "online",
+        "archive",
+        "optimize",
+        "mailbox",
+        "size"
+      ],
+      "symptoms": [
+        "Utilizing Exchange Online Archive to Optimize Mailbox Size"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012404",
+      "title": "[GE Vernova] Email list invisible when reading pane is open",
+      "category": "GE Vernova",
+      "keywords": [
+        "vernova",
+        "email",
+        "list",
+        "invisible",
+        "when",
+        "reading",
+        "pane",
+        "open"
+      ],
+      "symptoms": [
+        "Email list invisible when reading pane is open"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012746",
+      "title": "[GE Vernova][Mac] Resolve common Outlook email encryption issues.",
+      "category": "GE Vernova",
+      "keywords": [
+        "vernova",
+        "mac",
+        "resolve",
+        "common",
+        "outlook",
+        "email",
+        "encryption",
+        "issues"
+      ],
+      "symptoms": [
+        "[Mac] Resolve common Outlook email encryption issues."
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012089",
+      "title": "[Mac@GE] Add a shared or group calendar for Outlook on MacOS",
+      "category": "Mac@GE",
+      "keywords": [
+        "mac",
+        "add",
+        "shared",
+        "group",
+        "calendar",
+        "for",
+        "outlook",
+        "macos"
+      ],
+      "symptoms": [
+        "Add a shared or group calendar for Outlook on MacOS"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011858",
+      "title": "[Mac]  Book a Teams Meeting Room in Outlook",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "book",
+        "teams",
+        "meeting",
+        "room",
+        "outlook"
+      ],
+      "symptoms": [
+        "Book a Teams Meeting Room in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011623",
+      "title": "[Mac] Archive messages in Outlook",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "archive",
+        "messages",
+        "outlook"
+      ],
+      "symptoms": [
+        "Archive messages in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011573",
+      "title": "[Mac] Delegate Permissions to Your Calendar on Outlook",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "delegate",
+        "permissions",
+        "your",
+        "calendar",
+        "outlook"
+      ],
+      "symptoms": [
+        "Delegate Permissions to Your Calendar on Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012705",
+      "title": "[Mac] Fix Outlook Error: “There was a problem and Outlook was closed”",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "fix",
+        "outlook",
+        "error",
+        "there",
+        "was",
+        "problem",
+        "and",
+        "outlook",
+        "was",
+        "closed"
+      ],
+      "symptoms": [
+        "Fix Outlook Error: “There was a problem and Outlook was closed”"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012013",
+      "title": "[Mac] How to Import Outlook Archive Files (.olm)",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "how",
+        "import",
+        "outlook",
+        "archive",
+        "files",
+        "olm"
+      ],
+      "symptoms": [
+        "How to Import Outlook Archive Files (.olm)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012534",
+      "title": "[Mac] Report phishing attempts in Outlook (macOS Catalina and newer)",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "report",
+        "phishing",
+        "attempts",
+        "outlook",
+        "macos",
+        "catalina",
+        "and",
+        "newer"
+      ],
+      "symptoms": [
+        "Report phishing attempts in Outlook (macOS Catalina and newer)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012765",
+      "title": "[Mac] Set up your Outlook",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "set",
+        "your",
+        "outlook"
+      ],
+      "symptoms": [
+        "Set up your Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012646",
+      "title": "[Microsoft Teams Room] - Book a room using Outlook (Windows)",
+      "category": "Microsoft Teams Room",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "room",
+        "book",
+        "room",
+        "using",
+        "outlook",
+        "windows"
+      ],
+      "symptoms": [
+        "- Book a room using Outlook (Windows)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012982",
+      "title": "[Microsoft Teams] Create Teams meetings from a shared mailbox",
+      "category": "Microsoft Teams",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "create",
+        "teams",
+        "meetings",
+        "from",
+        "shared",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Create Teams meetings from a shared mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013904",
+      "title": "[Microsoft Teams] Join a Teams meeting (Outlook / Mobile Device / Desktop App)",
+      "category": "Microsoft Teams",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "join",
+        "teams",
+        "meeting",
+        "outlook",
+        "mobile",
+        "device",
+        "desktop",
+        "app"
+      ],
+      "symptoms": [
+        "Join a Teams meeting (Outlook / Mobile Device / Desktop App)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012100",
+      "title": "[Microsoft Teams] Missing Add-in in Outlook (Windows)",
+      "category": "Microsoft Teams",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "missing",
+        "add",
+        "outlook",
+        "windows"
+      ],
+      "symptoms": [
+        "Missing Add-in in Outlook (Windows)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013150",
+      "title": "[Microsoft Teams] Schedule a meeting in Outlook",
+      "category": "Microsoft Teams",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "schedule",
+        "meeting",
+        "outlook"
+      ],
+      "symptoms": [
+        "Schedule a meeting in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012853",
+      "title": "[Microsoft Teams] Status displays in Teams versus Outlook",
+      "category": "Microsoft Teams",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "status",
+        "displays",
+        "teams",
+        "versus",
+        "outlook"
+      ],
+      "symptoms": [
+        "Status displays in Teams versus Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012351",
+      "title": "[Mobility] Delete an email account in Microsoft Outlook",
+      "category": "Mobility",
+      "keywords": [
+        "mobility",
+        "delete",
+        "email",
+        "account",
+        "microsoft",
+        "outlook"
+      ],
+      "symptoms": [
+        "Delete an email account in Microsoft Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013005",
+      "title": "[Outlook]  Move your mailbox items to your Online Archive automatically",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "move",
+        "your",
+        "mailbox",
+        "items",
+        "your",
+        "online",
+        "archive",
+        "automatically"
+      ],
+      "symptoms": [
+        "Move your mailbox items to your Online Archive automatically"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014129",
+      "title": "[Outlook] Add a User, Shared Mailbox, or Resource Calendar in Outlook",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "add",
+        "user",
+        "shared",
+        "mailbox",
+        "resource",
+        "calendar",
+        "outlook"
+      ],
+      "symptoms": [
+        "Add a User, Shared Mailbox, or Resource Calendar in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011779",
+      "title": "[Outlook] Add holidays to your calendar in Outlook",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "add",
+        "holidays",
+        "your",
+        "calendar",
+        "outlook"
+      ],
+      "symptoms": [
+        "Add holidays to your calendar in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013078",
+      "title": "[Outlook] Add someone else's mailbox, or a resource, to your profile",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "add",
+        "someone",
+        "else",
+        "mailbox",
+        "resource",
+        "your",
+        "profile"
+      ],
+      "symptoms": [
+        "Add someone else's mailbox, or a resource, to your profile"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011839",
+      "title": "[Outlook] Allow Someone Else to Manage Your Mailbox and Calendar",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "allow",
+        "someone",
+        "else",
+        "manage",
+        "your",
+        "mailbox",
+        "and",
+        "calendar"
+      ],
+      "symptoms": [
+        "Allow Someone Else to Manage Your Mailbox and Calendar"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013164",
+      "title": "[Outlook] Añadir un buzón de correo compartido transferido",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "adir",
+        "buz",
+        "correo",
+        "compartido",
+        "transferido"
+      ],
+      "symptoms": [
+        "Añadir un buzón de correo compartido transferido"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013683",
+      "title": "[Outlook] Book a Meeting Room",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "book",
+        "meeting",
+        "room"
+      ],
+      "symptoms": [
+        "Book a Meeting Room"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012827",
+      "title": "[Outlook] Change the Outlook Theme",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "change",
+        "the",
+        "outlook",
+        "theme"
+      ],
+      "symptoms": [
+        "Change the Outlook Theme"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011845",
+      "title": "[Outlook] Change your title attribute in Outlook",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "change",
+        "your",
+        "title",
+        "attribute",
+        "outlook"
+      ],
+      "symptoms": [
+        "Change your title attribute in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012460",
+      "title": "[Outlook] Create a New Mail Profile",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "create",
+        "new",
+        "mail",
+        "profile"
+      ],
+      "symptoms": [
+        "Create a New Mail Profile"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012722",
+      "title": "[Outlook] Create an Out of Office notification in Outlook (classic)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "create",
+        "out",
+        "office",
+        "notification",
+        "outlook",
+        "classic"
+      ],
+      "symptoms": [
+        "Create an Out of Office notification in Outlook (classic)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013980",
+      "title": "[Outlook] Create, modify, or delete a meeting or appointment",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "create",
+        "modify",
+        "delete",
+        "meeting",
+        "appointment"
+      ],
+      "symptoms": [
+        "Create, modify, or delete a meeting or appointment"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012877",
+      "title": "[Outlook] Disable \"Reply All\" in outlook",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "disable",
+        "reply",
+        "all",
+        "outlook"
+      ],
+      "symptoms": [
+        "Disable \"Reply All\" in outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012395",
+      "title": "[Outlook] Disconnected Status",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "disconnected",
+        "status"
+      ],
+      "symptoms": [
+        "Disconnected Status"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012894",
+      "title": "[Outlook] Empty deleted items",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "empty",
+        "deleted",
+        "items"
+      ],
+      "symptoms": [
+        "Empty deleted items"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011776",
+      "title": "[Outlook] Enable an add-in in Outlook",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "enable",
+        "add",
+        "outlook"
+      ],
+      "symptoms": [
+        "Enable an add-in in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011707",
+      "title": "[Outlook] Enable Week Numbers in the Outlook Calendar",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "enable",
+        "week",
+        "numbers",
+        "the",
+        "outlook",
+        "calendar"
+      ],
+      "symptoms": [
+        "Enable Week Numbers in the Outlook Calendar"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014331",
+      "title": "[Outlook] Error: .ost is not an Outlook data file",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "error",
+        "ost",
+        "not",
+        "outlook",
+        "data",
+        "file"
+      ],
+      "symptoms": [
+        "Error: .ost is not an Outlook data file"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012615",
+      "title": "[Outlook] EXT tag and Warning banner on incoming external emails",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "ext",
+        "tag",
+        "and",
+        "warning",
+        "banner",
+        "incoming",
+        "external",
+        "emails"
+      ],
+      "symptoms": [
+        "EXT tag and Warning banner on incoming external emails"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011670",
+      "title": "[Outlook] Find email older than 12 months",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "find",
+        "email",
+        "older",
+        "than",
+        "months"
+      ],
+      "symptoms": [
+        "Find email older than 12 months"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012512",
+      "title": "[Outlook] Folder names are incorrect or displayed in an incorrect language",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "folder",
+        "names",
+        "are",
+        "incorrect",
+        "displayed",
+        "incorrect",
+        "language"
+      ],
+      "symptoms": [
+        "Folder names are incorrect or displayed in an incorrect language"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013312",
+      "title": "[Outlook] Identify and delete large files with Mailbox Cleanup",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "identify",
+        "and",
+        "delete",
+        "large",
+        "files",
+        "with",
+        "mailbox",
+        "cleanup"
+      ],
+      "symptoms": [
+        "Identify and delete large files with Mailbox Cleanup"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014130",
+      "title": "[Outlook] Manage your calendar permissions",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "manage",
+        "your",
+        "calendar",
         "permissions"
       ],
       "symptoms": [
-        "Need shared mailbox",
-        "Cannot open shared mailbox"
-      ],
-      "priority": 2,
-      "steps": [
-        "Request Full Access and Send As permissions via service catalog.",
-        "After approval, add mailbox in Outlook account settings.",
-        "Allow time for permissions to replicate.",
-        "Use Send As only if explicitly granted."
-      ],
-      "url": ""
-    },
-    {
-      "id": "GEVKB0011991",
-      "title": "[Email] View the size of your Email and the Mailbox Quota",
-      "category": "Archive & Storage",
-      "keywords": [
-        "quota",
-        "mailbox size",
-        "storage",
-        "full mailbox"
-      ],
-      "symptoms": [
-        "Mailbox full",
-        "Cannot send",
-        "Quota warning"
-      ],
-      "priority": 2,
-      "steps": [
-        "In Outlook Web, open Settings > General > Storage.",
-        "Review largest folders and items; empty Deleted Items.",
-        "Move old mail to Online Archive if licensed.",
-        "Request quota increase only if business justified after cleanup."
-      ],
-      "url": ""
-    },
-    {
-      "id": "GEVKB0011479",
-      "title": "[Email] Email Signature management, including images etc.",
-      "category": "Email",
-      "keywords": [
-        "signature",
-        "image",
-        "logo",
-        "disclaimer"
-      ],
-      "symptoms": [
-        "Signature missing",
-        "Image broken in signature"
+        "Manage your calendar permissions"
       ],
       "priority": 3,
       "steps": [
-        "Outlook > File > Options > Mail > Signatures.",
-        "Create or edit signature; use hosted image URLs where possible (avoid large embedded images).",
-        "Assign signature to new messages and replies/forwards.",
-        "Test by sending to yourself and verify images load for external recipients."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
     {
-      "id": "GEVKB0011437",
-      "title": "[Email] Configure Outlook and Sync your mailbox",
-      "category": "Email",
+      "id": "GEVKB0013167",
+      "title": "[Outlook] Manage your Outlook mailbox (Best Practices)",
+      "category": "Outlook",
       "keywords": [
-        "configure",
-        "setup",
-        "sync",
-        "profile",
-        "outlook setup"
+        "outlook",
+        "manage",
+        "your",
+        "outlook",
+        "mailbox",
+        "best",
+        "practices"
       ],
       "symptoms": [
-        "Outlook not syncing",
-        "Setup Outlook",
-        "Mail stuck updating"
-      ],
-      "priority": 1,
-      "steps": [
-        "Ensure stable network or VPN connection. Disconnect and reconnect VPN if mail stopped after network change.",
-        "Verify account credentials and complete MFA when prompted.",
-        "Check the Outlook status bar (bottom) for Disconnected or Need Password errors.",
-        "Run Send/Receive > Send/Receive All Folders.",
-        "If folders are stale, right-click folder > Properties > Clear Offline Items, then Update Folder.",
-        "If sync still fails, run Office Quick Repair or recreate the Outlook profile."
-      ],
-      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/outlook-connection-issues"
-    },
-    {
-      "id": "GEVKB0011530",
-      "title": "[Email] Use the Outlook Web access (OWA) and Mobile clients",
-      "category": "Mobile & OWA",
-      "keywords": [
-        "owa",
-        "web",
-        "mobile",
-        "phone",
-        "outlook app"
-      ],
-      "symptoms": [
-        "Access mail on phone",
-        "OWA login issue"
+        "Manage your Outlook mailbox (Best Practices)"
       ],
       "priority": 3,
       "steps": [
-        "Use https://outlook.office.com for web access.",
-        "Install Microsoft Outlook app from official App Store or Google Play.",
-        "Sign in with corporate credentials and complete MFA.",
-        "Allow mailbox sync on mobile device when prompted by MDM policy."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
     {
-      "id": "GEVKB0011677",
-      "title": "[Email] Use Microsoft Outlook Classic vs New Outlook",
-      "category": "New Outlook",
+      "id": "GEVKB0013262",
+      "title": "[Outlook] Meeting Best Practices",
+      "category": "Outlook",
       "keywords": [
-        "new outlook",
-        "classic outlook",
-        "toggle",
-        "switch"
+        "outlook",
+        "meeting",
+        "best",
+        "practices"
       ],
       "symptoms": [
-        "Missing feature in New Outlook",
-        "Want classic Outlook back"
+        "Meeting Best Practices"
       ],
       "priority": 3,
       "steps": [
-        "Use the New Outlook toggle in the upper-right corner to switch between Classic and New Outlook.",
-        "Compare feature availability — New Outlook does not support COM add-ins.",
-        "If a required feature is missing (rules, PST, advanced search), revert to Classic Outlook.",
-        "Report blocking gaps to IT with your Outlook version and build number."
-      ],
-      "url": "https://learn.microsoft.com/en-us/microsoft-365-apps/outlook/manage/admin-controlled-migration-policy"
-    },
-    {
-      "id": "GEVKB0011458",
-      "title": "[Email] How to open a Shared Calendar",
-      "category": "Calendar",
-      "keywords": [
-        "shared calendar",
-        "calendar",
-        "open calendar",
-        "delegate calendar"
-      ],
-      "symptoms": [
-        "Cannot see shared calendar",
-        "Calendar permission"
-      ],
-      "priority": 3,
-      "steps": [
-        "Confirm calendar sharing permission with owner (at least Reviewer or Editor).",
-        "Outlook Calendar > Open Calendar > From Address Book.",
-        "Select shared calendar and click OK.",
-        "Allow sync time; restart Outlook if calendar not visible after 15 minutes."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
     {
-      "id": "GEVKB0011430",
-      "title": "[Email] Create an Out-of-Office (OOF) Message",
-      "category": "Email",
+      "id": "GEVKB0012428",
+      "title": "[Outlook] Outlook Rules Backup Guide (Windows)",
+      "category": "Outlook",
       "keywords": [
-        "oof",
-        "out of office",
-        "automatic reply",
-        "vacation"
-      ],
-      "symptoms": [
-        "Set auto reply",
-        "Out of office message"
-      ],
-      "priority": 3,
-      "steps": [
-        "Outlook > File > Automatic Replies.",
-        "Enable automatic replies and set start/end date range.",
-        "Compose separate internal and external messages if required by policy.",
-        "Save and test with a colleague outside your team."
-      ],
-      "url": ""
-    },
-    {
-      "id": "GEVKB0011420",
-      "title": "[Email] How to use the Global Address List (GAL)",
-      "category": "Email",
-      "keywords": [
-        "gal",
-        "global address list",
-        "address book",
-        "find user"
-      ],
-      "symptoms": [
-        "Cannot find colleague",
-        "GAL search empty"
-      ],
-      "priority": 3,
-      "steps": [
-        "Open Address Book in Outlook.",
-        "Select Global Address List as source.",
-        "Search by name or email.",
-        "Download OAB if results seem outdated."
-      ],
-      "url": ""
-    },
-    {
-      "id": "GEVKB0011712",
-      "title": "[Email] How to use Outlook Rules",
-      "category": "Email",
-      "keywords": [
+        "outlook",
+        "outlook",
         "rules",
-        "inbox rule",
-        "move mail",
-        "auto sort"
-      ],
-      "symptoms": [
-        "Mail not sorting",
-        "Rule not working"
-      ],
-      "priority": 3,
-      "steps": [
-        "Home > Rules > Manage Rules & Alerts.",
-        "Create rule with clear conditions and actions.",
-        "Enable rule and choose Run on existing items if needed.",
-        "Check rule order — first matching rule wins when multiple rules apply."
-      ],
-      "url": ""
-    },
-    {
-      "id": "GEVKB0011612",
-      "title": "[Email] How to recall a sent email",
-      "category": "Email",
-      "keywords": [
-        "recall",
-        "unsend",
-        "retract email"
-      ],
-      "symptoms": [
-        "Sent wrong email",
-        "Need to recall message"
-      ],
-      "priority": 3,
-      "steps": [
-        "Open Sent Items and double-click the message.",
-        "Message > Actions > Recall This Message.",
-        "Choose delete unread copies option.",
-        "Recall works only for internal unread mail; not guaranteed."
-      ],
-      "url": ""
-    },
-    {
-      "id": "GEVKB0011986",
-      "title": "[Email] Export or backup your Mailbox",
-      "category": "Email",
-      "keywords": [
-        "export",
         "backup",
-        "pst",
-        "archive"
+        "guide",
+        "windows"
       ],
       "symptoms": [
-        "Backup mail",
-        "Export mailbox"
+        "Outlook Rules Backup Guide (Windows)"
       ],
       "priority": 3,
       "steps": [
-        "File > Open & Export > Import/Export.",
-        "Choose Export to a file > Outlook Data File (.pst).",
-        "Select folders to export.",
-        "Store PST per data retention policy."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
     {
-      "id": "GEVKB0011680",
-      "title": "[Email] Open shared Public folders in Microsoft Outlook",
-      "category": "Email",
+      "id": "GEVKB0012945",
+      "title": "[Outlook] Outlook won't open or is stuck at loading profile",
+      "category": "Outlook",
       "keywords": [
-        "public folder",
-        "shared folder",
-        "pf"
+        "outlook",
+        "outlook",
+        "won",
+        "open",
+        "stuck",
+        "loading",
+        "profile"
       ],
       "symptoms": [
-        "Public folder missing",
-        "Cannot access PF"
+        "Outlook won't open or is stuck at loading profile"
       ],
       "priority": 3,
       "steps": [
-        "Confirm public folder permissions.",
-        "Outlook > Folder Pane > enable Public Folders if available.",
-        "Expand public folder hierarchy.",
-        "Contact IT if public folders are not visible in tenant."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
     {
-      "id": "GEVKB0011705",
-      "title": "[Email] Use Microsoft Outlook Contacts",
-      "category": "Email",
+      "id": "GEVKB0016138",
+      "title": "[Outlook] Primary Mailbox vs Online Archive vs Local PST",
+      "category": "Outlook",
       "keywords": [
+        "outlook",
+        "primary",
+        "mailbox",
+        "online",
+        "archive",
+        "local",
+        "pst"
+      ],
+      "symptoms": [
+        "Primary Mailbox vs Online Archive vs Local PST"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011940",
+      "title": "[Outlook] Recall an E-mail",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "recall",
+        "mail"
+      ],
+      "symptoms": [
+        "Recall an E-mail"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013014",
+      "title": "[Outlook] Recover Deleted Emails, Contacts, and Calendar Items  for Windows",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "recover",
+        "deleted",
+        "emails",
         "contacts",
-        "address book",
-        "people"
+        "and",
+        "calendar",
+        "items",
+        "for",
+        "windows"
       ],
       "symptoms": [
-        "Contacts missing",
-        "Add contact"
+        "Recover Deleted Emails, Contacts, and Calendar Items  for Windows"
       ],
       "priority": 3,
       "steps": [
-        "Open People view in Outlook.",
-        "New Contact to add manually.",
-        "Import contacts via CSV if migrating.",
-        "Verify default contact folder location."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
     {
-      "id": "GEVKB0011601",
-      "title": "[Email] Use Microsoft Outlook Contact Groups",
-      "category": "Email",
+      "id": "GEVKB0014467",
+      "title": "[Outlook] Recover missing items and folders in your mailbox (PC)",
+      "category": "Outlook",
       "keywords": [
-        "contact group",
-        "distribution",
-        "personal group"
+        "outlook",
+        "recover",
+        "missing",
+        "items",
+        "and",
+        "folders",
+        "your",
+        "mailbox"
       ],
       "symptoms": [
-        "Create contact group",
-        "Email group of contacts"
+        "Recover missing items and folders in your mailbox (PC)"
       ],
       "priority": 3,
       "steps": [
-        "People > New Contact Group.",
-        "Add members from address book or contacts.",
-        "Save group with descriptive name.",
-        "Use group name in To field when sending."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     },
     {
-      "id": "GEVKB0011620",
-      "title": "[Email] How to add or remove additional mailboxes",
-      "category": "Email",
+      "id": "GEVKB0012420",
+      "title": "[Outlook] Remove Obsolete Email Addresses from Auto‑Complete List",
+      "category": "Outlook",
       "keywords": [
-        "add mailbox",
-        "remove mailbox",
-        "additional mailbox"
+        "outlook",
+        "remove",
+        "obsolete",
+        "email",
+        "addresses",
+        "from",
+        "auto",
+        "complete",
+        "list"
       ],
       "symptoms": [
-        "Add second mailbox",
-        "Remove shared mailbox"
+        "Remove Obsolete Email Addresses from Auto‑Complete List"
       ],
-      "priority": 2,
+      "priority": 3,
       "steps": [
-        "File > Account Settings > select account > Change > More Settings > Advanced.",
-        "Add or remove additional mailboxes.",
-        "Restart Outlook.",
-        "Confirm permissions if mailbox does not appear."
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011661",
+      "title": "[Outlook] Resize your profile picture (Windows)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "resize",
+        "your",
+        "profile",
+        "picture",
+        "windows"
+      ],
+      "symptoms": [
+        "Resize your profile picture (Windows)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014345",
+      "title": "[Outlook] Save messages sent from shared mailbox in the Shared Mailbox's sent Items",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "save",
+        "messages",
+        "sent",
+        "from",
+        "shared",
+        "mailbox",
+        "the",
+        "shared",
+        "mailbox",
+        "sent",
+        "items"
+      ],
+      "symptoms": [
+        "Save messages sent from shared mailbox in the Shared Mailbox's sent Items"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012132",
+      "title": "[Outlook] Share your calendar with people inside your organization",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "share",
+        "your",
+        "calendar",
+        "with",
+        "people",
+        "inside",
+        "your",
+        "organization"
+      ],
+      "symptoms": [
+        "Share your calendar with people inside your organization"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012697",
+      "title": "[Outlook] Show the Calendar in the To-Do bar",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "show",
+        "the",
+        "calendar",
+        "the",
+        "bar"
+      ],
+      "symptoms": [
+        "Show the Calendar in the To-Do bar"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012481",
+      "title": "[Outlook] Size limitations and forbidden file extensions for attachments",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "size",
+        "limitations",
+        "and",
+        "forbidden",
+        "file",
+        "extensions",
+        "for",
+        "attachments"
+      ],
+      "symptoms": [
+        "Size limitations and forbidden file extensions for attachments"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012295",
+      "title": "[Outlook] Start up Outlook (classic) for the first time",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "start",
+        "outlook",
+        "classic",
+        "for",
+        "the",
+        "first",
+        "time"
+      ],
+      "symptoms": [
+        "Start up Outlook (classic) for the first time"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011708",
+      "title": "[Outlook] Stop Receiving Synchronization Log Emails",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "stop",
+        "receiving",
+        "synchronization",
+        "log",
+        "emails"
+      ],
+      "symptoms": [
+        "Stop Receiving Synchronization Log Emails"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013203",
+      "title": "[Outlook] The Microsoft Exchange Administrator has made a change that requires you quit and restart",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "the",
+        "microsoft",
+        "exchange",
+        "administrator",
+        "has",
+        "made",
+        "change",
+        "that",
+        "requires",
+        "you",
+        "quit",
+        "and",
+        "restart"
+      ],
+      "symptoms": [
+        "The Microsoft Exchange Administrator has made a change that requires you quit and restart"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012695",
+      "title": "[Outlook] Training Guide",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "training",
+        "guide"
+      ],
+      "symptoms": [
+        "Training Guide"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013961",
+      "title": "[Outlook] Troubleshoot credential or password issues",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "troubleshoot",
+        "credential",
+        "password",
+        "issues"
+      ],
+      "symptoms": [
+        "Troubleshoot credential or password issues"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011560",
+      "title": "[Outlook] Troubleshoot email sending issues",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "troubleshoot",
+        "email",
+        "sending",
+        "issues"
+      ],
+      "symptoms": [
+        "Troubleshoot email sending issues"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014264",
+      "title": "[Outlook] Unable to create calendar event, or see free/busy (L1-L2)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "unable",
+        "create",
+        "calendar",
+        "event",
+        "see",
+        "free",
+        "busy"
+      ],
+      "symptoms": [
+        "Unable to create calendar event, or see free/busy (L1-L2)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012774",
+      "title": "[Outlook] Use @ Mentions to get someone's attention",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "use",
+        "mentions",
+        "get",
+        "someone",
+        "attention"
+      ],
+      "symptoms": [
+        "Use @ Mentions to get someone's attention"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012636",
+      "title": "[Outlook] Use Retention Tags to Efficiently Manage Storage",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "use",
+        "retention",
+        "tags",
+        "efficiently",
+        "manage",
+        "storage"
+      ],
+      "symptoms": [
+        "Use Retention Tags to Efficiently Manage Storage"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012144",
+      "title": "[Outlook] You'll need the internet for this (0xCAA30194)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "you",
+        "need",
+        "the",
+        "internet",
+        "for",
+        "this",
+        "0xcaa30194"
+      ],
+      "symptoms": [
+        "You'll need the internet for this (0xCAA30194)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013022",
+      "title": "[Shared mailbox] Change a shared or resource mailbox password",
+      "category": "Shared mailbox",
+      "keywords": [
+        "shared",
+        "mailbox",
+        "change",
+        "shared",
+        "resource",
+        "mailbox",
+        "password"
+      ],
+      "symptoms": [
+        "Change a shared or resource mailbox password"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011938",
+      "title": "[Shared Mailbox] Create a Resource or Shared Mailbox",
+      "category": "Shared Mailbox",
+      "keywords": [
+        "shared",
+        "mailbox",
+        "create",
+        "resource",
+        "shared",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Create a Resource or Shared Mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014385",
+      "title": "[Shared Mailbox] Provide rights to a shared mailbox",
+      "category": "Shared Mailbox",
+      "keywords": [
+        "shared",
+        "mailbox",
+        "provide",
+        "rights",
+        "shared",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Provide rights to a shared mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014367",
+      "title": "[Shared Mailbox] Resource Mailbox Support &amp; Management in Manage IDM (EXOL Service L1-L2)",
+      "category": "Shared Mailbox",
+      "keywords": [
+        "shared",
+        "mailbox",
+        "resource",
+        "mailbox",
+        "support",
+        "amp",
+        "management",
+        "manage",
+        "idm",
+        "exol",
+        "service"
+      ],
+      "symptoms": [
+        "Resource Mailbox Support &amp; Management in Manage IDM (EXOL Service L1-L2)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011838",
+      "title": "[Shared Mailbox] Transfer ownership of a shared/resource mailbox",
+      "category": "Shared Mailbox",
+      "keywords": [
+        "shared",
+        "mailbox",
+        "transfer",
+        "ownership",
+        "shared",
+        "resource",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Transfer ownership of a shared/resource mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011699",
+      "title": "[SharePoint Online] Synchronize a SharePoint calendar with Outlook",
+      "category": "SharePoint Online",
+      "keywords": [
+        "sharepoint",
+        "online",
+        "synchronize",
+        "sharepoint",
+        "calendar",
+        "with",
+        "outlook"
+      ],
+      "symptoms": [
+        "Synchronize a SharePoint calendar with Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0015028",
+      "title": "[Webmail] Access Outlook Web App",
+      "category": "Webmail",
+      "keywords": [
+        "webmail",
+        "access",
+        "outlook",
+        "web",
+        "app"
+      ],
+      "symptoms": [
+        "Access Outlook Web App"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011736",
+      "title": "[Webmail] Accessing Shared Mailboxes with Outlook Web App",
+      "category": "Webmail",
+      "keywords": [
+        "webmail",
+        "accessing",
+        "shared",
+        "mailboxes",
+        "with",
+        "outlook",
+        "web",
+        "app"
+      ],
+      "symptoms": [
+        "Accessing Shared Mailboxes with Outlook Web App"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012847",
+      "title": "[Webmail] Set Up Automatic Email Forwarding in Webmail",
+      "category": "Webmail",
+      "keywords": [
+        "webmail",
+        "set",
+        "automatic",
+        "email",
+        "forwarding",
+        "webmail"
+      ],
+      "symptoms": [
+        "Set Up Automatic Email Forwarding in Webmail"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013525",
+      "title": "[Webmail] Share a calendar with external contacts using the Outlook Web App",
+      "category": "Webmail",
+      "keywords": [
+        "webmail",
+        "share",
+        "calendar",
+        "with",
+        "external",
+        "contacts",
+        "using",
+        "the",
+        "outlook",
+        "web",
+        "app"
+      ],
+      "symptoms": [
+        "Share a calendar with external contacts using the Outlook Web App"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
       ],
       "url": ""
     }
@@ -3022,7 +4860,8 @@ window.EMBEDDED_KB = /*__EMBEDDED_KB__*/{
       "assistant"
     ]
   }
-}/*__END_EMBEDDED_KB__*/;
+}
+/*__END_EMBEDDED_KB__*/;
 
 window.EMBEDDED_TS_GUIDE = {
   "version": "1.0.0",
@@ -3407,6 +5246,7 @@ window.EMBEDDED_TS_GUIDE = {
         "Approval never arrives"
       ],
       "priority": 1,
+      "relatedKbId": "GEVKB0013961",
       "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/howto-mfa-userdevices",
       "steps": [
         "Verify phone/app notifications are enabled and not in Do Not Disturb.",
@@ -3438,6 +5278,7 @@ window.EMBEDDED_TS_GUIDE = {
         "Outbox not clearing"
       ],
       "priority": 1,
+      "relatedKbId": "GEVKB0011560",
       "url": "https://learn.microsoft.com/en-us/troubleshoot/outlook/sending-messages/outlook-error-when-you-try-to-send-email",
       "steps": [
         "Open Outbox — check for large attachments over org limit (typically 25–35 MB).",
@@ -4125,7 +5966,6 @@ window.EMBEDDED_TS_GUIDE = {
             {
               "label": "Using mobile/OWA only",
               "guideIds": [
-                "GEVKB0020017",
                 "GEVKB0020017"
               ]
             }
@@ -4138,7 +5978,6 @@ window.EMBEDDED_TS_GUIDE = {
             {
               "label": "Disconnected / errors",
               "guideIds": [
-                "GEVKB0020006",
                 "GEVKB0020006"
               ]
             },
@@ -4146,8 +5985,7 @@ window.EMBEDDED_TS_GUIDE = {
               "label": "No errors but mail is old",
               "guideIds": [
                 "GEVKB0020005",
-                "GEVKB0020004",
-                "GEVKB0020005"
+                "GEVKB0020004"
               ]
             },
             {
@@ -4219,7 +6057,6 @@ window.EMBEDDED_TS_GUIDE = {
               "label": "Receiving only",
               "guideIds": [
                 "GEVKB0020022",
-                "GEVKB0020022",
                 "GEVKB0020006"
               ]
             },
@@ -4245,7 +6082,6 @@ window.EMBEDDED_TS_GUIDE = {
             {
               "label": "Yes - feature missing or broken",
               "guideIds": [
-                "GEVKB0020013",
                 "GEVKB0020013"
               ]
             },
@@ -4268,7 +6104,6 @@ window.EMBEDDED_TS_GUIDE = {
             {
               "label": "PST related",
               "guideIds": [
-                "GEVKB0020024",
                 "GEVKB0020024"
               ]
             },
@@ -4372,7 +6207,6 @@ window.EMBEDDED_TS_GUIDE = {
             {
               "label": "Other mobile",
               "guideIds": [
-                "GEVKB0020017",
                 "GEVKB0020017"
               ]
             }
@@ -4420,7 +6254,6 @@ window.EMBEDDED_TS_GUIDE = {
             {
               "label": "Yes - quota warning",
               "guideIds": [
-                "GEVKB0020032",
                 "GEVKB0020032"
               ]
             },
@@ -4930,8 +6763,11 @@ const SharePoint = {
       const digest = await this.getFormDigest();
       const body = {
         __metadata: { type: "SP.Data." + cfg.logListTitle.replace(/\s/g, "_x0020_") + "ListItem" },
-        Title: entry.employeeId || "unknown",
+        Title: entry.employeeId || entry.chatIms || "unknown",
         EmployeeId: entry.employeeId || "",
+        ChatIms: entry.chatIms || "",
+        Platform: entry.platform || "",
+        Environment: entry.environment || "",
         UserEmail: entry.userEmail || "",
         SessionId: entry.sessionId || "",
         Action: entry.action || "",
@@ -4983,7 +6819,10 @@ const SharePoint = {
     );
     return (data.d.results || []).map((item) => ({
       timestamp: item.Created,
-      employeeId: item.EmployeeId || item.Title,
+      employeeId: item.EmployeeId || "",
+      chatIms: item.ChatIms || "",
+      platform: item.Platform || "",
+      environment: item.Environment || "",
       userEmail: item.UserEmail,
       sessionId: item.SessionId,
       action: item.Action,
@@ -5046,6 +6885,10 @@ const Session = {
     return this.getEmployeeId() || "agent";
   },
 
+  getAgentId() {
+    return this.getEmployeeId() || "agent";
+  },
+
   ensureAnonymousSession() {
     if (!this.getEmployeeId()) {
       Storage.setEmployeeId("agent", false);
@@ -5082,18 +6925,28 @@ const Session = {
   },
 
   saveCaseDetails(chatIms, platform, environment) {
-    Storage.setCaseDetails({
+    const details = {
       chatIms: (chatIms || "").trim(),
       platform: platform || "Windows",
       environment: environment || "Exchange Online",
       caseSetupComplete: !!(chatIms || "").trim()
-    });
+    };
+    Storage.setCaseDetails(details);
+
+    const guide = this.getGuideSession();
+    if (guide) {
+      this.updateGuideSession({
+        chatIms: details.chatIms,
+        platform: details.platform,
+        environment: details.environment
+      });
+    }
   },
 
   startGuide(kbId, kbTitle, stepCount, guideType = "kb") {
     const caseDetails = this.getCaseDetails();
     const session = {
-      employeeId: this.getLogIdentity(),
+      employeeId: this.getAgentId(),
       chatIms: caseDetails.chatIms,
       platform: caseDetails.platform,
       environment: caseDetails.environment,
@@ -5270,16 +7123,66 @@ const Logger = {
   userEmail: "",
   sessionId: "",
 
+  getConfig() {
+    return window.SP_CONFIG?.logging || {};
+  },
+
   init(employeeId, userEmail) {
-    const caseIms = Session?.getCaseDetails?.()?.chatIms;
-    this.employeeId = caseIms || employeeId || Storage.getEmployeeId() || "agent";
+    this.employeeId = employeeId || Session?.getEmployeeId?.() || Storage.getEmployeeId() || "agent";
     this.userEmail = userEmail || "";
     this.sessionId = Storage.getSessionId();
   },
 
+  getCaseDetailsForLogging() {
+    let details = {};
+    if (typeof Storage !== "undefined" && Storage.getCaseDetails) {
+      details = Storage.getCaseDetails() || {};
+    }
+    if (typeof Session !== "undefined" && Session.getCaseDetails) {
+      details = { ...details, ...Session.getCaseDetails() };
+    }
+    const guide =
+      (typeof Session !== "undefined" && Session.getGuideSession?.()) ||
+      (typeof Storage !== "undefined" && Storage.getGuideSession?.()) ||
+      null;
+    if (guide) {
+      details = {
+        chatIms: details.chatIms || guide.chatIms || "",
+        platform: details.platform || guide.platform || "",
+        environment: details.environment || guide.environment || ""
+      };
+    }
+    return {
+      chatIms: (details.chatIms || "").trim(),
+      platform: details.platform || "Windows",
+      environment: details.environment || "Exchange Online"
+    };
+  },
+
+  buildContext() {
+    const cfg = this.getConfig();
+    const caseDetails = this.getCaseDetailsForLogging();
+    const ctx = {};
+
+    if (cfg.captureEmployeeId !== false) {
+      ctx.employeeId = this.employeeId || "agent";
+    }
+    if (cfg.captureChatIms !== false) {
+      ctx.chatIms = caseDetails.chatIms;
+    }
+    if (cfg.capturePlatform !== false) {
+      ctx.platform = caseDetails.platform;
+    }
+    if (cfg.captureEnvironment !== false) {
+      ctx.environment = caseDetails.environment;
+    }
+
+    return ctx;
+  },
+
   async log(action, details = {}) {
     const entry = {
-      employeeId: this.employeeId,
+      ...this.buildContext(),
       userEmail: this.userEmail,
       sessionId: this.sessionId,
       action,
@@ -5294,7 +7197,7 @@ const Logger = {
   },
 
   logLogin(employeeId) {
-    return this.log("login", { details: "Employee ID: " + employeeId });
+    return this.log("login", { details: "Agent signed in: " + employeeId });
   },
 
   logSearch(query, resultCount) {
@@ -5403,7 +7306,7 @@ const SearchEngine = {
     return [...terms];
   },
 
-  scoreArticle(article, terms, rawQuery) {
+  scoreArticle(article, terms, rawQuery, platform) {
     let score = 0;
     const q = this.normalize(rawQuery);
     const title = this.normalize(article.title);
@@ -5426,19 +7329,23 @@ const SearchEngine = {
     }
 
     score += Math.max(0, 4 - (article.priority || 3));
+    if (typeof PlatformMatch !== "undefined" && platform) {
+      score += PlatformMatch.platformBoost(article, platform, false);
+    }
     return score;
   },
 
-  search(query, limit = 10) {
+  search(query, limit = 10, options = {}) {
     if (!this.kbData?.articles?.length) return [];
     const q = (query || "").trim();
     if (!q) return [];
 
+    const platform = options.platform;
     const terms = this.expandQuery(q);
     const results = this.kbData.articles
       .map((article) => ({
         article,
-        score: this.scoreArticle(article, terms, q)
+        score: this.scoreArticle(article, terms, q, platform)
       }))
       .filter((r) => r.score > 0)
       .sort((a, b) => b.score - a.score)
@@ -5568,7 +7475,7 @@ const TroubleshootingSearch = {
     return [...terms];
   },
 
-  scoreGuide(guide, terms, rawQuery) {
+  scoreGuide(guide, terms, rawQuery, platform) {
     let score = 0;
     const q = this.normalize(rawQuery);
     const title = this.normalize(guide.title);
@@ -5589,22 +7496,31 @@ const TroubleshootingSearch = {
       if (category.includes(term)) score += 5;
     }
     score += Math.max(0, 4 - (guide.priority || 3));
+    if (typeof PlatformMatch !== "undefined" && platform) {
+      score += PlatformMatch.platformBoost(guide, platform, true);
+    }
     return score;
   },
 
-  search(query, limit = 12) {
+  search(query, limit = 12, options = {}) {
     const guides = this.data?.guides || [];
     const q = (query || "").trim();
-    if (!q) return guides.map((g) => ({ ...g, matchLabel: "Available" }));
+    const platform = options.platform;
+    if (!q) {
+      return guides
+        .filter((g) => !platform || PlatformMatch.guideAppliesToPlatform(g, platform))
+        .map((g) => ({ ...g, matchLabel: "Available" }));
+    }
 
     const terms = this.expandQuery(q);
     return guides
-      .map((guide) => ({ guide, score: this.scoreGuide(guide, terms, q) }))
+      .map((guide) => ({ guide, score: this.scoreGuide(guide, terms, q, platform) }))
       .filter((r) => r.score > 0)
       .sort((a, b) => b.score - a.score)
       .slice(0, limit)
       .map((r, i) => ({
         ...r.guide,
+        relevanceScore: r.score,
         matchLabel: i === 0 ? "Best match" : i < 3 ? "Related" : "Try if above fails"
       }));
   },
@@ -5766,6 +7682,597 @@ if (typeof window !== "undefined") {
 
 
 /**
+ * Platform applicability helpers for search and routing.
+ */
+const PlatformMatch = {
+  getSessionPlatform() {
+    if (typeof Session !== "undefined" && Session.getCaseDetails) {
+      return Session.getCaseDetails()?.platform || "Windows";
+    }
+    return "Windows";
+  },
+
+  itemHasApplicableSteps(item, platform) {
+    const steps = item?.steps || [];
+    if (!steps.length) return true;
+    return steps.some((s) => StepUtils.appliesToPlatform(s, platform));
+  },
+
+  guideAppliesToPlatform(guide, platform) {
+    return this.itemHasApplicableSteps(guide, platform);
+  },
+
+  articleAppliesToPlatform(article, platform) {
+    return this.itemHasApplicableSteps(article, platform);
+  },
+
+  clientBoost(guide, platform) {
+    const client = (guide?.client || "both").toLowerCase();
+    const p = (platform || "").toLowerCase();
+    if (p === "mobile" || p === "web") {
+      if (client === "new" || client === "both") return 10;
+      if (client === "classic") return -5;
+    }
+    return 0;
+  },
+
+  platformBoost(item, platform, isGuide) {
+    if (!platform) return 0;
+    if (!this.itemHasApplicableSteps(item, platform)) return -1000;
+    let boost = 18;
+    if (isGuide) boost += this.clientBoost(item, platform);
+    return boost;
+  }
+};
+
+if (typeof window !== "undefined") {
+  window.PlatformMatch = PlatformMatch;
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { PlatformMatch };
+}
+
+
+/**
+ * Routes users through troubleshooting guides first, then org KB when needed.
+ */
+const GuideResolver = {
+  normalize(text) {
+    return (text || "")
+      .toLowerCase()
+      .replace(/[^\w\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  },
+
+  tokens(text) {
+    return new Set(
+      this.normalize(text)
+        .split(" ")
+        .filter((w) => w.length > 2)
+    );
+  },
+
+  overlapScore(source, target) {
+    let score = 0;
+    const sourceTokens = this.tokens(
+      [source.title, ...(source.keywords || []), ...(source.symptoms || [])].join(" ")
+    );
+    const targetTokens = this.tokens(
+      [target.title, ...(target.keywords || []), ...(target.symptoms || [])].join(" ")
+    );
+    for (const t of sourceTokens) {
+      if (targetTokens.has(t)) score += 4;
+    }
+    const sTitle = this.normalize(source.title);
+    const tTitle = this.normalize(target.title);
+    if (sTitle && tTitle && (sTitle.includes(tTitle) || tTitle.includes(sTitle))) {
+      score += 20;
+    }
+    for (const symptom of source.symptoms || []) {
+      const s = this.normalize(symptom);
+      if (s && tTitle.includes(s)) score += 12;
+    }
+    return score;
+  },
+
+  getTsSearch() {
+    return typeof TroubleshootingSearch !== "undefined" ? TroubleshootingSearch : null;
+  },
+
+  getKbSearch() {
+    return typeof SearchEngine !== "undefined" ? SearchEngine : null;
+  },
+
+  findRelatedTsGuide(kbArticle) {
+    if (!kbArticle) return null;
+    const ts = this.getTsSearch();
+    if (!ts) return null;
+    if (kbArticle.relatedGuideId) {
+      return ts.getGuideById(kbArticle.relatedGuideId);
+    }
+    const guides = ts.data?.guides || [];
+    let best = null;
+    let bestScore = 0;
+    for (const guide of guides) {
+      const score = this.overlapScore(kbArticle, guide);
+      if (score > bestScore) {
+        bestScore = score;
+        best = guide;
+      }
+    }
+    return bestScore >= 15 ? best : null;
+  },
+
+  findRelatedKb(tsGuide) {
+    if (!tsGuide) return null;
+    const kb = this.getKbSearch();
+    if (!kb) return null;
+    if (tsGuide.relatedKbId) {
+      return kb.getArticleById(tsGuide.relatedKbId);
+    }
+    const articles = kb.kbData?.articles || [];
+    let best = null;
+    let bestScore = 0;
+    for (const article of articles) {
+      const score = this.overlapScore(tsGuide, article);
+      if (score > bestScore) {
+        bestScore = score;
+        best = article;
+      }
+    }
+    return bestScore >= 15 ? best : null;
+  },
+
+  resolveItem(item) {
+    if (!item) return null;
+    if (item.type === "troubleshooting" || item.guideType === "troubleshooting") {
+      return { type: "troubleshooting", item, kbFallback: null };
+    }
+    if (item.type === "flow") {
+      return { type: "flow", item: item.flow || item };
+    }
+    const tsGuide = this.findRelatedTsGuide(item);
+    if (tsGuide) {
+      return { type: "troubleshooting", item: tsGuide, kbFallback: item };
+    }
+    return { type: "kb", item, kbFallback: null };
+  },
+
+  async openItem(item) {
+    const resolved = this.resolveItem(item);
+    if (!resolved) return;
+
+    if (resolved.type === "flow") {
+      if (typeof TroubleshootingApp !== "undefined") {
+        TroubleshootingApp.startFlow(resolved.item);
+      }
+      return;
+    }
+
+    const platform = PlatformMatch.getSessionPlatform();
+
+    if (resolved.type === "troubleshooting") {
+      const guide = resolved.item;
+      const steps = StepUtils.filterSteps(guide.steps || [], platform);
+      const count = steps.length || (guide.steps || []).length;
+      Session.startGuide(guide.id, guide.title, count, "troubleshooting");
+      if (resolved.kbFallback?.id) {
+        Session.updateGuideSession({ fallbackKbId: resolved.kbFallback.id });
+      }
+      try {
+        await Logger.logArticleView({ id: guide.id, title: guide.title });
+      } catch (err) {
+        console.warn("Article view logging failed:", err);
+      }
+      SPA.navigate("troubleshooting-guide", { guide: guide.id });
+      return;
+    }
+
+    const article = resolved.item;
+    const steps = StepUtils.filterSteps(article.steps || [], platform);
+    const count = steps.length || (article.steps || []).length;
+    const existing = Session.getGuideSession();
+    const isTsKbFallback =
+      existing?.guideType === "troubleshooting" &&
+      existing.fallbackKbId === article.id;
+
+    if (isTsKbFallback) {
+      Session.updateGuideSession({
+        guideType: "kb",
+        kbId: article.id,
+        kbTitle: article.title,
+        stepCount: count,
+        currentStepIndex: 0
+      });
+    } else {
+      Session.startGuide(article.id, article.title, count, "kb");
+    }
+    try {
+      await Logger.logArticleView(article);
+    } catch (err) {
+      console.warn("Article view logging failed:", err);
+    }
+    SPA.navigate("guide", { kb: article.id });
+  },
+
+  openGuideById(id) {
+    const ts = this.getTsSearch();
+    const guide = ts?.getGuideById(id);
+    if (guide) {
+      this.openItem({ ...guide, type: "troubleshooting" });
+      return true;
+    }
+    const kb = this.getKbSearch();
+    const article = kb?.getArticleById(id);
+    if (article) {
+      this.openItem({ ...article, type: "kb" });
+      return true;
+    }
+    return false;
+  },
+
+  resolveFlowTargets(ids) {
+    const platform = PlatformMatch.getSessionPlatform();
+    const ts = this.getTsSearch();
+    const kb = this.getKbSearch();
+    const targets = [];
+    const seen = new Set();
+
+    for (const id of ids || []) {
+      if (!id || seen.has(id)) continue;
+
+      const guide = ts?.getGuideById(id);
+      if (guide && PlatformMatch.guideAppliesToPlatform(guide, platform)) {
+        seen.add(id);
+        targets.push({ type: "troubleshooting", item: guide });
+        continue;
+      }
+
+      const article = kb?.getArticleById(id);
+      if (article && PlatformMatch.articleAppliesToPlatform(article, platform)) {
+        seen.add(id);
+        targets.push({ type: "kb", item: article });
+      }
+    }
+
+    return targets;
+  }
+};
+
+if (typeof window !== "undefined") {
+  window.GuideResolver = GuideResolver;
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { GuideResolver };
+}
+
+
+/**
+ * Unified search across troubleshooting guides (first) and org KB.
+ */
+const UnifiedSearch = {
+  getPlatform(options) {
+    return options?.platform ?? PlatformMatch.getSessionPlatform();
+  },
+
+  matchFlows(query, platform) {
+    const q = (query || "").trim().toLowerCase();
+    if (!q) return [];
+    const flows = TroubleshootingSearch.getFlows() || [];
+    return flows
+      .filter((flow) => {
+        const title = (flow.title || "").toLowerCase();
+        const id = (flow.id || "").toLowerCase();
+        return title.includes(q) || id.includes(q.replace(/\s+/g, "-"));
+      })
+      .map((flow) => ({
+        id: flow.id,
+        title: flow.title,
+        type: "flow",
+        flow,
+        score: 45,
+        matchLabel: "Guided flow",
+        subtitle: "Symptom wizard"
+      }));
+  },
+
+  sortByScore(items) {
+    return [...items].sort((a, b) => (b.score || 0) - (a.score || 0));
+  },
+
+  /** Guides and flows first, then org KB — each group sorted by relevance. */
+  mergeTiered(tsItems, kbItems, limit, kbReserve = 3) {
+    const tsPool = this.sortByScore(tsItems);
+    const kbPool = this.sortByScore(kbItems);
+    if (!tsPool.length) {
+      return kbPool.slice(0, limit);
+    }
+    if (!kbPool.length) {
+      return tsPool.slice(0, limit);
+    }
+
+    const reservedKb = Math.min(kbReserve, kbPool.length, Math.max(1, limit - 1));
+    const tsTake = Math.min(tsPool.length, limit - reservedKb);
+    const kbTake = Math.min(kbPool.length, limit - tsTake);
+    return [...tsPool.slice(0, tsTake), ...kbPool.slice(0, kbTake)];
+  },
+
+  suggest(query, options = {}) {
+    const q = (query || "").trim();
+    if (q.length < 2) return [];
+
+    const platform = this.getPlatform(options);
+    const limit = options.limit ?? 10;
+    const kbOnly = options.kbOnly ?? false;
+    const kbReserve = options.kbReserve ?? 3;
+    const tsItems = [];
+    const kbItems = [];
+
+    if (!kbOnly) {
+      tsItems.push(...this.matchFlows(q, platform));
+      TroubleshootingSearch.search(q, limit * 2, { platform }).forEach((guide) => {
+        tsItems.push({
+          ...guide,
+          type: "troubleshooting",
+          score: guide.relevanceScore || 0,
+          badge: "Guide"
+        });
+      });
+    }
+
+    SearchEngine.search(q, limit * 2, { platform }).forEach((article) => {
+      kbItems.push({
+        ...article,
+        type: "kb",
+        score: article.relevanceScore || 0,
+        badge: "Org KB"
+      });
+    });
+
+    return this.mergeTiered(tsItems, kbItems, limit, kbReserve);
+  },
+
+  search(query, options = {}) {
+    const q = (query || "").trim();
+    const platform = this.getPlatform(options);
+    const limit = options.limit ?? 12;
+    const kbOnly = options.kbOnly ?? false;
+
+    if (!q) {
+      if (kbOnly) {
+        return (SearchEngine.kbData?.articles || []).map((a) => ({
+          ...a,
+          type: "kb",
+          matchLabel: "Available",
+          badge: "Org KB"
+        }));
+      }
+      const guides = (TroubleshootingSearch.data?.guides || []).map((g) => ({
+        ...g,
+        type: "troubleshooting",
+        matchLabel: "Available",
+        badge: "Guide"
+      }));
+      const articles = (SearchEngine.kbData?.articles || []).map((a) => ({
+        ...a,
+        type: "kb",
+        matchLabel: "Available",
+        badge: "Org KB"
+      }));
+      return [...guides, ...articles];
+    }
+
+    const merged = this.suggest(q, { ...options, limit: limit * 2, kbOnly });
+    return merged.map((item, i) => ({
+      ...item,
+      matchLabel:
+        item.matchLabel ||
+        (i === 0 ? "Best match" : i < 3 ? "Related" : "Try if above fails")
+    }));
+  }
+};
+
+if (typeof window !== "undefined") {
+  window.UnifiedSearch = UnifiedSearch;
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { UnifiedSearch };
+}
+
+
+/**
+ * Live search suggestion dropdown for hub pages.
+ */
+const SearchSuggestions = {
+  mount(inputEl, options = {}) {
+    if (!inputEl) return null;
+
+    let wrap = inputEl.parentElement;
+    if (!wrap?.classList.contains("search-input-wrap")) {
+      wrap = document.createElement("div");
+      wrap.className = "search-input-wrap search-suggest-wrap";
+      inputEl.parentNode.insertBefore(wrap, inputEl);
+      wrap.appendChild(inputEl);
+    }
+
+    let listEl = wrap.querySelector(".search-suggestions");
+    if (!listEl) {
+      listEl = document.createElement("ul");
+      listEl.className = "search-suggestions";
+      listEl.setAttribute("role", "listbox");
+      listEl.hidden = true;
+      wrap.appendChild(listEl);
+    }
+
+    const state = {
+      inputEl,
+      listEl,
+      items: [],
+      activeIndex: -1,
+      debounce: null,
+      getSuggestions: options.getSuggestions,
+      onSelect: options.onSelect,
+      onSubmit: options.onSubmit
+    };
+
+    inputEl.setAttribute("role", "combobox");
+    inputEl.setAttribute("aria-autocomplete", "list");
+    inputEl.setAttribute("aria-expanded", "false");
+
+    inputEl.addEventListener("input", () => {
+      clearTimeout(state.debounce);
+      state.debounce = setTimeout(() => this.refresh(state), 150);
+    });
+
+    inputEl.addEventListener("keydown", (e) => this.onKeyDown(state, e));
+
+    document.addEventListener("click", (e) => {
+      if (!wrap?.contains(e.target)) this.hide(state);
+    });
+
+    return state;
+  },
+
+  async refresh(state) {
+    const q = state.inputEl.value.trim();
+    if (q.length < 2) {
+      this.hide(state);
+      return;
+    }
+    const items = await state.getSuggestions(q);
+    state.items = items || [];
+    state.activeIndex = -1;
+    this.render(state);
+  },
+
+  render(state) {
+    const { listEl, items, inputEl } = state;
+    if (!listEl) return;
+
+    if (!items.length) {
+      this.hide(state);
+      return;
+    }
+
+    listEl.innerHTML = "";
+    let lastGroup = null;
+    items.forEach((item, index) => {
+      const group = item.type === "kb" ? "kb" : "guide";
+      if (group !== lastGroup) {
+        const heading = document.createElement("li");
+        heading.className = "search-suggestion-group";
+        heading.setAttribute("role", "presentation");
+        heading.textContent = group === "kb" ? "Org knowledge base" : "Troubleshooting guides";
+        listEl.appendChild(heading);
+        lastGroup = group;
+      }
+
+      const li = document.createElement("li");
+      li.className = "search-suggestion-item";
+      li.setAttribute("role", "option");
+      li.dataset.index = String(index);
+      const badge = item.badge || (item.type === "flow" ? "Flow" : item.type === "kb" ? "Org KB" : "Guide");
+      const subtitle = item.subtitle || (item.symptoms?.[0] || item.category || "");
+      li.innerHTML =
+        '<span class="suggestion-badge suggestion-badge-' +
+        this.badgeClass(item.type) +
+        '">' +
+        HubUi.escape(badge) +
+        "</span>" +
+        '<span class="suggestion-title">' +
+        HubUi.escape(item.title) +
+        "</span>" +
+        (subtitle
+          ? '<span class="suggestion-subtitle">' + HubUi.escape(subtitle) + "</span>"
+          : "");
+      li.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        this.select(state, index);
+      });
+      listEl.appendChild(li);
+    });
+
+    listEl.hidden = false;
+    inputEl.setAttribute("aria-expanded", "true");
+  },
+
+  badgeClass(type) {
+    if (type === "kb") return "kb";
+    if (type === "flow") return "flow";
+    return "guide";
+  },
+
+  hide(state) {
+    if (!state.listEl) return;
+    state.listEl.hidden = true;
+    state.listEl.innerHTML = "";
+    state.items = [];
+    state.activeIndex = -1;
+    state.inputEl.setAttribute("aria-expanded", "false");
+  },
+
+  onKeyDown(state, e) {
+    if (e.key === "ArrowDown") {
+      if (!state.items.length) return;
+      e.preventDefault();
+      state.activeIndex = Math.min(state.activeIndex + 1, state.items.length - 1);
+      this.highlight(state);
+      return;
+    }
+    if (e.key === "ArrowUp") {
+      if (!state.items.length) return;
+      e.preventDefault();
+      state.activeIndex = Math.max(state.activeIndex - 1, 0);
+      this.highlight(state);
+      return;
+    }
+    if (e.key === "Escape") {
+      this.hide(state);
+      return;
+    }
+    if (e.key === "Enter") {
+      if (state.activeIndex >= 0 && state.items[state.activeIndex]) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.select(state, state.activeIndex);
+        return;
+      }
+      if (state.onSubmit) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.hide(state);
+        state.onSubmit(state.inputEl.value);
+      }
+    }
+  },
+
+  highlight(state) {
+    const children = state.listEl?.querySelectorAll(".search-suggestion-item") || [];
+    children.forEach((el, i) => {
+      el.classList.toggle("active", i === state.activeIndex);
+      if (i === state.activeIndex) el.scrollIntoView({ block: "nearest" });
+    });
+  },
+
+  select(state, index) {
+    const item = state.items[index];
+    if (!item) return;
+    state.inputEl.value = item.title || "";
+    this.hide(state);
+    if (state.onSelect) state.onSelect(item);
+  }
+};
+
+if (typeof window !== "undefined") {
+  window.SearchSuggestions = SearchSuggestions;
+}
+
+
+/**
  * Shared UI helpers for org KB and troubleshooting hub pages.
  */
 const HubUi = {
@@ -5892,6 +8399,29 @@ const HubUi = {
     const div = document.createElement("div");
     div.textContent = str || "";
     return div.innerHTML;
+  },
+
+  renderShowAllButton(parent, options = {}) {
+    if (!parent) return;
+    let btn = parent.querySelector(".show-all-btn");
+    if (!options.limited || !options.hiddenCount) {
+      if (btn) btn.hidden = true;
+      return;
+    }
+    if (!btn) {
+      btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn btn-secondary show-all-btn";
+      const grid = parent.querySelector(".result-grid");
+      if (grid?.nextSibling) {
+        parent.insertBefore(btn, grid.nextSibling);
+      } else {
+        parent.appendChild(btn);
+      }
+    }
+    btn.hidden = false;
+    btn.textContent = "Show all (" + options.hiddenCount + " more)";
+    btn.onclick = options.onShowAll;
   }
 };
 
@@ -5938,6 +8468,8 @@ const Themes = {
     { id: "corporate", label: "Corporate" }
   ],
 
+  _eventsBound: false,
+
   apply(theme) {
     const t = this.themes.some((item) => item.id === theme) ? theme : "light";
     document.documentElement.setAttribute("data-theme", t);
@@ -5953,29 +8485,35 @@ const Themes = {
   },
 
   bindPickers() {
-    document.querySelectorAll(".theme-picker").forEach((picker) => {
-      const toggle = picker.querySelector(".theme-picker-toggle");
-      const menu = picker.querySelector(".theme-picker-menu");
-      if (!toggle || !menu) return;
+    if (this._eventsBound) return;
+    this._eventsBound = true;
 
-      toggle.addEventListener("click", (e) => {
+    document.addEventListener("click", (e) => {
+      const themeBtn = e.target.closest(".theme-picker-menu [data-theme-btn]");
+      if (themeBtn) {
         e.stopPropagation();
-        const isOpen = !menu.hidden;
+        this.apply(themeBtn.dataset.themeBtn);
         this.closeAllMenus();
-        menu.hidden = isOpen;
-        toggle.setAttribute("aria-expanded", String(!isOpen));
-      });
+        return;
+      }
 
-      menu.querySelectorAll("[data-theme-btn]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          this.apply(btn.dataset.themeBtn);
-          menu.hidden = true;
-          toggle.setAttribute("aria-expanded", "false");
-        });
-      });
+      const toggle = e.target.closest(".theme-picker-toggle");
+      if (toggle) {
+        e.stopPropagation();
+        const menu = toggle.closest(".theme-picker")?.querySelector(".theme-picker-menu");
+        if (!menu) return;
+        const willOpen = menu.hidden;
+        this.closeAllMenus();
+        menu.hidden = !willOpen;
+        toggle.setAttribute("aria-expanded", String(willOpen));
+        return;
+      }
+
+      if (!e.target.closest(".theme-picker")) {
+        this.closeAllMenus();
+      }
     });
 
-    document.addEventListener("click", () => this.closeAllMenus());
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") this.closeAllMenus();
     });
@@ -5998,6 +8536,9 @@ if (typeof window !== "undefined") {
 
 /**
  * Admin authentication for the dashboard (static client-side gate).
+ *
+ * Known limitation: credentials live in client config (SP_CONFIG). Real protection
+ * requires SharePoint group / page permissions — not fixable in static HTML alone.
  */
 const AdminAuth = {
   AUTH_KEY: "outlookAssistant_adminAuth",
@@ -6044,6 +8585,174 @@ if (typeof window !== "undefined") {
 
 
 /**
+ * Build org KB articles from spreadsheet rows (Excel export / CSV).
+ * Shared by admin upload and scripts/sync-kb-from-excel.js.
+ */
+const KbSpreadsheet = {
+  STUB_STEPS: [
+    "Refer to the full KB article for detailed steps.",
+    "Contact IT if you need assistance."
+  ],
+
+  extractCategory(title) {
+    const match = (title || "").match(/\[([^\]]+)\]/);
+    return match ? match[1] : "General";
+  },
+
+  titleKeywords(title) {
+    return (title || "")
+      .toLowerCase()
+      .replace(/[^\w\s]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length > 2);
+  },
+
+  deriveSymptoms(title) {
+    const symptoms = [];
+    const stripped = (title || "").replace(/^\[[^\]]+\]\s*/, "").trim();
+    if (!stripped) return symptoms;
+    if (stripped.length >= 8 && stripped.length <= 100) {
+      symptoms.push(stripped);
+    }
+    const afterDash = stripped.split(/\s[-—]\s/)[0]?.trim();
+    if (afterDash && afterDash !== stripped && afterDash.length >= 8) {
+      symptoms.push(afterDash);
+    }
+    return [...new Set(symptoms)].slice(0, 2);
+  },
+
+  articleFromRow(id, title, existing) {
+    const cleanId = (id || "").trim();
+    const cleanTitle = (title || "").trim();
+    if (!cleanId || !cleanTitle) return null;
+
+    const derivedSymptoms = this.deriveSymptoms(cleanTitle);
+
+    if (existing) {
+      return {
+        ...existing,
+        id: cleanId,
+        title: cleanTitle,
+        category: existing.category || this.extractCategory(cleanTitle),
+        symptoms: existing.symptoms?.length ? existing.symptoms : derivedSymptoms
+      };
+    }
+
+    return {
+      id: cleanId,
+      title: cleanTitle,
+      category: this.extractCategory(cleanTitle),
+      keywords: this.titleKeywords(cleanTitle),
+      symptoms: derivedSymptoms,
+      priority: 3,
+      steps: [...this.STUB_STEPS],
+      url: ""
+    };
+  },
+
+  buildKbFromRows(rows, existingKb) {
+    const existingById = new Map((existingKb?.articles || []).map((a) => [a.id, a]));
+    const articles = [];
+
+    for (const row of rows) {
+      const article = this.articleFromRow(row.id, row.title, existingById.get(row.id));
+      if (article) articles.push(article);
+    }
+
+    if (articles.length === 0) {
+      throw new Error("Spreadsheet must contain at least one article row");
+    }
+
+    return {
+      version: existingKb?.version || "1.0.0",
+      lastUpdated: new Date().toISOString().slice(0, 10),
+      articles,
+      flows: [],
+      synonyms: existingKb?.synonyms || {}
+    };
+  },
+
+  normalizeHeader(header) {
+    return (header || "").trim().replace(/^"|"$/g, "").toLowerCase();
+  },
+
+  findColumnIndexes(headers) {
+    const normalized = headers.map((h) => this.normalizeHeader(h));
+    const idIdx = normalized.findIndex((h) => /^(number|id|kb number|kb id)$/.test(h) || /^number$/.test(h));
+    const titleIdx = normalized.findIndex((h) =>
+      /^(short description|description|title|short desc)$/.test(h)
+    );
+    if (idIdx < 0 || titleIdx < 0) {
+      throw new Error('Spreadsheet must have "Number" and "Short description" columns');
+    }
+    return { idIdx, titleIdx };
+  },
+
+  rowsFromAoA(aoa) {
+    if (!aoa || aoa.length < 2) {
+      throw new Error("Spreadsheet must have a header row and at least one data row");
+    }
+    const { idIdx, titleIdx } = this.findColumnIndexes(aoa[0].map((c) => String(c ?? "")));
+    const rows = [];
+    for (let i = 1; i < aoa.length; i++) {
+      const line = aoa[i] || [];
+      rows.push({
+        id: String(line[idIdx] ?? "").trim(),
+        title: String(line[titleIdx] ?? "").trim()
+      });
+    }
+    return rows;
+  },
+
+  parseCsvLine(line) {
+    const result = [];
+    let current = "";
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        inQuotes = !inQuotes;
+      } else if (ch === "," && !inQuotes) {
+        result.push(current);
+        current = "";
+      } else {
+        current += ch;
+      }
+    }
+    result.push(current);
+    return result.map((s) => s.replace(/^"|"$/g, "").trim());
+  },
+
+  parseCsv(text, existingKb) {
+    const lines = text.split(/\r?\n/).filter((l) => l.trim());
+    if (lines.length < 2) throw new Error("CSV must have header and data rows");
+
+    const headers = this.parseCsvLine(lines[0]);
+    const { idIdx, titleIdx } = this.findColumnIndexes(headers);
+    const rows = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      const cols = this.parseCsvLine(lines[i]);
+      rows.push({
+        id: (cols[idIdx] || "").trim(),
+        title: (cols[titleIdx] || "").trim()
+      });
+    }
+
+    return this.buildKbFromRows(rows, existingKb);
+  }
+};
+
+if (typeof window !== "undefined") {
+  window.KbSpreadsheet = KbSpreadsheet;
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { KbSpreadsheet };
+}
+
+
+/**
  * Login page controller.
  */
 const Login = {
@@ -6052,7 +8761,7 @@ const Login = {
 
     if (Session.isLoggedIn()) {
       if (Storage.isCaseSetupComplete()) {
-        SPA.navigate("index");
+        SPA.navigate("troubleshooting");
       } else {
         SPA.navigate("case");
       }
@@ -6116,11 +8825,17 @@ const Login = {
  * Case setup page — Chat IMS, OS, Environment before troubleshooting.
  */
 const CaseSetup = {
+  isEditMode() {
+    const params = SPA.getQuery();
+    return params.get("edit") === "1";
+  },
+
   init() {
     Session.ensureAnonymousSession();
-    Logger.init(Session.getLogIdentity());
+    Logger.init(Session.getAgentId());
 
     const existing = Session.getCaseDetails();
+    const editing = this.isEditMode();
     const display = document.getElementById("userDisplay");
     if (display && existing.chatIms) {
       display.textContent = "IMS: " + existing.chatIms;
@@ -6135,6 +8850,22 @@ const CaseSetup = {
     }
     if (existing.environment) {
       document.getElementById("environmentSelect").value = existing.environment;
+    }
+
+    if (existing.chatIms && Storage.isCaseSetupComplete() && !editing) {
+      SPA.navigate("troubleshooting");
+      return;
+    }
+
+    if (editing) {
+      const title = document.querySelector(".case-setup-card h2");
+      const submitBtn = document.querySelector("#caseForm button[type='submit']");
+      const subtitle = document.querySelector(".login-hint");
+      if (title) title.textContent = "Edit Case Details";
+      if (submitBtn) submitBtn.textContent = "Save & return to troubleshooting";
+      if (subtitle) {
+        subtitle.textContent = "Update chat IMS, platform, or environment for this session.";
+      }
     }
 
     document.getElementById("caseForm").addEventListener("submit", (e) => {
@@ -6177,19 +8908,20 @@ const CaseSetup = {
     } catch (err) {
       console.warn("Case setup logging failed:", err);
     }
-
-    SPA.navigate("index");
+    SPA.navigate("troubleshooting");
   }
 };
 
 
 
 /**
- * Main application controller — org KB only.
+ * Main application controller — org KB hub (secondary browse).
  */
 const App = {
   kbData: null,
   searchDebounce: null,
+  suggestionState: null,
+  browseShowAll: false,
 
   async init() {
     if (!Session.requireCaseSetup()) return;
@@ -6208,16 +8940,29 @@ const App = {
 
   bindEvents() {
     const searchInput = document.getElementById("searchInput");
+    const platform = PlatformMatch.getSessionPlatform();
+
+    this.suggestionState = SearchSuggestions.mount(searchInput, {
+      getSuggestions: (q) =>
+        Promise.resolve(
+          SearchEngine.search(q, 8, { platform }).map((article) => ({
+            ...article,
+            type: "kb",
+            badge: "Org KB"
+          }))
+        ),
+      onSelect: (item) => GuideResolver.openItem(item),
+      onSubmit: (q) => this.handleSearch(q)
+    });
+
     searchInput?.addEventListener("input", (e) => {
       clearTimeout(this.searchDebounce);
       this.searchDebounce = setTimeout(() => this.handleSearch(e.target.value), 250);
     });
-    searchInput?.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") this.handleSearch(e.target.value);
-    });
-
     document.getElementById("clearSearch")?.addEventListener("click", () => {
       searchInput.value = "";
+      this.browseShowAll = false;
+      SearchSuggestions.hide(this.suggestionState);
       this.renderAllIssues();
     });
 
@@ -6236,7 +8981,7 @@ const App = {
     });
 
     document.getElementById("editCaseBtn")?.addEventListener("click", () => {
-      SPA.navigate("case");
+      window.location.href = "case.html?edit=1";
     });
   },
 
@@ -6257,28 +9002,35 @@ const App = {
   initUser() {
     Session.ensureAnonymousSession();
     const identity = Session.getLogIdentity();
-    Logger.init(identity);
+    Logger.init(Session.getAgentId());
     const display = document.getElementById("userDisplay");
     if (display) display.textContent = "IMS: " + identity;
   },
 
   handleSearch(query) {
     const q = (query || "").trim();
+    const platform = PlatformMatch.getSessionPlatform();
+    this.browseShowAll = false;
     if (!q) {
       this.renderAllIssues();
       return;
     }
-    const results = SearchEngine.search(q);
+    const results = SearchEngine.search(q, 12, { platform });
     Logger.logSearch(q, results.length);
     this.renderSearchResults(results, { query: q });
   },
 
   renderAllIssues() {
-    const articles = this.kbData?.articles || [];
+    const platform = PlatformMatch.getSessionPlatform();
+    const articles = (this.kbData?.articles || []).filter((a) =>
+      PlatformMatch.articleAppliesToPlatform(a, platform)
+    );
     this.renderSearchResults(
       articles.map((article) => ({
         ...article,
-        matchLabel: "Available"
+        type: "kb",
+        matchLabel: "Available",
+        badge: "Org KB"
       })),
       { query: "", total: articles.length }
     );
@@ -6290,7 +9042,12 @@ const App = {
     const noResults = document.getElementById("noResults");
     const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
     const total = meta.total ?? this.kbData?.articles?.length ?? results.length;
-    const { visible, limited } = HubUi.getVisibleResults(results);
+    const showAll = meta.showAll ?? this.browseShowAll;
+    const { visible, limited, hiddenCount } = HubUi.getVisibleResults(
+      results,
+      showAll ? { limit: results.length } : {}
+    );
+    container.classList.toggle("result-grid-expanded", showAll || !limited);
 
     HubUi.updateResultCount(document.getElementById("resultCount"), {
       displayed: visible.length,
@@ -6316,6 +9073,7 @@ const App = {
       HubUi.applyCategory(card, article.category);
       card.innerHTML =
         '<div class="result-meta">' +
+        '<span class="type-badge type-badge-kb">Org KB</span>' +
         '<span class="kb-id">' + this.escape(article.id) + "</span>" +
         (article.matchLabel && article.matchLabel !== "Available"
           ? '<span class="match-badge">' + this.escape(article.matchLabel) + "</span>"
@@ -6327,21 +9085,26 @@ const App = {
           ? '<p class="category-line"><span class="category-tag">' + this.escape(article.category) + "</span></p>"
           : "") +
         HubUi.buildSymptomTagsHtml(article.symptoms, 2, (s) => this.escape(s));
-      card.addEventListener("click", () => this.openArticle(article));
+      card.addEventListener("click", () => GuideResolver.openItem({ ...article, type: "kb" }));
       container.appendChild(card);
+    });
+
+    HubUi.renderShowAllButton(container.parentElement, {
+      limited: limited && !showAll,
+      hiddenCount,
+      onShowAll: () => {
+        this.browseShowAll = true;
+        this.renderSearchResults(results, { ...meta, showAll: true });
+      }
     });
   },
 
   openArticle(article) {
-    const platform = Session.getCaseDetails()?.platform || "Windows";
-    const steps = StepUtils.filterSteps(article.steps || [], platform);
-    const count = steps.length || (article.steps || []).length;
-    Session.startGuide(article.id, article.title, count, "kb");
-    Logger.logArticleView(article);
-    SPA.navigate("guide", { kb: article.id });
+    GuideResolver.openItem({ ...article, type: "kb" });
   },
 
   escalate() {
+    Session.setEscalated();
     const reason =
       "Case escalated — no matching KB. Last search: " +
       (document.getElementById("searchInput")?.value || "N/A");
@@ -6424,7 +9187,7 @@ const Guide = {
 
     Themes.init();
 
-    Logger.init(Session.getEmployeeId());
+    Logger.init(Session.getAgentId());
 
 
 
@@ -6485,9 +9248,10 @@ const Guide = {
     this.steps = StepUtils.filterSteps(this.rawSteps, platform);
 
     if (!this.steps.length) {
-
-      this.steps = this.rawSteps;
-
+      this.showError(
+        "No steps available for platform \"" + platform + "\". Use Edit Case to change platform."
+      );
+      return;
     }
 
 
@@ -7043,13 +9807,15 @@ if (typeof window !== "undefined") {
 
 
 /**
- * Troubleshooting hub — guided flows and research guide browser.
+ * Troubleshooting hub — primary symptom-first entry point.
  */
 const TroubleshootingApp = {
   data: null,
   currentFlow: null,
   flowStepIndex: 0,
   searchDebounce: null,
+  suggestionState: null,
+  browseShowAll: false,
 
   async init() {
     if (!Session.requireCaseSetup()) return;
@@ -7058,6 +9824,7 @@ const TroubleshootingApp = {
     Themes.init();
     this.bindEvents();
     await this.loadData();
+    await KbLoader.load();
     this.initUser();
     this.renderSessionSummary();
     this.renderQuickFlows();
@@ -7070,25 +9837,41 @@ const TroubleshootingApp = {
 
   bindEvents() {
     const searchInput = document.getElementById("searchInput");
+
+    this.suggestionState = SearchSuggestions.mount(searchInput, {
+      getSuggestions: (q) => Promise.resolve(UnifiedSearch.suggest(q, { limit: 10, kbReserve: 3 })),
+      onSelect: (item) => {
+        if (item.type === "flow" && item.flow) {
+          this.startFlow(item.flow);
+          return;
+        }
+        GuideResolver.openItem(item);
+      },
+      onSubmit: (q) => this.handleSearch(q)
+    });
+
     searchInput?.addEventListener("input", (e) => {
       clearTimeout(this.searchDebounce);
       this.searchDebounce = setTimeout(() => this.handleSearch(e.target.value), 250);
     });
-    searchInput?.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") this.handleSearch(e.target.value);
-    });
-
     document.getElementById("clearSearch")?.addEventListener("click", () => {
       searchInput.value = "";
+      this.browseShowAll = false;
+      SearchSuggestions.hide(this.suggestionState);
       this.renderAllGuides();
     });
 
     document.getElementById("closeFlow")?.addEventListener("click", () => this.closeFlow());
     document.getElementById("escalateBtn")?.addEventListener("click", () => this.escalate());
 
+    document.getElementById("editCaseBtn")?.addEventListener("click", () => {
+      window.location.href = "case.html?edit=1";
+    });
+
     document.getElementById("refreshGuide")?.addEventListener("click", async () => {
       Storage.clearTsGuideCache();
       await this.loadData(true);
+      await KbLoader.load(true);
       this.renderAllGuides();
       this.showToast("Troubleshooting guide refreshed.");
     });
@@ -7134,26 +9917,35 @@ const TroubleshootingApp = {
   initUser() {
     Session.ensureAnonymousSession();
     const identity = Session.getLogIdentity();
-    Logger.init(identity);
+    Logger.init(Session.getAgentId());
     const display = document.getElementById("userDisplay");
     if (display) display.textContent = "IMS: " + identity;
   },
 
   handleSearch(query) {
     const q = (query || "").trim();
+    this.browseShowAll = false;
     if (!q) {
       this.renderAllGuides();
       return;
     }
-    const results = TroubleshootingSearch.search(q);
+    const results = UnifiedSearch.search(q);
     Logger.logSearch(q, results.length);
     this.renderGuideResults(results, { query: q });
   },
 
   renderAllGuides() {
-    const guides = this.data?.guides || [];
+    const platform = PlatformMatch.getSessionPlatform();
+    const guides = (this.data?.guides || []).filter((g) =>
+      PlatformMatch.guideAppliesToPlatform(g, platform)
+    );
     this.renderGuideResults(
-      guides.map((g) => ({ ...g, matchLabel: "Available" })),
+      guides.map((g) => ({
+        ...g,
+        type: "troubleshooting",
+        matchLabel: "Available",
+        badge: "Guide"
+      })),
       { query: "", total: guides.length }
     );
     document.getElementById("noResults").hidden = guides.length > 0;
@@ -7164,15 +9956,20 @@ const TroubleshootingApp = {
     const noResults = document.getElementById("noResults");
     const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
     const total = meta.total ?? this.data?.guides?.length ?? results.length;
-    const { visible, limited } = HubUi.getVisibleResults(results);
+    const showAll = meta.showAll ?? this.browseShowAll;
+    const { visible, limited, hiddenCount } = HubUi.getVisibleResults(
+      results,
+      showAll ? { limit: results.length } : {}
+    );
+    container.classList.toggle("result-grid-expanded", showAll || !limited);
 
     HubUi.updateResultCount(document.getElementById("resultCount"), {
       displayed: visible.length,
       total: query ? results.length : total,
       query: (query || "").trim(),
       limited,
-      noun: "guides",
-      singular: "guide"
+      noun: "results",
+      singular: "result"
     });
 
     container.innerHTML = "";
@@ -7183,41 +9980,52 @@ const TroubleshootingApp = {
     }
     noResults.hidden = true;
 
-    visible.forEach((guide) => {
-      const stepCount = (guide.steps || []).length;
-      const hasVisuals = StepUtils.articleHasImages(guide);
+    visible.forEach((item) => {
+      const isKb = item.type === "kb";
+      const stepCount = (item.steps || []).length;
+      const hasVisuals = !isKb && StepUtils.articleHasImages(item);
       const card = document.createElement("article");
       card.className = "result-card issue-card";
-      HubUi.applyCategory(card, guide.category);
+      HubUi.applyCategory(card, item.category);
       card.innerHTML =
         '<div class="result-meta">' +
-        '<span class="kb-id">' + this.escape(guide.id) + "</span>" +
-        (guide.matchLabel && guide.matchLabel !== "Available"
-          ? '<span class="match-badge">' + this.escape(guide.matchLabel) + "</span>"
+        '<span class="type-badge type-badge-' +
+        (isKb ? "kb" : "guide") +
+        '">' +
+        this.escape(item.badge || (isKb ? "Org KB" : "Guide")) +
+        "</span>" +
+        '<span class="kb-id">' + this.escape(item.id) + "</span>" +
+        (item.matchLabel && item.matchLabel !== "Available"
+          ? '<span class="match-badge">' + this.escape(item.matchLabel) + "</span>"
           : "") +
         (hasVisuals ? '<span class="visual-badge">Has visuals</span>' : "") +
         '<span class="step-count">' + stepCount + " step" + (stepCount !== 1 ? "s" : "") + "</span>" +
         "</div>" +
-        "<h3>" + this.escape(guide.title) + "</h3>" +
-        (guide.category
-          ? '<p class="category-line"><span class="category-tag">' + this.escape(guide.category) + "</span></p>"
+        "<h3>" + this.escape(item.title) + "</h3>" +
+        (item.category
+          ? '<p class="category-line"><span class="category-tag">' + this.escape(item.category) + "</span></p>"
           : "") +
-        HubUi.buildSymptomTagsHtml(guide.symptoms, 2, (s) => this.escape(s));
-      card.addEventListener("click", () => this.openGuide(guide));
+        HubUi.buildSymptomTagsHtml(item.symptoms, 2, (s) => this.escape(s));
+      card.addEventListener("click", () => GuideResolver.openItem(item));
       container.appendChild(card);
+    });
+
+    HubUi.renderShowAllButton(container.parentElement, {
+      limited: limited && !showAll,
+      hiddenCount,
+      onShowAll: () => {
+        this.browseShowAll = true;
+        this.renderGuideResults(results, { ...meta, showAll: true });
+      }
     });
   },
 
   openGuide(guide) {
-    const platform = Session.getCaseDetails()?.platform || "Windows";
-    const steps = StepUtils.filterSteps(guide.steps || [], platform);
-    const count = steps.length || (guide.steps || []).length;
-    Session.startGuide(guide.id, guide.title, count, "troubleshooting");
-    Logger.logArticleView({ id: guide.id, title: guide.title });
-    SPA.navigate("troubleshooting-guide", { guide: guide.id });
+    GuideResolver.openItem({ ...guide, type: "troubleshooting" });
   },
 
   escalate() {
+    Session.setEscalated();
     const reason =
       "Case escalated — no matching guide. Last search: " +
       (document.getElementById("searchInput")?.value || "N/A");
@@ -7300,18 +10108,21 @@ const TroubleshootingApp = {
     Logger.logFlowStep(this.currentFlow.id, step.question, option.label);
 
     const guideIds = this.getOptionGuideIds(option);
+    const targets = GuideResolver.resolveFlowTargets(guideIds);
 
     if (option.action === "escalate") {
       this.escalate();
-      if (guideIds.length === 1) {
-        this.openGuide(TroubleshootingSearch.getGuideById(guideIds[0]));
-      } else if (guideIds.length > 1) {
-        this.renderFlowGuideResults(guideIds);
+      if (targets.length === 1) {
+        GuideResolver.openItem({ ...targets[0].item, type: targets[0].type });
+      } else if (targets.length > 1) {
+        this.renderFlowGuideResults(targets);
       }
       return;
     }
 
     if (option.action === "resolved") {
+      Session.setResolution("Resolved");
+      Logger.logResolution(this.currentFlow?.id || "", this.currentFlow?.title || "");
       this.showToast("Glad that resolved your issue!");
       this.closeFlow();
       return;
@@ -7326,16 +10137,13 @@ const TroubleshootingApp = {
       }
     }
 
-    if (guideIds.length === 1) {
-      const guide = TroubleshootingSearch.getGuideById(guideIds[0]);
-      if (guide) {
-        this.openGuide(guide);
-        return;
-      }
+    if (targets.length === 1) {
+      GuideResolver.openItem({ ...targets[0].item, type: targets[0].type });
+      return;
     }
 
-    if (guideIds.length > 1) {
-      this.renderFlowGuideResults(guideIds);
+    if (targets.length > 1) {
+      this.renderFlowGuideResults(targets);
       this.showToast("Select a guide below to start step-by-step troubleshooting.");
       return;
     }
@@ -7343,20 +10151,30 @@ const TroubleshootingApp = {
     this.showToast("Continue with the next question or mark case as escalated.");
   },
 
-  renderFlowGuideResults(ids) {
-    const guides = TroubleshootingSearch.getGuidesByIds(ids);
+  renderFlowGuideResults(targets) {
     const container = document.getElementById("flowGuideResults");
-    container.innerHTML = "<h4>Start a troubleshooting guide</h4>";
-    guides.forEach((guide) => {
+    container.innerHTML = "<h4>Start troubleshooting</h4>";
+    targets.forEach((target) => {
+      const item = target.item;
       const card = document.createElement("button");
       card.type = "button";
       card.className = "flow-kb-card";
-      const steps = (guide.steps || []).length;
+      const steps = (item.steps || []).length;
+      const badge = target.type === "kb" ? "Org KB" : "Guide";
       card.innerHTML =
-        "<strong>" + this.escape(guide.id) + "</strong>: " +
-        this.escape(guide.title) +
-        " <span class='step-count-inline'>(" + steps + " steps)</span>";
-      card.addEventListener("click", () => this.openGuide(guide));
+        "<span class='type-badge type-badge-" +
+        (target.type === "kb" ? "kb" : "guide") +
+        "'>" +
+        this.escape(badge) +
+        "</span> " +
+        "<strong>" +
+        this.escape(item.id) +
+        "</strong>: " +
+        this.escape(item.title) +
+        " <span class='step-count-inline'>(" +
+        steps +
+        " steps)</span>";
+      card.addEventListener("click", () => GuideResolver.openItem({ ...item, type: target.type }));
       container.appendChild(card);
     });
     container.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -7411,7 +10229,7 @@ const TroubleshootingGuide = {
 
     ThemePicker.mount("#themePickerMount");
     Themes.init();
-    Logger.init(Session.getEmployeeId());
+    Logger.init(Session.getAgentId());
 
     const params = SPA.getQuery();
     const guideId = params.get("guide");
@@ -7422,6 +10240,7 @@ const TroubleshootingGuide = {
 
     this.bindEvents();
     await TroubleshootingLoader.load();
+    await KbLoader.load();
     const data = TroubleshootingLoader.getData();
     this.imageBasePath = data?.imageBasePath || "assets/images/";
     this.guide = TroubleshootingLoader.getGuide(guideId);
@@ -7438,7 +10257,12 @@ const TroubleshootingGuide = {
 
     const platform = Session.getCaseDetails()?.platform || "Windows";
     this.steps = StepUtils.filterSteps(this.rawSteps, platform);
-    if (!this.steps.length) this.steps = this.rawSteps;
+    if (!this.steps.length) {
+      this.showError(
+        "No steps available for platform \"" + platform + "\". Use Edit Case to change platform."
+      );
+      return;
+    }
 
     const existing = Session.getGuideSession();
     if (!existing || existing.kbId !== guideId || existing.guideType !== "troubleshooting") {
@@ -7468,7 +10292,32 @@ const TroubleshootingGuide = {
     }
 
     Logger.logArticleView({ id: this.guide.id, title: this.guide.title });
+    this.renderKbFallback();
     this.render();
+  },
+
+  renderKbFallback() {
+    const panel = document.getElementById("kbFallbackPanel");
+    const btn = document.getElementById("kbFallbackBtn");
+    const text = document.getElementById("kbFallbackText");
+    if (!panel || !btn) return;
+
+    const session = Session.getGuideSession();
+    let kbArticle =
+      (session?.fallbackKbId && SearchEngine.getArticleById(session.fallbackKbId)) ||
+      GuideResolver.findRelatedKb(this.guide);
+
+    if (!kbArticle) {
+      panel.hidden = true;
+      return;
+    }
+
+    panel.hidden = false;
+    if (text) {
+      text.textContent =
+        "Still stuck? Org KB article: " + kbArticle.title + " (" + kbArticle.id + ")";
+    }
+    btn.onclick = () => GuideResolver.openItem({ ...kbArticle, type: "kb" });
   },
 
   bindEvents() {
@@ -7718,6 +10567,9 @@ if (typeof window !== "undefined") {
  */
 const AdminLogin = {
   init() {
+    ThemePicker.mount("#themePickerMount");
+    Themes.init();
+
     if (AdminAuth.isAuthenticated()) {
       SPA.navigate("admin");
       return;
@@ -7762,51 +10614,85 @@ const AdminLogin = {
 const Admin = {
   parsedKb: null,
   allLogs: [],
+  fullLogCount: 0,
+  logsCapped: false,
   logFilterDebounce: null,
 
   async init() {
-    if (!AdminAuth.requireAuth()) return;
-
     ThemePicker.mount("#themePickerMount");
     Themes.init();
-    await this.checkAccess();
+
+    if (!AdminAuth.requireAuth()) return;
+
+    if (window.SP_CONFIG?.useSharePoint) {
+      document.getElementById("clearLocalLogsBtn")?.setAttribute("hidden", "");
+    }
+
     this.updateUploadButtonLabel();
     this.bindEvents();
     await this.loadLogStats();
   },
 
+  parseCaseFieldsFromDetails(details) {
+    if (!details || typeof details !== "string") return {};
+    const match = details.match(
+      /Chat IMS:\s*([^,]+),\s*Platform:\s*([^,]+),\s*Environment:\s*(.+)/i
+    );
+    if (!match) return {};
+    return {
+      chatIms: match[1].trim(),
+      platform: match[2].trim(),
+      environment: match[3].trim()
+    };
+  },
 
-  async checkAccess() {
-    const cfg = window.SP_CONFIG;
-    const banner = document.getElementById("accessBanner");
-    const adminLabel = "Signed in as admin: " + AdminAuth.getUsername();
-    if (!cfg.useSharePoint) {
-      if (banner) {
-        banner.textContent = adminLabel + " | Demo mode: admin features enabled locally.";
-        banner.className = "banner info";
-      }
-      return;
+  normalizeLogRow(log) {
+    const row = { ...log };
+    if (!row.chatIms && row.employeeId && /^IMS[-\s]/i.test(String(row.employeeId))) {
+      row.chatIms = row.employeeId;
+      row.employeeId = "";
     }
-    try {
-      let allowed = false;
-      for (const group of cfg.adminGroups || []) {
-        if (await SharePoint.isUserInGroup(group)) {
-          allowed = true;
-          break;
-        }
-      }
-      if (banner) {
-        banner.textContent = allowed
-          ? adminLabel
-          : adminLabel + " | Warning: SharePoint admin group membership could not be verified.";
-        banner.className = allowed ? "banner info" : "banner warn";
-      }
-    } catch {
-      if (banner) {
-        banner.textContent = adminLabel + " | Could not verify SharePoint admin group membership.";
-        banner.className = "banner warn";
-      }
-    }
+    const fromDetails = this.parseCaseFieldsFromDetails(row.details);
+    if (!row.chatIms && fromDetails.chatIms) row.chatIms = fromDetails.chatIms;
+    if (!row.platform && fromDetails.platform) row.platform = fromDetails.platform;
+    if (!row.environment && fromDetails.environment) row.environment = fromDetails.environment;
+    const outcome = this.getLogOutcomeFlags(row);
+    row.resolved = outcome.resolved;
+    row.escalated = outcome.escalated;
+    return row;
+  },
+
+  getLogOutcomeFlags(log) {
+    const action = (log.action || "").toLowerCase();
+    const details = (log.details || "").toLowerCase();
+    const resolved =
+      action === "resolution" || details.includes("issue resolved") || details.includes("glad that resolved");
+    const escalated =
+      action === "escalation" ||
+      details.includes("escalat") ||
+      details.includes("case escalated");
+    return {
+      resolved: resolved ? "Yes" : "",
+      escalated: escalated ? "Yes" : ""
+    };
+  },
+
+  formatLogTimestamp(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "";
+    return (
+      new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      }).format(d) + " IST"
+    );
   },
 
   bindEvents() {
@@ -7826,7 +10712,7 @@ const Admin = {
     document.getElementById("logFilterAction")?.addEventListener("change", () => this.applyLogFilters());
     document.getElementById("logFilterDateFrom")?.addEventListener("change", () => this.applyLogFilters());
     document.getElementById("logFilterDateTo")?.addEventListener("change", () => this.applyLogFilters());
-    document.getElementById("logFilterEmployee")?.addEventListener("input", () => {
+    document.getElementById("logFilterChatIms")?.addEventListener("input", () => {
       clearTimeout(this.logFilterDebounce);
       this.logFilterDebounce = setTimeout(() => this.applyLogFilters(), 250);
     });
@@ -7853,6 +10739,35 @@ const Admin = {
     if (jsonBtn) jsonBtn.disabled = !ready;
   },
 
+  async getExistingKbForMerge() {
+    try {
+      const adminKb = localStorage.getItem("outlookAssistant_adminKb");
+      if (adminKb) return JSON.parse(adminKb);
+      const res = await fetch(window.SP_CONFIG.localKbPath);
+      if (res.ok) return await res.json();
+    } catch (_) {}
+    return { articles: [], flows: [], synonyms: {} };
+  },
+
+  async loadXlsxLib() {
+    if (window.XLSX) return;
+    await new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js";
+      script.onload = resolve;
+      script.onerror = () => reject(new Error("Could not load Excel parser"));
+      document.head.appendChild(script);
+    });
+  },
+
+  async parseXlsx(buffer, existingKb) {
+    await this.loadXlsxLib();
+    const workbook = window.XLSX.read(buffer, { type: "array" });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const rows = window.XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
+    return KbSpreadsheet.buildKbFromRows(KbSpreadsheet.rowsFromAoA(rows), existingKb);
+  },
+
   async handleFileSelect(file) {
     if (!file) return;
     const preview = document.getElementById("uploadPreview");
@@ -7860,13 +10775,16 @@ const Admin = {
 
     try {
       const ext = file.name.split(".").pop().toLowerCase();
+      const existingKb = await this.getExistingKbForMerge();
       if (ext === "json") {
         const text = await file.text();
         this.parsedKb = JSON.parse(text);
       } else if (ext === "csv") {
-        this.parsedKb = this.parseCsv(await file.text());
+        this.parsedKb = KbSpreadsheet.parseCsv(await file.text(), existingKb);
+      } else if (ext === "xlsx" || ext === "xls") {
+        this.parsedKb = await this.parseXlsx(await file.arrayBuffer(), existingKb);
       } else {
-        throw new Error("Unsupported format. Use JSON or CSV (export Excel as CSV).");
+        throw new Error("Unsupported format. Use Excel (.xlsx), JSON, or CSV.");
       }
       this.validateKb(this.parsedKb);
       preview.textContent =
@@ -7881,66 +10799,6 @@ const Admin = {
       this.parsedKb = null;
       this.setParsedKbReady(false);
     }
-  },
-
-  parseCsv(text) {
-    const lines = text.split(/\r?\n/).filter((l) => l.trim());
-    if (lines.length < 2) throw new Error("CSV must have header and data rows");
-
-    const headers = lines[0].split(",").map((h) => h.trim().replace(/^"|"$/g, ""));
-    const numIdx = headers.findIndex((h) => /number|id|kb/i.test(h));
-    const descIdx = headers.findIndex((h) => /description|title|short/i.test(h));
-
-    if (numIdx < 0 || descIdx < 0) {
-      throw new Error('CSV must have "Number" and "Short description" columns');
-    }
-
-    const articles = [];
-    for (let i = 1; i < lines.length; i++) {
-      const cols = this.parseCsvLine(lines[i]);
-      const id = (cols[numIdx] || "").trim();
-      const title = (cols[descIdx] || "").trim();
-      if (!id || !title) continue;
-
-      const categoryMatch = title.match(/\[([^\]]+)\]/);
-      articles.push({
-        id,
-        title,
-        category: categoryMatch ? categoryMatch[1] : "General",
-        keywords: title.toLowerCase().replace(/[^\w\s]/g, " ").split(/\s+/).filter((w) => w.length > 2),
-        symptoms: [],
-        priority: 3,
-        steps: ["Refer to the full KB article for detailed steps.", "Contact IT if you need assistance."],
-        url: ""
-      });
-    }
-
-    return {
-      version: "1.0.0",
-      lastUpdated: new Date().toISOString().slice(0, 10),
-      articles,
-      flows: [],
-      synonyms: {}
-    };
-  },
-
-  parseCsvLine(line) {
-    const result = [];
-    let current = "";
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"') {
-        inQuotes = !inQuotes;
-      } else if (ch === "," && !inQuotes) {
-        result.push(current);
-        current = "";
-      } else {
-        current += ch;
-      }
-    }
-    result.push(current);
-    return result.map((s) => s.replace(/^"|"$/g, "").trim());
   },
 
   validateKb(data) {
@@ -8067,25 +10925,55 @@ const Admin = {
     this.downloadBlob(json, "kb-articles.json", "application/json");
   },
 
+  getLogDateInIST(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "";
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).format(d);
+  },
+
+  async getFullLogs() {
+    if (window.SP_CONFIG.useSharePoint) {
+      try {
+        return await SharePoint.getLogsFromSharePoint(5000);
+      } catch {
+        return SharePoint.getLocalLogs();
+      }
+    }
+    return SharePoint.getLocalLogs();
+  },
+
   async loadLogStats() {
     const tbody = document.getElementById("logsTableBody");
-    tbody.innerHTML = "<tr><td colspan='7'>Loading...</td></tr>";
+    tbody.innerHTML = "<tr><td colspan='11'>Loading...</td></tr>";
 
     let logs = [];
     try {
       if (window.SP_CONFIG.useSharePoint) {
         logs = await SharePoint.getLogsFromSharePoint(200);
+        this.fullLogCount = logs.length;
+        this.logsCapped = logs.length >= 200;
       } else {
-        logs = SharePoint.getLocalLogs().reverse().slice(0, 200);
+        const allLocal = SharePoint.getLocalLogs();
+        this.fullLogCount = allLocal.length;
+        logs = allLocal.slice().reverse().slice(0, 200);
+        this.logsCapped = this.fullLogCount > logs.length;
       }
     } catch (err) {
-      logs = SharePoint.getLocalLogs().reverse().slice(0, 200);
+      const allLocal = SharePoint.getLocalLogs();
+      this.fullLogCount = allLocal.length;
+      logs = allLocal.slice().reverse().slice(0, 200);
+      this.logsCapped = this.fullLogCount > logs.length;
       console.warn(err);
     }
 
-    this.allLogs = logs;
+    this.allLogs = logs.map((l) => this.normalizeLogRow(l));
     this.populateActionFilterOptions();
-    this.renderLogStats(logs);
     this.applyLogFilters();
   },
 
@@ -8123,7 +11011,7 @@ const Admin = {
   hasActiveLogFilters() {
     return Boolean(
       document.getElementById("logFilterAction")?.value ||
-        (document.getElementById("logFilterEmployee")?.value || "").trim() ||
+        (document.getElementById("logFilterChatIms")?.value || "").trim() ||
         document.getElementById("logFilterDateFrom")?.value ||
         document.getElementById("logFilterDateTo")?.value ||
         (document.getElementById("logFilterText")?.value || "").trim()
@@ -8132,24 +11020,37 @@ const Admin = {
 
   filterLogs(logs) {
     const action = document.getElementById("logFilterAction")?.value || "";
-    const employee = (document.getElementById("logFilterEmployee")?.value || "").trim().toLowerCase();
+    const chatIms = (document.getElementById("logFilterChatIms")?.value || "").trim().toLowerCase();
     const dateFrom = document.getElementById("logFilterDateFrom")?.value || "";
     const dateTo = document.getElementById("logFilterDateTo")?.value || "";
     const text = (document.getElementById("logFilterText")?.value || "").trim().toLowerCase();
 
-    return (logs || []).filter((l) => {
+    return (logs || []).map((l) => this.normalizeLogRow(l)).filter((l) => {
       if (action && l.action !== action) return false;
-      if (employee && !(l.employeeId || "").toLowerCase().includes(employee)) return false;
+      if (chatIms && !(l.chatIms || "").toLowerCase().includes(chatIms)) return false;
 
       if (dateFrom || dateTo) {
-        const ts = l.timestamp ? new Date(l.timestamp) : null;
-        if (!ts || Number.isNaN(ts.getTime())) return false;
-        if (dateFrom && ts < new Date(dateFrom + "T00:00:00")) return false;
-        if (dateTo && ts > new Date(dateTo + "T23:59:59.999")) return false;
+        const logDate = this.getLogDateInIST(l.timestamp);
+        if (!logDate) return false;
+        if (dateFrom && logDate < dateFrom) return false;
+        if (dateTo && logDate > dateTo) return false;
       }
 
       if (text) {
-        const haystack = [l.query, l.kbId, l.kbTitle, l.details, l.flowId, l.feedback, l.action, l.employeeId]
+        const haystack = [
+          l.query,
+          l.kbId,
+          l.kbTitle,
+          l.details,
+          l.flowId,
+          l.feedback,
+          l.action,
+          l.chatIms,
+          l.platform,
+          l.environment,
+          l.resolved,
+          l.escalated
+        ]
           .map((v) => (v || "").toLowerCase())
           .join(" ");
         if (!haystack.includes(text)) return false;
@@ -8162,6 +11063,7 @@ const Admin = {
   applyLogFilters() {
     const filtered = this.filterLogs(this.allLogs);
     this.renderLogsTable(filtered);
+    this.renderLogStats(filtered);
     this.updateLogFilterSummary(filtered);
   },
 
@@ -8179,7 +11081,22 @@ const Admin = {
 
     if (this.hasActiveLogFilters()) {
       el.textContent =
-        "Showing " + shown + " of " + total + " log" + (total === 1 ? "" : "s") + " (filters active)";
+        "Showing " +
+        shown +
+        " of " +
+        total +
+        " loaded log" +
+        (total === 1 ? "" : "s") +
+        " (filters active; export uses full dataset)";
+    } else if (this.logsCapped) {
+      const full = this.fullLogCount || total;
+      el.textContent =
+        "Showing latest " +
+        total +
+        " of " +
+        full +
+        " log" +
+        (full === 1 ? "" : "s");
     } else {
       el.textContent = total + " log" + (total === 1 ? "" : "s") + " loaded";
     }
@@ -8187,13 +11104,13 @@ const Admin = {
 
   clearLogFilters() {
     const action = document.getElementById("logFilterAction");
-    const employee = document.getElementById("logFilterEmployee");
+    const chatIms = document.getElementById("logFilterChatIms");
     const dateFrom = document.getElementById("logFilterDateFrom");
     const dateTo = document.getElementById("logFilterDateTo");
     const text = document.getElementById("logFilterText");
 
     if (action) action.value = "";
-    if (employee) employee.value = "";
+    if (chatIms) chatIms.value = "";
     if (dateFrom) dateFrom.value = "";
     if (dateTo) dateTo.value = "";
     if (text) text.value = "";
@@ -8205,12 +11122,14 @@ const Admin = {
     const searches = logs.filter((l) => l.action === "search").length;
     const views = logs.filter((l) => l.action === "article_view").length;
     const escalations = logs.filter((l) => l.action === "escalation").length;
-    const uniqueUsers = new Set(logs.map((l) => l.employeeId).filter(Boolean)).size;
+    const uniqueCases = new Set(
+      logs.map((l) => this.normalizeLogRow(l).chatIms).filter(Boolean)
+    ).size;
 
     document.getElementById("statSearches").textContent = searches;
     document.getElementById("statViews").textContent = views;
     document.getElementById("statEscalations").textContent = escalations;
-    document.getElementById("statUsers").textContent = uniqueUsers;
+    document.getElementById("statUsers").textContent = uniqueCases;
 
     const queryCounts = {};
     logs
@@ -8235,22 +11154,28 @@ const Admin = {
       const msg = this.hasActiveLogFilters()
         ? "No logs match the current filters."
         : "No logs recorded yet.";
-      tbody.innerHTML = "<tr><td colspan='7'>" + msg + "</td></tr>";
+      tbody.innerHTML = "<tr><td colspan='11'>" + msg + "</td></tr>";
       return;
     }
     tbody.innerHTML = logs
-      .map(
-        (l) =>
+      .map((raw) => {
+        const l = this.normalizeLogRow(raw);
+        return (
           "<tr>" +
-          "<td>" + this.escape(l.timestamp || "") + "</td>" +
-          "<td>" + this.escape(l.employeeId || "") + "</td>" +
+          "<td>" + this.escape(this.formatLogTimestamp(l.timestamp)) + "</td>" +
+          "<td>" + this.escape(l.chatIms || "") + "</td>" +
+          "<td>" + this.escape(l.platform || "") + "</td>" +
+          "<td>" + this.escape(l.environment || "") + "</td>" +
           "<td>" + this.escape(l.action || "") + "</td>" +
-          "<td>" + this.escape(l.query || "") + "</td>" +
+          "<td>" + this.escape(l.action === "search" ? l.query || "" : "") + "</td>" +
           "<td>" + this.escape(l.kbId || "") + "</td>" +
           "<td>" + this.escape(l.kbTitle || l.details || "") + "</td>" +
+          "<td>" + this.escape(l.resolved || "") + "</td>" +
+          "<td>" + this.escape(l.escalated || "") + "</td>" +
           "<td>" + this.escape(l.feedback || "") + "</td>" +
           "</tr>"
-      )
+        );
+      })
       .join("");
   },
 
@@ -8258,7 +11183,7 @@ const Admin = {
     let logs = [];
 
     if (this.hasActiveLogFilters()) {
-      logs = this.filterLogs(this.allLogs);
+      logs = this.filterLogs(await this.getFullLogs());
     } else if (window.SP_CONFIG.useSharePoint) {
       try {
         logs = await SharePoint.getLogsFromSharePoint(5000);
@@ -8274,10 +11199,35 @@ const Admin = {
       return;
     }
 
-    const headers = ["timestamp", "employeeId", "userEmail", "action", "query", "kbId", "kbTitle", "flowId", "details", "feedback"];
-    const rows = logs.map((l) =>
-      headers.map((h) => '"' + String(l[h] || "").replace(/"/g, '""') + '"').join(",")
-    );
+    const headers = [
+      "timestamp",
+      "employeeId",
+      "chatIms",
+      "platform",
+      "environment",
+      "userEmail",
+      "action",
+      "query",
+      "kbId",
+      "kbTitle",
+      "flowId",
+      "details",
+      "resolved",
+      "escalated",
+      "feedback"
+    ];
+    const rows = logs.map((raw) => {
+      const l = this.normalizeLogRow(raw);
+      return headers
+        .map((h) => {
+          let val = l[h] || "";
+          if (h === "timestamp" && val) {
+            val = this.formatLogTimestamp(val);
+          }
+          return '"' + String(val).replace(/"/g, '""') + '"';
+        })
+        .join(",");
+    });
     const csv = headers.join(",") + "\n" + rows.join("\n");
     const suffix = this.hasActiveLogFilters() ? "-filtered" : "";
     this.downloadBlob(csv, "outlook-assistant-logs" + suffix + ".csv", "text/csv");

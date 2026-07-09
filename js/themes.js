@@ -9,6 +9,8 @@ const Themes = {
     { id: "corporate", label: "Corporate" }
   ],
 
+  _eventsBound: false,
+
   apply(theme) {
     const t = this.themes.some((item) => item.id === theme) ? theme : "light";
     document.documentElement.setAttribute("data-theme", t);
@@ -24,29 +26,35 @@ const Themes = {
   },
 
   bindPickers() {
-    document.querySelectorAll(".theme-picker").forEach((picker) => {
-      const toggle = picker.querySelector(".theme-picker-toggle");
-      const menu = picker.querySelector(".theme-picker-menu");
-      if (!toggle || !menu) return;
+    if (this._eventsBound) return;
+    this._eventsBound = true;
 
-      toggle.addEventListener("click", (e) => {
+    document.addEventListener("click", (e) => {
+      const themeBtn = e.target.closest(".theme-picker-menu [data-theme-btn]");
+      if (themeBtn) {
         e.stopPropagation();
-        const isOpen = !menu.hidden;
+        this.apply(themeBtn.dataset.themeBtn);
         this.closeAllMenus();
-        menu.hidden = isOpen;
-        toggle.setAttribute("aria-expanded", String(!isOpen));
-      });
+        return;
+      }
 
-      menu.querySelectorAll("[data-theme-btn]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          this.apply(btn.dataset.themeBtn);
-          menu.hidden = true;
-          toggle.setAttribute("aria-expanded", "false");
-        });
-      });
+      const toggle = e.target.closest(".theme-picker-toggle");
+      if (toggle) {
+        e.stopPropagation();
+        const menu = toggle.closest(".theme-picker")?.querySelector(".theme-picker-menu");
+        if (!menu) return;
+        const willOpen = menu.hidden;
+        this.closeAllMenus();
+        menu.hidden = !willOpen;
+        toggle.setAttribute("aria-expanded", String(willOpen));
+        return;
+      }
+
+      if (!e.target.closest(".theme-picker")) {
+        this.closeAllMenus();
+      }
     });
 
-    document.addEventListener("click", () => this.closeAllMenus());
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") this.closeAllMenus();
     });

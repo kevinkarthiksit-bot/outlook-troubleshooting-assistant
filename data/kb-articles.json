@@ -1,0 +1,2293 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-07-09",
+  "articles": [
+    {
+      "id": "GEVKB0012506",
+      "title": "GCCH USERS ONLY - Microsoft 365 Outlook Copilot - FAQ",
+      "category": "Copilot",
+      "keywords": [
+        "copilot",
+        "gcch",
+        "ai",
+        "faq",
+        "outlook copilot"
+      ],
+      "symptoms": [
+        "Copilot not showing",
+        "Copilot greyed out",
+        "AI features missing"
+      ],
+      "priority": 2,
+      "steps": [
+        "Confirm you are on a GCCH tenant and licensed for Copilot.",
+        "Verify Outlook is updated to the latest supported build.",
+        "Sign out and sign back into Microsoft 365.",
+        "If Copilot still does not appear, contact IT with your Outlook version."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012122",
+      "title": "[Email Security] I do not receive emails from outside of GE Vernova",
+      "category": "Email Security",
+      "keywords": [
+        "external email",
+        "blocked",
+        "quarantine",
+        "outside",
+        "receive"
+      ],
+      "symptoms": [
+        "Missing external mail",
+        "Sender says email was sent but I never got it"
+      ],
+      "priority": 1,
+      "steps": [
+        "Check Junk Email folder and Quarantine notifications in Microsoft 365 security portal.",
+        "Ask the sender to verify the exact recipient address (no typos, correct domain).",
+        "Confirm the sender domain is not blocked by organizational security policy.",
+        "If mail is quarantined, release it or request an allow-list via IT security."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011993",
+      "title": "[Email security] Submit a request to remove the EXT subject tag and External email banner",
+      "category": "Email security",
+      "keywords": [
+        "email",
+        "security",
+        "submit",
+        "request",
+        "remove",
+        "the",
+        "ext",
+        "subject",
+        "tag",
+        "and",
+        "external",
+        "email",
+        "banner"
+      ],
+      "symptoms": [
+        "Submit a request to remove the EXT subject tag and External email banner"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011941",
+      "title": "[Email] - Create a New Distribution List",
+      "category": "Email",
+      "keywords": [
+        "distribution list",
+        "dl",
+        "group",
+        "create",
+        "mailing list"
+      ],
+      "symptoms": [
+        "Need new DL",
+        "Create group mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Open the distribution list request portal or service catalog.",
+        "Provide list name, owners, and members.",
+        "Submit the request and wait for approval/provisioning.",
+        "Verify the new DL appears in Outlook address book after sync."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012270",
+      "title": "[Email] - Shared/resource mailboxes",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "shared",
+        "resource",
+        "mailboxes"
+      ],
+      "symptoms": [
+        "- Shared/resource mailboxes"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012238",
+      "title": "[Email] Application Access to Exchange Online Mailboxes",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "application",
+        "access",
+        "exchange",
+        "online",
+        "mailboxes"
+      ],
+      "symptoms": [
+        "Application Access to Exchange Online Mailboxes"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012196",
+      "title": "[Email] Change your email address or display name in the Global Address List (GAL)",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "change",
+        "your",
+        "email",
+        "address",
+        "display",
+        "name",
+        "the",
+        "global",
+        "address",
+        "list",
+        "gal"
+      ],
+      "symptoms": [
+        "Change your email address or display name in the Global Address List (GAL)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012431",
+      "title": "[Email] Create a Custom Recipient (CR) email address for external contacts",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "create",
+        "custom",
+        "recipient",
+        "email",
+        "address",
+        "for",
+        "external",
+        "contacts"
+      ],
+      "symptoms": [
+        "Create a Custom Recipient (CR) email address for external contacts"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014484",
+      "title": "[Email] Dynamic Distribution Group (DDG) management",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "dynamic",
+        "distribution",
+        "group",
+        "ddg",
+        "management"
+      ],
+      "symptoms": [
+        "Dynamic Distribution Group (DDG) management"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012467",
+      "title": "[Email] Edit Distribution List Properties",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "edit",
+        "distribution",
+        "list",
+        "properties"
+      ],
+      "symptoms": [
+        "Edit Distribution List Properties"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012300",
+      "title": "[Email] Edit or delete a Custom Recipient (CR)",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "edit",
+        "delete",
+        "custom",
+        "recipient"
+      ],
+      "symptoms": [
+        "Edit or delete a Custom Recipient (CR)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014493",
+      "title": "[Email] Email banner for external emails sent to ge.com domain",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "email",
+        "banner",
+        "for",
+        "external",
+        "emails",
+        "sent",
+        "com",
+        "domain"
+      ],
+      "symptoms": [
+        "Email banner for external emails sent to ge.com domain"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014329",
+      "title": "[Email] Enable Auto-Forwarding to External Address from GEV Mailbox",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "enable",
+        "auto",
+        "forwarding",
+        "external",
+        "address",
+        "from",
+        "gev",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Enable Auto-Forwarding to External Address from GEV Mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011647",
+      "title": "[Email] GE Vernova Email Service Catalog",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "vernova",
+        "email",
+        "service",
+        "catalog"
+      ],
+      "symptoms": [
+        "GE Vernova Email Service Catalog"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012594",
+      "title": "[Email] How to download the Offline Address Book (OAB)",
+      "category": "Email",
+      "keywords": [
+        "oab",
+        "offline address book",
+        "gal",
+        "sync",
+        "address book"
+      ],
+      "symptoms": [
+        "Contacts missing offline",
+        "GAL not updating",
+        "OAB download failed"
+      ],
+      "priority": 2,
+      "steps": [
+        "In Outlook, go to Send/Receive > Download Address Book.",
+        "Choose the correct Offline Address Book for your organization and click OK.",
+        "Restart Outlook if the download does not complete within 30 minutes.",
+        "Check network/VPN if OAB download repeatedly fails."
+      ],
+      "url": "https://learn.microsoft.com/en-us/troubleshoot/exchange/outlook-issues/office-365-troubleshooting-resources"
+    },
+    {
+      "id": "GEVKB0014357",
+      "title": "[Email] Leaver / Terminated Employee - Email Address Continuity Process",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "leaver",
+        "terminated",
+        "employee",
+        "email",
+        "address",
+        "continuity",
+        "process"
+      ],
+      "symptoms": [
+        "Leaver / Terminated Employee - Email Address Continuity Process",
+        "Leaver / Terminated Employee"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012088",
+      "title": "[Email] M365 Email Migration - Frequently Asked Questions",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "m365",
+        "email",
+        "migration",
+        "frequently",
+        "asked",
+        "questions"
+      ],
+      "symptoms": [
+        "M365 Email Migration - Frequently Asked Questions",
+        "M365 Email Migration"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013535",
+      "title": "[Email] Raise Service Request to Reconnect a Disconnected Mailbox",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "raise",
+        "service",
+        "request",
+        "reconnect",
+        "disconnected",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Raise Service Request to Reconnect a Disconnected Mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014188",
+      "title": "[Email] Request to Backup/Restore Mailbox content (Terminated Employees)",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "request",
+        "backup",
+        "restore",
+        "mailbox",
+        "content",
+        "terminated",
+        "employees"
+      ],
+      "symptoms": [
+        "Request to Backup/Restore Mailbox content (Terminated Employees)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014265",
+      "title": "[Email] Scope Document for all levels of service",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "scope",
+        "document",
+        "for",
+        "all",
+        "levels",
+        "service"
+      ],
+      "symptoms": [
+        "Scope Document for all levels of service"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012310",
+      "title": "[Email] Set up an automatic reply on a Shared Mailbox",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "set",
+        "automatic",
+        "reply",
+        "shared",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Set up an automatic reply on a Shared Mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013596",
+      "title": "[Email] Understand Display Names at GE Vernova",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "understand",
+        "display",
+        "names",
+        "vernova"
+      ],
+      "symptoms": [
+        "Understand Display Names at GE Vernova"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011599",
+      "title": "[Email] Users outside of GE Vernova do not receive my emails",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "users",
+        "outside",
+        "vernova",
+        "not",
+        "receive",
+        "emails"
+      ],
+      "symptoms": [
+        "Users outside of GE Vernova do not receive my emails"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014466",
+      "title": "[Email] Utilizing Exchange Online Archive to Optimize Mailbox Size",
+      "category": "Email",
+      "keywords": [
+        "email",
+        "utilizing",
+        "exchange",
+        "online",
+        "archive",
+        "optimize",
+        "mailbox",
+        "size"
+      ],
+      "symptoms": [
+        "Utilizing Exchange Online Archive to Optimize Mailbox Size"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012404",
+      "title": "[GE Vernova] Email list invisible when reading pane is open",
+      "category": "GE Vernova",
+      "keywords": [
+        "vernova",
+        "email",
+        "list",
+        "invisible",
+        "when",
+        "reading",
+        "pane",
+        "open"
+      ],
+      "symptoms": [
+        "Email list invisible when reading pane is open"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012746",
+      "title": "[GE Vernova][Mac] Resolve common Outlook email encryption issues.",
+      "category": "GE Vernova",
+      "keywords": [
+        "vernova",
+        "mac",
+        "resolve",
+        "common",
+        "outlook",
+        "email",
+        "encryption",
+        "issues"
+      ],
+      "symptoms": [
+        "[Mac] Resolve common Outlook email encryption issues."
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012089",
+      "title": "[Mac@GE] Add a shared or group calendar for Outlook on MacOS",
+      "category": "Mac@GE",
+      "keywords": [
+        "mac",
+        "add",
+        "shared",
+        "group",
+        "calendar",
+        "for",
+        "outlook",
+        "macos"
+      ],
+      "symptoms": [
+        "Add a shared or group calendar for Outlook on MacOS"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011858",
+      "title": "[Mac]  Book a Teams Meeting Room in Outlook",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "book",
+        "teams",
+        "meeting",
+        "room",
+        "outlook"
+      ],
+      "symptoms": [
+        "Book a Teams Meeting Room in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011623",
+      "title": "[Mac] Archive messages in Outlook",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "archive",
+        "messages",
+        "outlook"
+      ],
+      "symptoms": [
+        "Archive messages in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011573",
+      "title": "[Mac] Delegate Permissions to Your Calendar on Outlook",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "delegate",
+        "permissions",
+        "your",
+        "calendar",
+        "outlook"
+      ],
+      "symptoms": [
+        "Delegate Permissions to Your Calendar on Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012705",
+      "title": "[Mac] Fix Outlook Error: “There was a problem and Outlook was closed”",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "fix",
+        "outlook",
+        "error",
+        "there",
+        "was",
+        "problem",
+        "and",
+        "outlook",
+        "was",
+        "closed"
+      ],
+      "symptoms": [
+        "Fix Outlook Error: “There was a problem and Outlook was closed”"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012013",
+      "title": "[Mac] How to Import Outlook Archive Files (.olm)",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "how",
+        "import",
+        "outlook",
+        "archive",
+        "files",
+        "olm"
+      ],
+      "symptoms": [
+        "How to Import Outlook Archive Files (.olm)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012534",
+      "title": "[Mac] Report phishing attempts in Outlook (macOS Catalina and newer)",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "report",
+        "phishing",
+        "attempts",
+        "outlook",
+        "macos",
+        "catalina",
+        "and",
+        "newer"
+      ],
+      "symptoms": [
+        "Report phishing attempts in Outlook (macOS Catalina and newer)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012765",
+      "title": "[Mac] Set up your Outlook",
+      "category": "Mac",
+      "keywords": [
+        "mac",
+        "set",
+        "your",
+        "outlook"
+      ],
+      "symptoms": [
+        "Set up your Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012646",
+      "title": "[Microsoft Teams Room] - Book a room using Outlook (Windows)",
+      "category": "Microsoft Teams Room",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "room",
+        "book",
+        "room",
+        "using",
+        "outlook",
+        "windows"
+      ],
+      "symptoms": [
+        "- Book a room using Outlook (Windows)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012982",
+      "title": "[Microsoft Teams] Create Teams meetings from a shared mailbox",
+      "category": "Microsoft Teams",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "create",
+        "teams",
+        "meetings",
+        "from",
+        "shared",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Create Teams meetings from a shared mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013904",
+      "title": "[Microsoft Teams] Join a Teams meeting (Outlook / Mobile Device / Desktop App)",
+      "category": "Microsoft Teams",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "join",
+        "teams",
+        "meeting",
+        "outlook",
+        "mobile",
+        "device",
+        "desktop",
+        "app"
+      ],
+      "symptoms": [
+        "Join a Teams meeting (Outlook / Mobile Device / Desktop App)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012100",
+      "title": "[Microsoft Teams] Missing Add-in in Outlook (Windows)",
+      "category": "Microsoft Teams",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "missing",
+        "add",
+        "outlook",
+        "windows"
+      ],
+      "symptoms": [
+        "Missing Add-in in Outlook (Windows)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013150",
+      "title": "[Microsoft Teams] Schedule a meeting in Outlook",
+      "category": "Microsoft Teams",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "schedule",
+        "meeting",
+        "outlook"
+      ],
+      "symptoms": [
+        "Schedule a meeting in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012853",
+      "title": "[Microsoft Teams] Status displays in Teams versus Outlook",
+      "category": "Microsoft Teams",
+      "keywords": [
+        "microsoft",
+        "teams",
+        "status",
+        "displays",
+        "teams",
+        "versus",
+        "outlook"
+      ],
+      "symptoms": [
+        "Status displays in Teams versus Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012351",
+      "title": "[Mobility] Delete an email account in Microsoft Outlook",
+      "category": "Mobility",
+      "keywords": [
+        "mobility",
+        "delete",
+        "email",
+        "account",
+        "microsoft",
+        "outlook"
+      ],
+      "symptoms": [
+        "Delete an email account in Microsoft Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013005",
+      "title": "[Outlook]  Move your mailbox items to your Online Archive automatically",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "move",
+        "your",
+        "mailbox",
+        "items",
+        "your",
+        "online",
+        "archive",
+        "automatically"
+      ],
+      "symptoms": [
+        "Move your mailbox items to your Online Archive automatically"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014129",
+      "title": "[Outlook] Add a User, Shared Mailbox, or Resource Calendar in Outlook",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "add",
+        "user",
+        "shared",
+        "mailbox",
+        "resource",
+        "calendar",
+        "outlook"
+      ],
+      "symptoms": [
+        "Add a User, Shared Mailbox, or Resource Calendar in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011779",
+      "title": "[Outlook] Add holidays to your calendar in Outlook",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "add",
+        "holidays",
+        "your",
+        "calendar",
+        "outlook"
+      ],
+      "symptoms": [
+        "Add holidays to your calendar in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013078",
+      "title": "[Outlook] Add someone else's mailbox, or a resource, to your profile",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "add",
+        "someone",
+        "else",
+        "mailbox",
+        "resource",
+        "your",
+        "profile"
+      ],
+      "symptoms": [
+        "Add someone else's mailbox, or a resource, to your profile"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011839",
+      "title": "[Outlook] Allow Someone Else to Manage Your Mailbox and Calendar",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "allow",
+        "someone",
+        "else",
+        "manage",
+        "your",
+        "mailbox",
+        "and",
+        "calendar"
+      ],
+      "symptoms": [
+        "Allow Someone Else to Manage Your Mailbox and Calendar"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013164",
+      "title": "[Outlook] Añadir un buzón de correo compartido transferido",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "adir",
+        "buz",
+        "correo",
+        "compartido",
+        "transferido"
+      ],
+      "symptoms": [
+        "Añadir un buzón de correo compartido transferido"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013683",
+      "title": "[Outlook] Book a Meeting Room",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "book",
+        "meeting",
+        "room"
+      ],
+      "symptoms": [
+        "Book a Meeting Room"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012827",
+      "title": "[Outlook] Change the Outlook Theme",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "change",
+        "the",
+        "outlook",
+        "theme"
+      ],
+      "symptoms": [
+        "Change the Outlook Theme"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011845",
+      "title": "[Outlook] Change your title attribute in Outlook",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "change",
+        "your",
+        "title",
+        "attribute",
+        "outlook"
+      ],
+      "symptoms": [
+        "Change your title attribute in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012460",
+      "title": "[Outlook] Create a New Mail Profile",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "create",
+        "new",
+        "mail",
+        "profile"
+      ],
+      "symptoms": [
+        "Create a New Mail Profile"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012722",
+      "title": "[Outlook] Create an Out of Office notification in Outlook (classic)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "create",
+        "out",
+        "office",
+        "notification",
+        "outlook",
+        "classic"
+      ],
+      "symptoms": [
+        "Create an Out of Office notification in Outlook (classic)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013980",
+      "title": "[Outlook] Create, modify, or delete a meeting or appointment",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "create",
+        "modify",
+        "delete",
+        "meeting",
+        "appointment"
+      ],
+      "symptoms": [
+        "Create, modify, or delete a meeting or appointment"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012877",
+      "title": "[Outlook] Disable \"Reply All\" in outlook",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "disable",
+        "reply",
+        "all",
+        "outlook"
+      ],
+      "symptoms": [
+        "Disable \"Reply All\" in outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012395",
+      "title": "[Outlook] Disconnected Status",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "disconnected",
+        "status"
+      ],
+      "symptoms": [
+        "Disconnected Status"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012894",
+      "title": "[Outlook] Empty deleted items",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "empty",
+        "deleted",
+        "items"
+      ],
+      "symptoms": [
+        "Empty deleted items"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011776",
+      "title": "[Outlook] Enable an add-in in Outlook",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "enable",
+        "add",
+        "outlook"
+      ],
+      "symptoms": [
+        "Enable an add-in in Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011707",
+      "title": "[Outlook] Enable Week Numbers in the Outlook Calendar",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "enable",
+        "week",
+        "numbers",
+        "the",
+        "outlook",
+        "calendar"
+      ],
+      "symptoms": [
+        "Enable Week Numbers in the Outlook Calendar"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014331",
+      "title": "[Outlook] Error: .ost is not an Outlook data file",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "error",
+        "ost",
+        "not",
+        "outlook",
+        "data",
+        "file"
+      ],
+      "symptoms": [
+        "Error: .ost is not an Outlook data file"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012615",
+      "title": "[Outlook] EXT tag and Warning banner on incoming external emails",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "ext",
+        "tag",
+        "and",
+        "warning",
+        "banner",
+        "incoming",
+        "external",
+        "emails"
+      ],
+      "symptoms": [
+        "EXT tag and Warning banner on incoming external emails"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011670",
+      "title": "[Outlook] Find email older than 12 months",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "find",
+        "email",
+        "older",
+        "than",
+        "months"
+      ],
+      "symptoms": [
+        "Find email older than 12 months"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012512",
+      "title": "[Outlook] Folder names are incorrect or displayed in an incorrect language",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "folder",
+        "names",
+        "are",
+        "incorrect",
+        "displayed",
+        "incorrect",
+        "language"
+      ],
+      "symptoms": [
+        "Folder names are incorrect or displayed in an incorrect language"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013312",
+      "title": "[Outlook] Identify and delete large files with Mailbox Cleanup",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "identify",
+        "and",
+        "delete",
+        "large",
+        "files",
+        "with",
+        "mailbox",
+        "cleanup"
+      ],
+      "symptoms": [
+        "Identify and delete large files with Mailbox Cleanup"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014130",
+      "title": "[Outlook] Manage your calendar permissions",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "manage",
+        "your",
+        "calendar",
+        "permissions"
+      ],
+      "symptoms": [
+        "Manage your calendar permissions"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013167",
+      "title": "[Outlook] Manage your Outlook mailbox (Best Practices)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "manage",
+        "your",
+        "outlook",
+        "mailbox",
+        "best",
+        "practices"
+      ],
+      "symptoms": [
+        "Manage your Outlook mailbox (Best Practices)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013262",
+      "title": "[Outlook] Meeting Best Practices",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "meeting",
+        "best",
+        "practices"
+      ],
+      "symptoms": [
+        "Meeting Best Practices"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012428",
+      "title": "[Outlook] Outlook Rules Backup Guide (Windows)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "outlook",
+        "rules",
+        "backup",
+        "guide",
+        "windows"
+      ],
+      "symptoms": [
+        "Outlook Rules Backup Guide (Windows)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012945",
+      "title": "[Outlook] Outlook won't open or is stuck at loading profile",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "outlook",
+        "won",
+        "open",
+        "stuck",
+        "loading",
+        "profile"
+      ],
+      "symptoms": [
+        "Outlook won't open or is stuck at loading profile"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0016138",
+      "title": "[Outlook] Primary Mailbox vs Online Archive vs Local PST",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "primary",
+        "mailbox",
+        "online",
+        "archive",
+        "local",
+        "pst"
+      ],
+      "symptoms": [
+        "Primary Mailbox vs Online Archive vs Local PST"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011940",
+      "title": "[Outlook] Recall an E-mail",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "recall",
+        "mail"
+      ],
+      "symptoms": [
+        "Recall an E-mail"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013014",
+      "title": "[Outlook] Recover Deleted Emails, Contacts, and Calendar Items  for Windows",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "recover",
+        "deleted",
+        "emails",
+        "contacts",
+        "and",
+        "calendar",
+        "items",
+        "for",
+        "windows"
+      ],
+      "symptoms": [
+        "Recover Deleted Emails, Contacts, and Calendar Items  for Windows"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014467",
+      "title": "[Outlook] Recover missing items and folders in your mailbox (PC)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "recover",
+        "missing",
+        "items",
+        "and",
+        "folders",
+        "your",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Recover missing items and folders in your mailbox (PC)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012420",
+      "title": "[Outlook] Remove Obsolete Email Addresses from Auto‑Complete List",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "remove",
+        "obsolete",
+        "email",
+        "addresses",
+        "from",
+        "auto",
+        "complete",
+        "list"
+      ],
+      "symptoms": [
+        "Remove Obsolete Email Addresses from Auto‑Complete List"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011661",
+      "title": "[Outlook] Resize your profile picture (Windows)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "resize",
+        "your",
+        "profile",
+        "picture",
+        "windows"
+      ],
+      "symptoms": [
+        "Resize your profile picture (Windows)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014345",
+      "title": "[Outlook] Save messages sent from shared mailbox in the Shared Mailbox's sent Items",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "save",
+        "messages",
+        "sent",
+        "from",
+        "shared",
+        "mailbox",
+        "the",
+        "shared",
+        "mailbox",
+        "sent",
+        "items"
+      ],
+      "symptoms": [
+        "Save messages sent from shared mailbox in the Shared Mailbox's sent Items"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012132",
+      "title": "[Outlook] Share your calendar with people inside your organization",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "share",
+        "your",
+        "calendar",
+        "with",
+        "people",
+        "inside",
+        "your",
+        "organization"
+      ],
+      "symptoms": [
+        "Share your calendar with people inside your organization"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012697",
+      "title": "[Outlook] Show the Calendar in the To-Do bar",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "show",
+        "the",
+        "calendar",
+        "the",
+        "bar"
+      ],
+      "symptoms": [
+        "Show the Calendar in the To-Do bar"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012481",
+      "title": "[Outlook] Size limitations and forbidden file extensions for attachments",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "size",
+        "limitations",
+        "and",
+        "forbidden",
+        "file",
+        "extensions",
+        "for",
+        "attachments"
+      ],
+      "symptoms": [
+        "Size limitations and forbidden file extensions for attachments"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012295",
+      "title": "[Outlook] Start up Outlook (classic) for the first time",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "start",
+        "outlook",
+        "classic",
+        "for",
+        "the",
+        "first",
+        "time"
+      ],
+      "symptoms": [
+        "Start up Outlook (classic) for the first time"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011708",
+      "title": "[Outlook] Stop Receiving Synchronization Log Emails",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "stop",
+        "receiving",
+        "synchronization",
+        "log",
+        "emails"
+      ],
+      "symptoms": [
+        "Stop Receiving Synchronization Log Emails"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013203",
+      "title": "[Outlook] The Microsoft Exchange Administrator has made a change that requires you quit and restart",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "the",
+        "microsoft",
+        "exchange",
+        "administrator",
+        "has",
+        "made",
+        "change",
+        "that",
+        "requires",
+        "you",
+        "quit",
+        "and",
+        "restart"
+      ],
+      "symptoms": [
+        "The Microsoft Exchange Administrator has made a change that requires you quit and restart"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012695",
+      "title": "[Outlook] Training Guide",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "training",
+        "guide"
+      ],
+      "symptoms": [
+        "Training Guide"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013961",
+      "title": "[Outlook] Troubleshoot credential or password issues",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "troubleshoot",
+        "credential",
+        "password",
+        "issues"
+      ],
+      "symptoms": [
+        "Troubleshoot credential or password issues"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011560",
+      "title": "[Outlook] Troubleshoot email sending issues",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "troubleshoot",
+        "email",
+        "sending",
+        "issues"
+      ],
+      "symptoms": [
+        "Troubleshoot email sending issues"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014264",
+      "title": "[Outlook] Unable to create calendar event, or see free/busy (L1-L2)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "unable",
+        "create",
+        "calendar",
+        "event",
+        "see",
+        "free",
+        "busy"
+      ],
+      "symptoms": [
+        "Unable to create calendar event, or see free/busy (L1-L2)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012774",
+      "title": "[Outlook] Use @ Mentions to get someone's attention",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "use",
+        "mentions",
+        "get",
+        "someone",
+        "attention"
+      ],
+      "symptoms": [
+        "Use @ Mentions to get someone's attention"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012636",
+      "title": "[Outlook] Use Retention Tags to Efficiently Manage Storage",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "use",
+        "retention",
+        "tags",
+        "efficiently",
+        "manage",
+        "storage"
+      ],
+      "symptoms": [
+        "Use Retention Tags to Efficiently Manage Storage"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012144",
+      "title": "[Outlook] You'll need the internet for this (0xCAA30194)",
+      "category": "Outlook",
+      "keywords": [
+        "outlook",
+        "you",
+        "need",
+        "the",
+        "internet",
+        "for",
+        "this",
+        "0xcaa30194"
+      ],
+      "symptoms": [
+        "You'll need the internet for this (0xCAA30194)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013022",
+      "title": "[Shared mailbox] Change a shared or resource mailbox password",
+      "category": "Shared mailbox",
+      "keywords": [
+        "shared",
+        "mailbox",
+        "change",
+        "shared",
+        "resource",
+        "mailbox",
+        "password"
+      ],
+      "symptoms": [
+        "Change a shared or resource mailbox password"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011938",
+      "title": "[Shared Mailbox] Create a Resource or Shared Mailbox",
+      "category": "Shared Mailbox",
+      "keywords": [
+        "shared",
+        "mailbox",
+        "create",
+        "resource",
+        "shared",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Create a Resource or Shared Mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014385",
+      "title": "[Shared Mailbox] Provide rights to a shared mailbox",
+      "category": "Shared Mailbox",
+      "keywords": [
+        "shared",
+        "mailbox",
+        "provide",
+        "rights",
+        "shared",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Provide rights to a shared mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0014367",
+      "title": "[Shared Mailbox] Resource Mailbox Support &amp; Management in Manage IDM (EXOL Service L1-L2)",
+      "category": "Shared Mailbox",
+      "keywords": [
+        "shared",
+        "mailbox",
+        "resource",
+        "mailbox",
+        "support",
+        "amp",
+        "management",
+        "manage",
+        "idm",
+        "exol",
+        "service"
+      ],
+      "symptoms": [
+        "Resource Mailbox Support &amp; Management in Manage IDM (EXOL Service L1-L2)"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011838",
+      "title": "[Shared Mailbox] Transfer ownership of a shared/resource mailbox",
+      "category": "Shared Mailbox",
+      "keywords": [
+        "shared",
+        "mailbox",
+        "transfer",
+        "ownership",
+        "shared",
+        "resource",
+        "mailbox"
+      ],
+      "symptoms": [
+        "Transfer ownership of a shared/resource mailbox"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011699",
+      "title": "[SharePoint Online] Synchronize a SharePoint calendar with Outlook",
+      "category": "SharePoint Online",
+      "keywords": [
+        "sharepoint",
+        "online",
+        "synchronize",
+        "sharepoint",
+        "calendar",
+        "with",
+        "outlook"
+      ],
+      "symptoms": [
+        "Synchronize a SharePoint calendar with Outlook"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0015028",
+      "title": "[Webmail] Access Outlook Web App",
+      "category": "Webmail",
+      "keywords": [
+        "webmail",
+        "access",
+        "outlook",
+        "web",
+        "app"
+      ],
+      "symptoms": [
+        "Access Outlook Web App"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0011736",
+      "title": "[Webmail] Accessing Shared Mailboxes with Outlook Web App",
+      "category": "Webmail",
+      "keywords": [
+        "webmail",
+        "accessing",
+        "shared",
+        "mailboxes",
+        "with",
+        "outlook",
+        "web",
+        "app"
+      ],
+      "symptoms": [
+        "Accessing Shared Mailboxes with Outlook Web App"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0012847",
+      "title": "[Webmail] Set Up Automatic Email Forwarding in Webmail",
+      "category": "Webmail",
+      "keywords": [
+        "webmail",
+        "set",
+        "automatic",
+        "email",
+        "forwarding",
+        "webmail"
+      ],
+      "symptoms": [
+        "Set Up Automatic Email Forwarding in Webmail"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    },
+    {
+      "id": "GEVKB0013525",
+      "title": "[Webmail] Share a calendar with external contacts using the Outlook Web App",
+      "category": "Webmail",
+      "keywords": [
+        "webmail",
+        "share",
+        "calendar",
+        "with",
+        "external",
+        "contacts",
+        "using",
+        "the",
+        "outlook",
+        "web",
+        "app"
+      ],
+      "symptoms": [
+        "Share a calendar with external contacts using the Outlook Web App"
+      ],
+      "priority": 3,
+      "steps": [
+        "Refer to the full KB article for detailed steps.",
+        "Contact IT if you need assistance."
+      ],
+      "url": ""
+    }
+  ],
+  "flows": [],
+  "synonyms": {
+    "shared mailbox": [
+      "additional mailbox",
+      "delegate",
+      "full access"
+    ],
+    "calendar": [
+      "shared calendar",
+      "meeting",
+      "schedule"
+    ],
+    "external": [
+      "outside",
+      "vendor",
+      "customer",
+      "quarantine"
+    ],
+    "copilot": [
+      "ai",
+      "assistant"
+    ]
+  }
+}

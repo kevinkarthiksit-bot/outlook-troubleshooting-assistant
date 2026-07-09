@@ -5,7 +5,11 @@
 const fs = require("fs");
 const path = require("path");
 
-const file = path.join(__dirname, "..", "data", "kb-articles.sample.json");
+const dataDir = path.join(__dirname, "..", "data");
+const generated = path.join(dataDir, "kb-articles.json");
+const file = fs.existsSync(generated)
+  ? generated
+  : path.join(dataDir, "kb-articles.sample.json");
 const data = JSON.parse(fs.readFileSync(file, "utf8"));
 
 if (!data.articles || !Array.isArray(data.articles)) {

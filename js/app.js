@@ -1,9 +1,11 @@
 /**
- * Main application controller — org KB only.
+ * Main application controller — org KB hub (secondary browse).
  */
 const App = {
   kbData: null,
   searchDebounce: null,
+  suggestionState: null,
+  browseShowAll: false,
 
   async init() {
     if (!Session.requireCaseSetup()) return;
@@ -22,16 +24,29 @@ const App = {
 
   bindEvents() {
     const searchInput = document.getElementById("searchInput");
+    const platform = PlatformMatch.getSessionPlatform();
+
+    this.suggestionState = SearchSuggestions.mount(searchInput, {
+      getSuggestions: (q) =>
+        Promise.resolve(
+          SearchEngine.search(q, 8, { platform }).map((article) => ({
+            ...article,
+            type: "kb",
+            badge: "Org KB"
+          }))
+        ),
+      onSelect: (item) => GuideResolver.openItem(item),
+      onSubmit: (q) => this.handleSearch(q)
+    });
+
     searchInput?.addEventListener("input", (e) => {
       clearTimeout(this.searchDebounce);
       this.searchDebounce = setTimeout(() => this.handleSearch(e.target.value), 250);
     });
-    searchInput?.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") this.handleSearch(e.target.value);
-    });
-
     document.getElementById("clearSearch")?.addEventListener("click", () => {
       searchInput.value = "";
+      this.browseShowAll = false;
+      SearchSuggestions.hide(this.suggestionState);
       this.renderAllIssues();
     });
 
@@ -50,7 +65,7 @@ const App = {
     });
 
     document.getElementById("editCaseBtn")?.addEventListener("click", () => {
-      window.location.href = "case.html";
+      window.location.href = "case.html?edit=1";
     });
   },
 
@@ -71,28 +86,35 @@ const App = {
   initUser() {
     Session.ensureAnonymousSession();
     const identity = Session.getLogIdentity();
-    Logger.init(identity);
+    Logger.init(Session.getAgentId());
     const display = document.getElementById("userDisplay");
     if (display) display.textContent = "IMS: " + identity;
   },
 
   handleSearch(query) {
     const q = (query || "").trim();
+    const platform = PlatformMatch.getSessionPlatform();
+    this.browseShowAll = false;
     if (!q) {
       this.renderAllIssues();
       return;
     }
-    const results = SearchEngine.search(q);
+    const results = SearchEngine.search(q, 12, { platform });
     Logger.logSearch(q, results.length);
     this.renderSearchResults(results, { query: q });
   },
 
   renderAllIssues() {
-    const articles = this.kbData?.articles || [];
+    const platform = PlatformMatch.getSessionPlatform();
+    const articles = (this.kbData?.articles || []).filter((a) =>
+      PlatformMatch.articleAppliesToPlatform(a, platform)
+    );
     this.renderSearchResults(
       articles.map((article) => ({
         ...article,
-        matchLabel: "Available"
+        type: "kb",
+        matchLabel: "Available",
+        badge: "Org KB"
       })),
       { query: "", total: articles.length }
     );
@@ -104,7 +126,12 @@ const App = {
     const noResults = document.getElementById("noResults");
     const query = meta.query ?? document.getElementById("searchInput")?.value ?? "";
     const total = meta.total ?? this.kbData?.articles?.length ?? results.length;
-    const { visible, limited } = HubUi.getVisibleResults(results);
+    const showAll = meta.showAll ?? this.browseShowAll;
+    const { visible, limited, hiddenCount } = HubUi.getVisibleResults(
+      results,
+      showAll ? { limit: results.length } : {}
+    );
+    container.classList.toggle("result-grid-expanded", showAll || !limited);
 
     HubUi.updateResultCount(document.getElementById("resultCount"), {
       displayed: visible.length,
@@ -130,6 +157,7 @@ const App = {
       HubUi.applyCategory(card, article.category);
       card.innerHTML =
         '<div class="result-meta">' +
+        '<span class="type-badge type-badge-kb">Org KB</span>' +
         '<span class="kb-id">' + this.escape(article.id) + "</span>" +
         (article.matchLabel && article.matchLabel !== "Available"
           ? '<span class="match-badge">' + this.escape(article.matchLabel) + "</span>"
@@ -141,21 +169,26 @@ const App = {
           ? '<p class="category-line"><span class="category-tag">' + this.escape(article.category) + "</span></p>"
           : "") +
         HubUi.buildSymptomTagsHtml(article.symptoms, 2, (s) => this.escape(s));
-      card.addEventListener("click", () => this.openArticle(article));
+      card.addEventListener("click", () => GuideResolver.openItem({ ...article, type: "kb" }));
       container.appendChild(card);
+    });
+
+    HubUi.renderShowAllButton(container.parentElement, {
+      limited: limited && !showAll,
+      hiddenCount,
+      onShowAll: () => {
+        this.browseShowAll = true;
+        this.renderSearchResults(results, { ...meta, showAll: true });
+      }
     });
   },
 
   openArticle(article) {
-    const platform = Session.getCaseDetails()?.platform || "Windows";
-    const steps = StepUtils.filterSteps(article.steps || [], platform);
-    const count = steps.length || (article.steps || []).length;
-    Session.startGuide(article.id, article.title, count, "kb");
-    Logger.logArticleView(article);
-    window.location.href = "guide.html?kb=" + encodeURIComponent(article.id);
+    GuideResolver.openItem({ ...article, type: "kb" });
   },
 
   escalate() {
+    Session.setEscalated();
     const reason =
       "Case escalated — no matching KB. Last search: " +
       (document.getElementById("searchInput")?.value || "N/A");

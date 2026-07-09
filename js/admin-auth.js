@@ -1,5 +1,8 @@
 /**
  * Admin authentication for the dashboard (static client-side gate).
+ *
+ * Known limitation: credentials live in client config (SP_CONFIG). Real protection
+ * requires SharePoint group / page permissions — not fixable in static HTML alone.
  */
 const AdminAuth = {
   AUTH_KEY: "outlookAssistant_adminAuth",

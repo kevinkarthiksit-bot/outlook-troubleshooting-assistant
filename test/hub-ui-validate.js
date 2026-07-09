@@ -34,8 +34,11 @@ else bad("CARD_DISPLAY_LIMIT missing");
 if (appJs.includes("visible.forEach((article)")) ok("app.js renders visible cards only");
 else bad("app.js still renders all results");
 
-if (css.includes("nth-child(n + 7)")) ok("CSS hard cap hides 7th+ cards");
+if (css.includes("result-grid:not(.result-grid-expanded)")) ok("CSS hard cap hides 7th+ cards when collapsed");
 else bad("CSS hard cap missing");
+
+if (hubUi.includes("renderShowAllButton")) ok("hub-ui.js has Show all button helper");
+else bad("hub-ui.js missing renderShowAllButton");
 
 if (singleFile.includes("visible.forEach((article)")) ok("single-file uses visible.forEach");
 else bad("single-file missing visible.forEach");

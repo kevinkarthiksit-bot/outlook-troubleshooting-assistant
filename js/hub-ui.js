@@ -125,6 +125,29 @@ const HubUi = {
     const div = document.createElement("div");
     div.textContent = str || "";
     return div.innerHTML;
+  },
+
+  renderShowAllButton(parent, options = {}) {
+    if (!parent) return;
+    let btn = parent.querySelector(".show-all-btn");
+    if (!options.limited || !options.hiddenCount) {
+      if (btn) btn.hidden = true;
+      return;
+    }
+    if (!btn) {
+      btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "btn btn-secondary show-all-btn";
+      const grid = parent.querySelector(".result-grid");
+      if (grid?.nextSibling) {
+        parent.insertBefore(btn, grid.nextSibling);
+      } else {
+        parent.appendChild(btn);
+      }
+    }
+    btn.hidden = false;
+    btn.textContent = "Show all (" + options.hiddenCount + " more)";
+    btn.onclick = options.onShowAll;
   }
 };
 

@@ -61,7 +61,7 @@ case.html → index.html (org KB) → guide.html
 
 | Library | Data file | Hub page | Step page |
 |---------|-----------|----------|-----------|
-| **Org KB** | `data/kb-articles.sample.json` (24 articles) | `index.html` | `guide.html?kb=` |
+| **Org KB** | `Email and Outlook articles.xlsx` → `data/kb-articles.json` (98 articles) | `index.html` | `guide.html?kb=` |
 | **Troubleshooting Guides** | `data/troubleshooting-guide.json` (32 guides, 10 flows) | `troubleshooting.html` | `troubleshooting-guide.html?guide=` |
 
 Guided flow options route to **`troubleshooting-guide.html`** (single match opens immediately).
@@ -73,8 +73,10 @@ OutLook Assistant/
 ├── index.html, guide.html           # Org KB
 ├── troubleshooting.html             # Research guides hub + flows
 ├── troubleshooting-guide.html       # Research step-by-step page
+├── Email and Outlook articles.xlsx  # Source list — edit this, then sync
 ├── data/
-│   ├── kb-articles.sample.json
+│   ├── kb-articles.json             # Generated from Excel (app loads this)
+│   ├── kb-articles.sample.json      # Legacy sample with rich step guides
 │   └── troubleshooting-guide.json
 ├── assets/images/                   # Screenshots for troubleshooting guides
 ├── js/
@@ -100,6 +102,24 @@ python -m http.server 8080
 Open **http://localhost:8080/case.html**
 
 Clear stale cache: **Refresh KB** / **Refresh** on each hub, or delete `outlookAssistant_kbCache` and `outlookAssistant_tsGuideCache` in localStorage.
+
+## Updating org KB articles
+
+**Excel is the master article list.** Columns: `Number`, `Short description`.
+
+1. Edit **`Email and Outlook articles.xlsx`** (add/remove/rename rows).
+2. Sync to JSON:
+   ```bash
+   node scripts/sync-kb-from-excel.js
+   ```
+3. Rebuild single-file (optional):
+   ```bash
+   node single-file/build.js
+   ```
+
+Existing step-by-step guides in `data/kb-articles.json` are **preserved** when KB IDs match. New rows get stub steps until you enrich them in JSON or via Admin.
+
+**Admin upload** (`admin.html`): upload the same `.xlsx` file for a quick apply + baked single-file download (no command line).
 
 ## Single-file build (no server)
 
@@ -147,4 +167,4 @@ Upload the full folder including `assets/` and both JSON data files. Configure p
 - Rich steps with images and tips (troubleshooting guides only)
 - Platform-filtered steps from case setup
 - Copy session notes for tickets
-- Admin KB upload (JSON/CSV — export Excel as CSV) → **Apply & download single-file app** bakes KB into `outlook-assistant.html`
+- Admin KB upload (Excel / JSON / CSV) → **Apply & download single-file app** bakes KB into `outlook-assistant.html`

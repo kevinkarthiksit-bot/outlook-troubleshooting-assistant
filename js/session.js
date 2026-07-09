@@ -25,6 +25,10 @@ const Session = {
     return this.getEmployeeId() || "agent";
   },
 
+  getAgentId() {
+    return this.getEmployeeId() || "agent";
+  },
+
   ensureAnonymousSession() {
     if (!this.getEmployeeId()) {
       Storage.setEmployeeId("agent", false);
@@ -61,18 +65,28 @@ const Session = {
   },
 
   saveCaseDetails(chatIms, platform, environment) {
-    Storage.setCaseDetails({
+    const details = {
       chatIms: (chatIms || "").trim(),
       platform: platform || "Windows",
       environment: environment || "Exchange Online",
       caseSetupComplete: !!(chatIms || "").trim()
-    });
+    };
+    Storage.setCaseDetails(details);
+
+    const guide = this.getGuideSession();
+    if (guide) {
+      this.updateGuideSession({
+        chatIms: details.chatIms,
+        platform: details.platform,
+        environment: details.environment
+      });
+    }
   },
 
   startGuide(kbId, kbTitle, stepCount, guideType = "kb") {
     const caseDetails = this.getCaseDetails();
     const session = {
-      employeeId: this.getLogIdentity(),
+      employeeId: this.getAgentId(),
       chatIms: caseDetails.chatIms,
       platform: caseDetails.platform,
       environment: caseDetails.environment,

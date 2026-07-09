@@ -10,13 +10,15 @@
 <body>
   <header class="app-header">
     <div>
-      <h1>Outlook Troubleshooting Guides</h1>
-      <p class="subtitle">Research-based guides — separate from org KB articles</p>
+      <h1>Outlook Troubleshooting Assistant</h1>
+      <p class="subtitle">Symptom-based troubleshooting for your case</p>
     </div>
     <div class="header-actions">
       <span id="userDisplay" class="user-display"></span>
       <div id="themePickerMount"></div>
-      <a href="index.html" class="admin-link">Org KB</a>
+      <a href="index.html" class="admin-link">Browse Org KB</a>
+      <a href="admin.html" class="admin-link">Admin</a>
+      <button type="button" id="editCaseBtn" class="btn btn-secondary btn-header">Edit Case</button>
       <button type="button" id="startOverBtn" class="btn-start-over">Start Over</button>
     </div>
   </header>
@@ -25,10 +27,16 @@
     <div id="statusBar" class="status-bar">Initializing...</div>
     <div id="sessionSummary" class="session-summary session-badges-mount" aria-label="Case context"></div>
 
-    <section class="page-hero page-hero-ts" aria-label="Troubleshooting overview">
-      <div class="page-hero-text">
-        <h2 class="page-hero-title">Symptom-based troubleshooting</h2>
-        <p class="page-hero-desc">Microsoft-aligned guides and guided flows — separate from the org KB library.</p>
+    <section class="search-section search-section-priority">
+      <div class="search-section-header">
+        <h2>Search symptoms and topics</h2>
+        <p class="search-section-lead">Describe what you see — guides for your platform are suggested first.</p>
+        <p id="resultCount" class="result-count" aria-live="polite" hidden></p>
+      </div>
+      <div class="search-box">
+        <input type="search" id="searchInput" placeholder="Describe the symptom (sync, password, crash...)" autocomplete="off" aria-label="Search symptoms and topics">
+        <button type="button" id="clearSearch" class="btn btn-secondary">Clear</button>
+        <button type="button" id="refreshGuide" class="btn btn-secondary" title="Refresh guide data">Refresh</button>
       </div>
     </section>
 
@@ -65,18 +73,6 @@
       <div id="quickFlows" class="chip-row flow-tile-row"></div>
     </section>
 
-    <section class="search-section">
-      <div class="search-section-header">
-        <h2>Browse troubleshooting topics</h2>
-        <p id="resultCount" class="result-count" aria-live="polite" hidden></p>
-      </div>
-      <div class="search-box">
-        <input type="search" id="searchInput" placeholder="Search guides (sync, password, New Outlook...)" autocomplete="off">
-        <button type="button" id="clearSearch" class="btn btn-secondary">Clear</button>
-        <button type="button" id="refreshGuide" class="btn btn-secondary" title="Refresh guide data">Refresh</button>
-      </div>
-    </section>
-
     <section class="chip-section">
       <h3>Browse by category</h3>
       <div id="categoryFilters" class="chip-row"></div>
@@ -92,7 +88,7 @@
   </main>
 
   <footer class="app-footer">
-    Microsoft-aligned troubleshooting guides — not part of the org KB library.
+    Microsoft-aligned troubleshooting guides — org KB articles available via Browse Org KB.
   </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -102,11 +98,17 @@
   <script src="js/session.js"></script>
   <script src="js/sharepoint.js"></script>
   <script src="js/logging.js"></script>
+  <script src="js/step-utils.js"></script>
+  <script src="js/platform-match.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/kb-loader.js"></script>
   <script src="js/troubleshooting-search.js"></script>
   <script src="js/troubleshooting-loader.js"></script>
   <script src="js/theme-picker.js"></script>
   <script src="js/themes.js"></script>
-  <script src="js/step-utils.js"></script>
+  <script src="js/guide-resolver.js"></script>
+  <script src="js/unified-search.js"></script>
+  <script src="js/search-suggestions.js"></script>
   <script src="js/hub-ui.js"></script>
   <script src="js/troubleshooting.js"></script>
 </body>

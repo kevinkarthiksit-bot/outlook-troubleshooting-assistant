@@ -28,7 +28,7 @@ const Guide = {
 
     Themes.init();
 
-    Logger.init(Session.getEmployeeId());
+    Logger.init(Session.getAgentId());
 
 
 
@@ -89,9 +89,10 @@ const Guide = {
     this.steps = StepUtils.filterSteps(this.rawSteps, platform);
 
     if (!this.steps.length) {
-
-      this.steps = this.rawSteps;
-
+      this.showError(
+        "No steps available for platform \"" + platform + "\". Use Edit Case to change platform."
+      );
+      return;
     }
 
 

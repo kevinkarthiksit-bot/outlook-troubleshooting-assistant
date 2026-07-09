@@ -13,7 +13,7 @@ const TroubleshootingGuide = {
 
     ThemePicker.mount("#themePickerMount");
     Themes.init();
-    Logger.init(Session.getEmployeeId());
+    Logger.init(Session.getAgentId());
 
     const params = new URLSearchParams(window.location.search);
     const guideId = params.get("guide");
@@ -24,6 +24,7 @@ const TroubleshootingGuide = {
 
     this.bindEvents();
     await TroubleshootingLoader.load();
+    await KbLoader.load();
     const data = TroubleshootingLoader.getData();
     this.imageBasePath = data?.imageBasePath || "assets/images/";
     this.guide = TroubleshootingLoader.getGuide(guideId);
@@ -40,7 +41,12 @@ const TroubleshootingGuide = {
 
     const platform = Session.getCaseDetails()?.platform || "Windows";
     this.steps = StepUtils.filterSteps(this.rawSteps, platform);
-    if (!this.steps.length) this.steps = this.rawSteps;
+    if (!this.steps.length) {
+      this.showError(
+        "No steps available for platform \"" + platform + "\". Use Edit Case to change platform."
+      );
+      return;
+    }
 
     const existing = Session.getGuideSession();
     if (!existing || existing.kbId !== guideId || existing.guideType !== "troubleshooting") {
@@ -70,7 +76,32 @@ const TroubleshootingGuide = {
     }
 
     Logger.logArticleView({ id: this.guide.id, title: this.guide.title });
+    this.renderKbFallback();
     this.render();
+  },
+
+  renderKbFallback() {
+    const panel = document.getElementById("kbFallbackPanel");
+    const btn = document.getElementById("kbFallbackBtn");
+    const text = document.getElementById("kbFallbackText");
+    if (!panel || !btn) return;
+
+    const session = Session.getGuideSession();
+    let kbArticle =
+      (session?.fallbackKbId && SearchEngine.getArticleById(session.fallbackKbId)) ||
+      GuideResolver.findRelatedKb(this.guide);
+
+    if (!kbArticle) {
+      panel.hidden = true;
+      return;
+    }
+
+    panel.hidden = false;
+    if (text) {
+      text.textContent =
+        "Still stuck? Org KB article: " + kbArticle.title + " (" + kbArticle.id + ")";
+    }
+    btn.onclick = () => GuideResolver.openItem({ ...kbArticle, type: "kb" });
   },
 
   bindEvents() {

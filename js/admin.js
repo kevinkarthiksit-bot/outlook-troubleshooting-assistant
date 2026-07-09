@@ -4,51 +4,85 @@
 const Admin = {
   parsedKb: null,
   allLogs: [],
+  fullLogCount: 0,
+  logsCapped: false,
   logFilterDebounce: null,
 
   async init() {
-    if (!AdminAuth.requireAuth()) return;
-
     ThemePicker.mount("#themePickerMount");
     Themes.init();
-    await this.checkAccess();
+
+    if (!AdminAuth.requireAuth()) return;
+
+    if (window.SP_CONFIG?.useSharePoint) {
+      document.getElementById("clearLocalLogsBtn")?.setAttribute("hidden", "");
+    }
+
     this.updateUploadButtonLabel();
     this.bindEvents();
     await this.loadLogStats();
   },
 
+  parseCaseFieldsFromDetails(details) {
+    if (!details || typeof details !== "string") return {};
+    const match = details.match(
+      /Chat IMS:\s*([^,]+),\s*Platform:\s*([^,]+),\s*Environment:\s*(.+)/i
+    );
+    if (!match) return {};
+    return {
+      chatIms: match[1].trim(),
+      platform: match[2].trim(),
+      environment: match[3].trim()
+    };
+  },
 
-  async checkAccess() {
-    const cfg = window.SP_CONFIG;
-    const banner = document.getElementById("accessBanner");
-    const adminLabel = "Signed in as admin: " + AdminAuth.getUsername();
-    if (!cfg.useSharePoint) {
-      if (banner) {
-        banner.textContent = adminLabel + " | Demo mode: admin features enabled locally.";
-        banner.className = "banner info";
-      }
-      return;
+  normalizeLogRow(log) {
+    const row = { ...log };
+    if (!row.chatIms && row.employeeId && /^IMS[-\s]/i.test(String(row.employeeId))) {
+      row.chatIms = row.employeeId;
+      row.employeeId = "";
     }
-    try {
-      let allowed = false;
-      for (const group of cfg.adminGroups || []) {
-        if (await SharePoint.isUserInGroup(group)) {
-          allowed = true;
-          break;
-        }
-      }
-      if (banner) {
-        banner.textContent = allowed
-          ? adminLabel
-          : adminLabel + " | Warning: SharePoint admin group membership could not be verified.";
-        banner.className = allowed ? "banner info" : "banner warn";
-      }
-    } catch {
-      if (banner) {
-        banner.textContent = adminLabel + " | Could not verify SharePoint admin group membership.";
-        banner.className = "banner warn";
-      }
-    }
+    const fromDetails = this.parseCaseFieldsFromDetails(row.details);
+    if (!row.chatIms && fromDetails.chatIms) row.chatIms = fromDetails.chatIms;
+    if (!row.platform && fromDetails.platform) row.platform = fromDetails.platform;
+    if (!row.environment && fromDetails.environment) row.environment = fromDetails.environment;
+    const outcome = this.getLogOutcomeFlags(row);
+    row.resolved = outcome.resolved;
+    row.escalated = outcome.escalated;
+    return row;
+  },
+
+  getLogOutcomeFlags(log) {
+    const action = (log.action || "").toLowerCase();
+    const details = (log.details || "").toLowerCase();
+    const resolved =
+      action === "resolution" || details.includes("issue resolved") || details.includes("glad that resolved");
+    const escalated =
+      action === "escalation" ||
+      details.includes("escalat") ||
+      details.includes("case escalated");
+    return {
+      resolved: resolved ? "Yes" : "",
+      escalated: escalated ? "Yes" : ""
+    };
+  },
+
+  formatLogTimestamp(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "";
+    return (
+      new Intl.DateTimeFormat("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      }).format(d) + " IST"
+    );
   },
 
   bindEvents() {
@@ -68,7 +102,7 @@ const Admin = {
     document.getElementById("logFilterAction")?.addEventListener("change", () => this.applyLogFilters());
     document.getElementById("logFilterDateFrom")?.addEventListener("change", () => this.applyLogFilters());
     document.getElementById("logFilterDateTo")?.addEventListener("change", () => this.applyLogFilters());
-    document.getElementById("logFilterEmployee")?.addEventListener("input", () => {
+    document.getElementById("logFilterChatIms")?.addEventListener("input", () => {
       clearTimeout(this.logFilterDebounce);
       this.logFilterDebounce = setTimeout(() => this.applyLogFilters(), 250);
     });
@@ -95,6 +129,35 @@ const Admin = {
     if (jsonBtn) jsonBtn.disabled = !ready;
   },
 
+  async getExistingKbForMerge() {
+    try {
+      const adminKb = localStorage.getItem("outlookAssistant_adminKb");
+      if (adminKb) return JSON.parse(adminKb);
+      const res = await fetch(window.SP_CONFIG.localKbPath);
+      if (res.ok) return await res.json();
+    } catch (_) {}
+    return { articles: [], flows: [], synonyms: {} };
+  },
+
+  async loadXlsxLib() {
+    if (window.XLSX) return;
+    await new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js";
+      script.onload = resolve;
+      script.onerror = () => reject(new Error("Could not load Excel parser"));
+      document.head.appendChild(script);
+    });
+  },
+
+  async parseXlsx(buffer, existingKb) {
+    await this.loadXlsxLib();
+    const workbook = window.XLSX.read(buffer, { type: "array" });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const rows = window.XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
+    return KbSpreadsheet.buildKbFromRows(KbSpreadsheet.rowsFromAoA(rows), existingKb);
+  },
+
   async handleFileSelect(file) {
     if (!file) return;
     const preview = document.getElementById("uploadPreview");
@@ -102,13 +165,16 @@ const Admin = {
 
     try {
       const ext = file.name.split(".").pop().toLowerCase();
+      const existingKb = await this.getExistingKbForMerge();
       if (ext === "json") {
         const text = await file.text();
         this.parsedKb = JSON.parse(text);
       } else if (ext === "csv") {
-        this.parsedKb = this.parseCsv(await file.text());
+        this.parsedKb = KbSpreadsheet.parseCsv(await file.text(), existingKb);
+      } else if (ext === "xlsx" || ext === "xls") {
+        this.parsedKb = await this.parseXlsx(await file.arrayBuffer(), existingKb);
       } else {
-        throw new Error("Unsupported format. Use JSON or CSV (export Excel as CSV).");
+        throw new Error("Unsupported format. Use Excel (.xlsx), JSON, or CSV.");
       }
       this.validateKb(this.parsedKb);
       preview.textContent =
@@ -123,66 +189,6 @@ const Admin = {
       this.parsedKb = null;
       this.setParsedKbReady(false);
     }
-  },
-
-  parseCsv(text) {
-    const lines = text.split(/\r?\n/).filter((l) => l.trim());
-    if (lines.length < 2) throw new Error("CSV must have header and data rows");
-
-    const headers = lines[0].split(",").map((h) => h.trim().replace(/^"|"$/g, ""));
-    const numIdx = headers.findIndex((h) => /number|id|kb/i.test(h));
-    const descIdx = headers.findIndex((h) => /description|title|short/i.test(h));
-
-    if (numIdx < 0 || descIdx < 0) {
-      throw new Error('CSV must have "Number" and "Short description" columns');
-    }
-
-    const articles = [];
-    for (let i = 1; i < lines.length; i++) {
-      const cols = this.parseCsvLine(lines[i]);
-      const id = (cols[numIdx] || "").trim();
-      const title = (cols[descIdx] || "").trim();
-      if (!id || !title) continue;
-
-      const categoryMatch = title.match(/\[([^\]]+)\]/);
-      articles.push({
-        id,
-        title,
-        category: categoryMatch ? categoryMatch[1] : "General",
-        keywords: title.toLowerCase().replace(/[^\w\s]/g, " ").split(/\s+/).filter((w) => w.length > 2),
-        symptoms: [],
-        priority: 3,
-        steps: ["Refer to the full KB article for detailed steps.", "Contact IT if you need assistance."],
-        url: ""
-      });
-    }
-
-    return {
-      version: "1.0.0",
-      lastUpdated: new Date().toISOString().slice(0, 10),
-      articles,
-      flows: [],
-      synonyms: {}
-    };
-  },
-
-  parseCsvLine(line) {
-    const result = [];
-    let current = "";
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
-      if (ch === '"') {
-        inQuotes = !inQuotes;
-      } else if (ch === "," && !inQuotes) {
-        result.push(current);
-        current = "";
-      } else {
-        current += ch;
-      }
-    }
-    result.push(current);
-    return result.map((s) => s.replace(/^"|"$/g, "").trim());
   },
 
   validateKb(data) {
@@ -309,25 +315,55 @@ const Admin = {
     this.downloadBlob(json, "kb-articles.json", "application/json");
   },
 
+  getLogDateInIST(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "";
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).format(d);
+  },
+
+  async getFullLogs() {
+    if (window.SP_CONFIG.useSharePoint) {
+      try {
+        return await SharePoint.getLogsFromSharePoint(5000);
+      } catch {
+        return SharePoint.getLocalLogs();
+      }
+    }
+    return SharePoint.getLocalLogs();
+  },
+
   async loadLogStats() {
     const tbody = document.getElementById("logsTableBody");
-    tbody.innerHTML = "<tr><td colspan='7'>Loading...</td></tr>";
+    tbody.innerHTML = "<tr><td colspan='11'>Loading...</td></tr>";
 
     let logs = [];
     try {
       if (window.SP_CONFIG.useSharePoint) {
         logs = await SharePoint.getLogsFromSharePoint(200);
+        this.fullLogCount = logs.length;
+        this.logsCapped = logs.length >= 200;
       } else {
-        logs = SharePoint.getLocalLogs().reverse().slice(0, 200);
+        const allLocal = SharePoint.getLocalLogs();
+        this.fullLogCount = allLocal.length;
+        logs = allLocal.slice().reverse().slice(0, 200);
+        this.logsCapped = this.fullLogCount > logs.length;
       }
     } catch (err) {
-      logs = SharePoint.getLocalLogs().reverse().slice(0, 200);
+      const allLocal = SharePoint.getLocalLogs();
+      this.fullLogCount = allLocal.length;
+      logs = allLocal.slice().reverse().slice(0, 200);
+      this.logsCapped = this.fullLogCount > logs.length;
       console.warn(err);
     }
 
-    this.allLogs = logs;
+    this.allLogs = logs.map((l) => this.normalizeLogRow(l));
     this.populateActionFilterOptions();
-    this.renderLogStats(logs);
     this.applyLogFilters();
   },
 
@@ -365,7 +401,7 @@ const Admin = {
   hasActiveLogFilters() {
     return Boolean(
       document.getElementById("logFilterAction")?.value ||
-        (document.getElementById("logFilterEmployee")?.value || "").trim() ||
+        (document.getElementById("logFilterChatIms")?.value || "").trim() ||
         document.getElementById("logFilterDateFrom")?.value ||
         document.getElementById("logFilterDateTo")?.value ||
         (document.getElementById("logFilterText")?.value || "").trim()
@@ -374,24 +410,37 @@ const Admin = {
 
   filterLogs(logs) {
     const action = document.getElementById("logFilterAction")?.value || "";
-    const employee = (document.getElementById("logFilterEmployee")?.value || "").trim().toLowerCase();
+    const chatIms = (document.getElementById("logFilterChatIms")?.value || "").trim().toLowerCase();
     const dateFrom = document.getElementById("logFilterDateFrom")?.value || "";
     const dateTo = document.getElementById("logFilterDateTo")?.value || "";
     const text = (document.getElementById("logFilterText")?.value || "").trim().toLowerCase();
 
-    return (logs || []).filter((l) => {
+    return (logs || []).map((l) => this.normalizeLogRow(l)).filter((l) => {
       if (action && l.action !== action) return false;
-      if (employee && !(l.employeeId || "").toLowerCase().includes(employee)) return false;
+      if (chatIms && !(l.chatIms || "").toLowerCase().includes(chatIms)) return false;
 
       if (dateFrom || dateTo) {
-        const ts = l.timestamp ? new Date(l.timestamp) : null;
-        if (!ts || Number.isNaN(ts.getTime())) return false;
-        if (dateFrom && ts < new Date(dateFrom + "T00:00:00")) return false;
-        if (dateTo && ts > new Date(dateTo + "T23:59:59.999")) return false;
+        const logDate = this.getLogDateInIST(l.timestamp);
+        if (!logDate) return false;
+        if (dateFrom && logDate < dateFrom) return false;
+        if (dateTo && logDate > dateTo) return false;
       }
 
       if (text) {
-        const haystack = [l.query, l.kbId, l.kbTitle, l.details, l.flowId, l.feedback, l.action, l.employeeId]
+        const haystack = [
+          l.query,
+          l.kbId,
+          l.kbTitle,
+          l.details,
+          l.flowId,
+          l.feedback,
+          l.action,
+          l.chatIms,
+          l.platform,
+          l.environment,
+          l.resolved,
+          l.escalated
+        ]
           .map((v) => (v || "").toLowerCase())
           .join(" ");
         if (!haystack.includes(text)) return false;
@@ -404,6 +453,7 @@ const Admin = {
   applyLogFilters() {
     const filtered = this.filterLogs(this.allLogs);
     this.renderLogsTable(filtered);
+    this.renderLogStats(filtered);
     this.updateLogFilterSummary(filtered);
   },
 
@@ -421,7 +471,22 @@ const Admin = {
 
     if (this.hasActiveLogFilters()) {
       el.textContent =
-        "Showing " + shown + " of " + total + " log" + (total === 1 ? "" : "s") + " (filters active)";
+        "Showing " +
+        shown +
+        " of " +
+        total +
+        " loaded log" +
+        (total === 1 ? "" : "s") +
+        " (filters active; export uses full dataset)";
+    } else if (this.logsCapped) {
+      const full = this.fullLogCount || total;
+      el.textContent =
+        "Showing latest " +
+        total +
+        " of " +
+        full +
+        " log" +
+        (full === 1 ? "" : "s");
     } else {
       el.textContent = total + " log" + (total === 1 ? "" : "s") + " loaded";
     }
@@ -429,13 +494,13 @@ const Admin = {
 
   clearLogFilters() {
     const action = document.getElementById("logFilterAction");
-    const employee = document.getElementById("logFilterEmployee");
+    const chatIms = document.getElementById("logFilterChatIms");
     const dateFrom = document.getElementById("logFilterDateFrom");
     const dateTo = document.getElementById("logFilterDateTo");
     const text = document.getElementById("logFilterText");
 
     if (action) action.value = "";
-    if (employee) employee.value = "";
+    if (chatIms) chatIms.value = "";
     if (dateFrom) dateFrom.value = "";
     if (dateTo) dateTo.value = "";
     if (text) text.value = "";
@@ -447,12 +512,14 @@ const Admin = {
     const searches = logs.filter((l) => l.action === "search").length;
     const views = logs.filter((l) => l.action === "article_view").length;
     const escalations = logs.filter((l) => l.action === "escalation").length;
-    const uniqueUsers = new Set(logs.map((l) => l.employeeId).filter(Boolean)).size;
+    const uniqueCases = new Set(
+      logs.map((l) => this.normalizeLogRow(l).chatIms).filter(Boolean)
+    ).size;
 
     document.getElementById("statSearches").textContent = searches;
     document.getElementById("statViews").textContent = views;
     document.getElementById("statEscalations").textContent = escalations;
-    document.getElementById("statUsers").textContent = uniqueUsers;
+    document.getElementById("statUsers").textContent = uniqueCases;
 
     const queryCounts = {};
     logs
@@ -477,22 +544,28 @@ const Admin = {
       const msg = this.hasActiveLogFilters()
         ? "No logs match the current filters."
         : "No logs recorded yet.";
-      tbody.innerHTML = "<tr><td colspan='7'>" + msg + "</td></tr>";
+      tbody.innerHTML = "<tr><td colspan='11'>" + msg + "</td></tr>";
       return;
     }
     tbody.innerHTML = logs
-      .map(
-        (l) =>
+      .map((raw) => {
+        const l = this.normalizeLogRow(raw);
+        return (
           "<tr>" +
-          "<td>" + this.escape(l.timestamp || "") + "</td>" +
-          "<td>" + this.escape(l.employeeId || "") + "</td>" +
+          "<td>" + this.escape(this.formatLogTimestamp(l.timestamp)) + "</td>" +
+          "<td>" + this.escape(l.chatIms || "") + "</td>" +
+          "<td>" + this.escape(l.platform || "") + "</td>" +
+          "<td>" + this.escape(l.environment || "") + "</td>" +
           "<td>" + this.escape(l.action || "") + "</td>" +
-          "<td>" + this.escape(l.query || "") + "</td>" +
+          "<td>" + this.escape(l.action === "search" ? l.query || "" : "") + "</td>" +
           "<td>" + this.escape(l.kbId || "") + "</td>" +
           "<td>" + this.escape(l.kbTitle || l.details || "") + "</td>" +
+          "<td>" + this.escape(l.resolved || "") + "</td>" +
+          "<td>" + this.escape(l.escalated || "") + "</td>" +
           "<td>" + this.escape(l.feedback || "") + "</td>" +
           "</tr>"
-      )
+        );
+      })
       .join("");
   },
 
@@ -500,7 +573,7 @@ const Admin = {
     let logs = [];
 
     if (this.hasActiveLogFilters()) {
-      logs = this.filterLogs(this.allLogs);
+      logs = this.filterLogs(await this.getFullLogs());
     } else if (window.SP_CONFIG.useSharePoint) {
       try {
         logs = await SharePoint.getLogsFromSharePoint(5000);
@@ -516,10 +589,35 @@ const Admin = {
       return;
     }
 
-    const headers = ["timestamp", "employeeId", "userEmail", "action", "query", "kbId", "kbTitle", "flowId", "details", "feedback"];
-    const rows = logs.map((l) =>
-      headers.map((h) => '"' + String(l[h] || "").replace(/"/g, '""') + '"').join(",")
-    );
+    const headers = [
+      "timestamp",
+      "employeeId",
+      "chatIms",
+      "platform",
+      "environment",
+      "userEmail",
+      "action",
+      "query",
+      "kbId",
+      "kbTitle",
+      "flowId",
+      "details",
+      "resolved",
+      "escalated",
+      "feedback"
+    ];
+    const rows = logs.map((raw) => {
+      const l = this.normalizeLogRow(raw);
+      return headers
+        .map((h) => {
+          let val = l[h] || "";
+          if (h === "timestamp" && val) {
+            val = this.formatLogTimestamp(val);
+          }
+          return '"' + String(val).replace(/"/g, '""') + '"';
+        })
+        .join(",");
+    });
     const csv = headers.join(",") + "\n" + rows.join("\n");
     const suffix = this.hasActiveLogFilters() ? "-filtered" : "";
     this.downloadBlob(csv, "outlook-assistant-logs" + suffix + ".csv", "text/csv");
